@@ -1,0 +1,26 @@
+[project]
+name = "gameserver"
+version = "0.1.0"
+description = "FastAPI based game server with RESTful and WebSocket interfaces"
+readme = "README.md"
+requires-python = ">=3.13.2"
+dependencies = [
+    "fastapi[standard]",
+    "websockets",
+    "pydantic",
+    "pytest",
+    "httpx[socks]",
+    "pytest-asyncio",
+    "python-jose[cryptography]",
+    "passlib[bcrypt]",
+    "python-multipart",
+    "boto3",
+    "openai",
+    "fastapi_poe"
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_functions = "test_*"
+

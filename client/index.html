@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>游戏服务器客户端</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            display: flex;
+            gap: 20px;
+        }
+        .panel {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            flex: 1;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        input, select {
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .game-item, .player-item {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+        .game-item button, .player-item button {
+            margin-left: 10px;
+        }
+        #messageLog {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #fff;
+            margin-bottom: 10px;
+        }
+        .message {
+            margin: 5px 0;
+            padding: 5px;
+            border-radius: 4px;
+        }
+        .message.sent {
+            background-color: #e3f2fd;
+            text-align: right;
+        }
+        .message.received {
+            background-color: #f1f1f1;
+        }
+        .message.system {
+            background-color: #fff9c4;
+            font-style: italic;
+        }
+        .message.error {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        .tab {
+            padding: 10px 15px;
+            background-color: #ddd;
+            cursor: pointer;
+            border-radius: 4px 4px 0 0;
+            margin-right: 5px;
+        }
+        .tab.active {
+            background-color: white;
+            border-bottom: 2px solid #4CAF50;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>游戏服务器客户端</h1>
+    
+    <div class="tabs">
+        <div class="tab active" data-tab="games">游戏管理</div>
+        <div class="tab" data-tab="players">玩家管理</div>
+        <div class="tab" data-tab="websocket">WebSocket通信</div>
+    </div>
+    
+    <div class="tab-content active" id="games">
+        <div class="container">
+            <div class="panel">
+                <h2>游戏列表</h2>
+                <button id="refreshGames">刷新游戏列表</button>
+                <div id="gamesList"></div>
+            </div>
+            
+            <div class="panel">
+                <h2>创建新游戏</h2>
+                <div class="form-group">
+                    <label for="gameName">游戏名称:</label>
+                    <input type="text" id="gameName" placeholder="输入游戏名称">
+                </div>
+                <div class="form-group">
+                    <label for="gameDescription">游戏描述:</label>
+                    <input type="text" id="gameDescription" placeholder="输入游戏描述">
+                </div>
+                <div class="form-group">
+                    <label for="maxPlayers">最大玩家数:</label>
+                    <input type="number" id="maxPlayers" min="1" max="10" value="4">
+                </div>
+                <button id="createGame">创建游戏</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="tab-content" id="players">
+        <div class="container">
+            <div class="panel">
+                <h2>玩家列表</h2>
+                <button id="refreshPlayers">刷新玩家列表</button>
+                <div id="playersList"></div>
+            </div>
+            
+            <div class="panel">
+                <h2>创建新玩家</h2>
+                <div class="form-group">
+                    <label for="username">用户名:</label>
+                    <input type="text" id="username" placeholder="输入用户名">
+                </div>
+                <div class="form-group">
+                    <label for="email">邮箱:</label>
+                    <input type="email" id="email" placeholder="输入邮箱">
+                </div>
+                <div class="form-group">
+                    <label for="displayName">显示名称:</label>
+                    <input type="text" id="displayName" placeholder="输入显示名称">
+                </div>
+                <button id="createPlayer">创建玩家</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="tab-content" id="websocket">
+        <div class="container">
+            <div class="panel">
+                <h2>WebSocket连接</h2>
+                <div class="form-group">
+                    <label for="wsType">连接类型:</label>
+                    <select id="wsType">
+                        <option value="general">通用连接 (/ws)</option>
+                        <option value="game">游戏特定连接 (/ws/{game_id}/{player_id})</option>
+                    </select>
+                </div>
+                <div id="gamePlayerSelectors" style="display: none;">
+                    <div class="form-group">
+                        <label for="wsGameId">游戏ID:</label>
+                        <select id="wsGameId"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="wsPlayerId">玩家ID:</label>
+                        <select id="wsPlayerId"></select>
+                    </div>
+                </div>
+                <button id="connectWs">连接</button>
+                <button id="disconnectWs" disabled>断开连接</button>
+                <div id="connectionStatus">未连接</div>
+            </div>
+            
+            <div class="panel">
+                <h2>消息</h2>
+                <div id="messageLog"></div>
+                
+                <div class="form-group">
+                    <label for="messageType">消息类型:</label>
+                    <select id="messageType">
+                        <option value="ping">Ping</option>
+                        <option value="join_game">加入游戏</option>
+                        <option value="game_message">游戏消息</option>
+                        <option value="direct_message">私信</option>
+                    </select>
+                </div>
+                
+                <div id="messageParams">
+                    <!-- 动态生成的消息参数表单 -->
+                </div>
+                
+                <button id="sendMessage" disabled>发送消息</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
