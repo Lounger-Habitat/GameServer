@@ -11,3 +11,5 @@ wheels/
 
 .configs.toml
 .DS_Store
+.gameserver/storage/users
+.gameserver/storage/logs

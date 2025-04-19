@@ -12,6 +12,10 @@ from gameserver.utils.auth import ALGORITHM, SECRET_KEY
 async def get_token_from_query(websocket: WebSocket) -> Optional[str]:
     """Extract token from WebSocket query parameters."""
     token = websocket.query_params.get("token")
+    print("------", token)
+    if not token:
+        await websocket.close(code=status.WS_1008_POLICY_VIOLATION)
+        return None
     return token
 
 
@@ -20,17 +24,19 @@ async def authenticate_websocket(websocket: WebSocket) -> Tuple[bool, Optional[d
     token = await get_token_from_query(websocket)
     if not token:
         return False, None
-    
+
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
         if username is None:
             return False, None
-        
+
         user = get_user_by_username(username)
-        if user is None or not user.active:
+        if user is None:
             return False, None
-        
-        return True, {"user_id": user.id, "username": user.username, "is_admin": user.is_admin}
+
+        return True, {
+            "username": user.username,
+        }
     except JWTError:
         return False, None
