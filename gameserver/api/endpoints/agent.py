@@ -6,6 +6,7 @@ import sys
 import time
 import json
 import traceback
+import asyncio
 from typing import List
 from enum import Enum
 from datetime import datetime
@@ -167,7 +168,6 @@ class ConversationParam(BaseModel):
     active_role: str
     passive_role: str
     topic: str
-    memory_space: str = "memory"
     model_id: ModelID = ModelID.ANTHROPIC_CLAUDE_3_7
 
 
@@ -312,7 +312,7 @@ async def agent_to_agent_chat(
 ):
     logger.info(f"Agent-to-agent chat request from {current_user.username}")
     logger.info(f"Active role: {param.active_role}, Passive role: {param.passive_role}")
-    logger.info(f"Memory space: {param.memory_space}, Model: {param.model_id}")
+    logger.info(f"Memory space: {DEFAULT_MEMORY_SPACE}, Model: {param.model_id}")
 
     role_dict = {}
     # 扫描 configs/roles 目录获取所有配置文件
@@ -343,7 +343,7 @@ async def agent_to_agent_chat(
             active_role=dict(role_dict[param.active_role]),
             passive_role=dict(role_dict[param.passive_role]),
             topic=topic,
-            memory_space=os.path.join(DEFAULT_MEMORY_SPACE, param.memory_space),
+            memory_space=DEFAULT_MEMORY_SPACE,
             model_id=param.model_id,
         )
         logger.info("GTG conversation initialized successfully")
@@ -367,10 +367,10 @@ async def agent_to_agent_chat(
                         logger.debug(f"Streamed {chunks_count} data chunks so far")
                         # Use safe serialization to avoid circular references
 
-                    if chunk:
-                        logger.debug(f"Data received: {chunk}")
-                        full_conversation.append(chunk)
-                        yield f"data: {chunk}\n\n"
+                    logger.debug(f"Data received: {chunk}")
+                    full_conversation.append(chunk)
+                    yield f"data: {chunk}\n\n"
+                await asyncio.sleep(0)
 
             elapsed = time.time() - start_time
             logger.info(
@@ -398,4 +398,29 @@ async def agent_to_agent_chat(
     except Exception as e:
         logger.error(f"Error in agent_to_agent chat: {str(e)}")
         logger.debug(traceback.format_exc())
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# 角色对话接口
+@router.get("/reset_memory")
+async def reset_memory(current_user=Depends(get_current_active_user)):
+    logger.info(f"Reset memory request from {current_user.username}")
+    logger.info(f"Memory space: {DEFAULT_MEMORY_SPACE}")
+    logger.info(f"Clearing memory space: {DEFAULT_MEMORY_SPACE}")
+    try:
+        for root, dirs, files in os.walk(DEFAULT_MEMORY_SPACE):
+            for file in files:
+                file_path = os.path.join(root, file)
+                os.remove(file_path)
+                logger.debug(f"Deleted file: {file_path}")
+        logger.info("Memory reset successfully")
+        return {"message": "Memory reset successfully"}
+    except FileNotFoundError as e:
+        logger.error(f"File not found during memory reset: {str(e)}")
+        raise HTTPException(status_code=404, detail=str(e))
+    except PermissionError as e:
+        logger.error(f"Permission denied during memory reset: {str(e)}")
+        raise HTTPException(status_code=403, detail=str(e))
+    except Exception as e:
+        logger.error(f"Error resetting memory: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))

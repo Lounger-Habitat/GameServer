@@ -10,7 +10,8 @@ console = Console()
 
 async def connect_to_websocket():
     uri = Prompt.ask(
-        "[bold green]Enter WebSocket URL", default="ws://localhost:8000/ws"
+        "[bold green]Enter WebSocket URL",
+        default="ws://ec2-100-20-214-248.us-west-2.compute.amazonaws.com:8000/ws",
     )
     token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjeCJ9.Gb_y2viQzURkq9cTmP9bdE6I_c1RZZcKLrnZgluLZP0"
     uri = f"{uri}?token={token}"
