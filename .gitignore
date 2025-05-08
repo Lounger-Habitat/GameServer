@@ -13,3 +13,4 @@ wheels/
 .DS_Store
 .gameserver/storage/users
 .gameserver/storage/logs
+.gameserver/storage/memory
