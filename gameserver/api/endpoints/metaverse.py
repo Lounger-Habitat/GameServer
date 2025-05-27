@@ -26,7 +26,7 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 
 from gameserver.models.user import User
-from gameserver.utils.auth import get_current_active_user
+from gameserver.utils.auth.api_auth import get_current_active_user
 
 from mlong import Model
 from mlong import user, system

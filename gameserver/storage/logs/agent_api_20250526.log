@@ -1,0 +1,1512 @@
+2025-05-26 00:58:00,076 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 00:58:00,077 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 00:58:00,077 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 00:58:00,077 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 00:58:00,081 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 00:58:00,081 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 00:58:00,082 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 00:58:00,082 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 00:58:21,355 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 00:58:21,356 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 00:58:21,356 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 00:58:21,357 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 00:58:21,359 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 00:58:21,360 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 00:58:21,360 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 00:58:21,361 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 00:58:25,395 - uvicorn.error - INFO - Will watch for changes in these directories: ['/Users/own/Workspace/GameServer']
+2025-05-26 00:58:25,399 - uvicorn.error - INFO - Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+2025-05-26 00:58:25,402 - uvicorn.error - INFO - Started reloader process [47086] using WatchFiles
+2025-05-26 00:58:29,829 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 00:58:29,831 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 00:58:29,831 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 00:58:29,832 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 00:58:29,834 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 00:58:29,835 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 00:58:29,835 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 00:58:29,835 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 00:58:29,843 - uvicorn.error - INFO - Started server process [47140]
+2025-05-26 00:58:29,844 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 00:58:29,845 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 00:58:44,260 - uvicorn.error - INFO - ('127.0.0.1', 51689) - "WebSocket /ws/metaverse/env/1" [accepted]
+2025-05-26 00:58:44,261 - gameserver.ws.endpoints.component.metaverse_connection_manager - INFO - New connection established for ID 1
+2025-05-26 00:58:44,262 - uvicorn.error - INFO - connection open
+2025-05-26 00:58:44,268 - gameserver.ws.endpoints.metaverse - INFO - Received env_init message from env
+2025-05-26 00:58:44,268 - gameserver.ws.endpoints.metaverse - WARNING - Unhandled message type: env_init
+2025-05-26 00:59:22,494 - uvicorn.error - INFO - ('127.0.0.1', 51738) - "WebSocket /ws/metaverse/agent/1/1" 403
+2025-05-26 00:59:22,497 - uvicorn.error - INFO - connection rejected (403 Forbidden)
+2025-05-26 00:59:22,497 - uvicorn.error - INFO - connection closed
+2025-05-26 01:00:04,726 - gameserver.ws.endpoints.metaverse - INFO - Received status_request message from env
+2025-05-26 01:00:04,732 - gameserver.ws.endpoints.metaverse - WARNING - Unhandled message type: status_request
+2025-05-26 01:00:42,460 - watchfiles.main - INFO - 1 change detected
+2025-05-26 01:00:43,895 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 01:03:43,941 - watchfiles.main - INFO - 1 change detected
+2025-05-26 01:03:45,319 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 01:03:57,935 - watchfiles.main - INFO - 1 change detected
+2025-05-26 01:03:57,939 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/event_ws_client.py'. Reloading...
+2025-05-26 01:03:57,957 - uvicorn.error - INFO - Shutting down
+2025-05-26 01:03:57,965 - gameserver.ws.endpoints.metaverse - INFO - WebSocket disconnected for env (env: 1, agent: None, human: None)
+2025-05-26 01:03:57,968 - gameserver.ws.endpoints.component.metaverse_connection_manager - INFO - Disconnected env_id 1
+2025-05-26 01:03:57,971 - uvicorn.error - INFO - connection closed
+2025-05-26 01:03:58,065 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 01:03:58,067 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 01:03:58,068 - uvicorn.error - INFO - Finished server process [47140]
+2025-05-26 01:03:58,436 - watchfiles.main - INFO - 1 change detected
+2025-05-26 01:04:02,573 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 01:04:02,575 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 01:04:02,575 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 01:04:02,576 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 01:04:02,579 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 01:04:02,579 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 01:04:02,580 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 01:04:02,580 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 01:04:02,588 - uvicorn.error - INFO - Started server process [49848]
+2025-05-26 01:04:02,589 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 01:04:02,589 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 01:05:24,267 - watchfiles.main - INFO - 1 change detected
+2025-05-26 01:05:24,275 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/event_ws_client.py'. Reloading...
+2025-05-26 01:05:24,279 - uvicorn.error - INFO - Shutting down
+2025-05-26 01:05:24,386 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 01:05:24,391 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 01:05:24,393 - uvicorn.error - INFO - Finished server process [49848]
+2025-05-26 01:05:24,766 - watchfiles.main - INFO - 1 change detected
+2025-05-26 01:05:28,844 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 01:05:28,845 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 01:05:28,846 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 01:05:28,846 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 01:05:28,849 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 01:05:28,849 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 01:05:28,850 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 01:05:28,850 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 01:05:28,857 - uvicorn.error - INFO - Started server process [50548]
+2025-05-26 01:05:28,858 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 01:05:28,859 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 01:05:55,280 - watchfiles.main - INFO - 1 change detected
+2025-05-26 01:05:55,288 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 01:05:55,354 - uvicorn.error - INFO - Shutting down
+2025-05-26 01:05:55,481 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 01:05:55,483 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 01:05:55,485 - uvicorn.error - INFO - Finished server process [50548]
+2025-05-26 01:05:55,854 - watchfiles.main - INFO - 1 change detected
+2025-05-26 01:06:00,039 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 01:06:00,040 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 01:06:00,041 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 01:06:00,041 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 01:06:00,044 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 01:06:00,045 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 01:06:00,045 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 01:06:00,046 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 01:06:00,055 - uvicorn.error - INFO - Started server process [50789]
+2025-05-26 01:06:00,056 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 01:06:00,056 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 01:06:00,313 - watchfiles.main - INFO - 1 change detected
+2025-05-26 01:06:00,336 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws.py'. Reloading...
+2025-05-26 01:06:00,362 - uvicorn.error - INFO - Shutting down
+2025-05-26 01:06:00,467 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 01:06:00,470 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 01:06:00,472 - uvicorn.error - INFO - Finished server process [50789]
+2025-05-26 01:06:00,838 - watchfiles.main - INFO - 1 change detected
+2025-05-26 01:06:04,915 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 01:06:04,917 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 01:06:04,917 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 01:06:04,918 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 01:06:04,921 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 01:06:04,922 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 01:06:04,922 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 01:06:04,922 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 01:06:04,931 - uvicorn.error - INFO - Started server process [50827]
+2025-05-26 01:06:04,932 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 01:06:04,933 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 01:06:17,982 - watchfiles.main - INFO - 1 change detected
+2025-05-26 01:06:45,430 - watchfiles.main - INFO - 1 change detected
+2025-05-26 01:06:46,813 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 01:07:26,958 - watchfiles.main - INFO - 2 changes detected
+2025-05-26 01:07:26,990 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py', 'examples/event_ws_client.py'. Reloading...
+2025-05-26 01:07:27,098 - uvicorn.error - INFO - Shutting down
+2025-05-26 01:07:27,206 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 01:07:27,210 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 01:07:27,212 - uvicorn.error - INFO - Finished server process [50827]
+2025-05-26 01:07:27,579 - watchfiles.main - INFO - 1 change detected
+2025-05-26 01:07:31,707 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 01:07:31,708 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 01:07:31,709 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 01:07:31,709 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 01:07:31,712 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 01:07:31,712 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 01:07:31,713 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 01:07:31,713 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 01:07:31,722 - uvicorn.error - INFO - Started server process [51563]
+2025-05-26 01:07:31,722 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 01:07:31,723 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 01:08:00,734 - watchfiles.main - INFO - 1 change detected
+2025-05-26 01:08:00,740 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 01:08:00,748 - uvicorn.error - INFO - Shutting down
+2025-05-26 01:08:00,854 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 01:08:00,857 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 01:08:00,859 - uvicorn.error - INFO - Finished server process [51563]
+2025-05-26 01:08:01,228 - watchfiles.main - INFO - 1 change detected
+2025-05-26 01:08:01,914 - watchfiles.main - INFO - 1 change detected
+2025-05-26 01:08:01,916 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 01:08:04,599 - watchfiles.main - INFO - 1 change detected
+2025-05-26 01:08:04,602 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 01:08:09,112 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 01:08:09,113 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 01:08:09,113 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 01:08:09,114 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 01:08:09,117 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 01:08:09,117 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 01:08:09,117 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 01:08:09,118 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 01:08:09,125 - uvicorn.error - INFO - Started server process [51885]
+2025-05-26 01:08:09,126 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 01:08:09,126 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 01:09:46,908 - watchfiles.main - INFO - 1 change detected
+2025-05-26 01:09:48,342 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 01:12:48,447 - watchfiles.main - INFO - 1 change detected
+2025-05-26 01:12:49,934 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 01:15:50,028 - watchfiles.main - INFO - 1 change detected
+2025-05-26 01:15:51,361 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 01:18:51,480 - watchfiles.main - INFO - 1 change detected
+2025-05-26 01:18:52,969 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 01:21:53,122 - watchfiles.main - INFO - 1 change detected
+2025-05-26 01:21:54,530 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 01:24:54,670 - watchfiles.main - INFO - 1 change detected
+2025-05-26 01:24:56,049 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 07:53:37,816 - watchfiles.main - INFO - 1 change detected
+2025-05-26 07:53:39,800 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 07:54:43,721 - watchfiles.main - INFO - 1 change detected
+2025-05-26 07:54:43,730 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 07:54:43,815 - uvicorn.error - INFO - Shutting down
+2025-05-26 07:54:43,992 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 07:54:43,996 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 07:54:43,997 - uvicorn.error - INFO - Finished server process [51885]
+2025-05-26 07:54:44,372 - watchfiles.main - INFO - 1 change detected
+2025-05-26 07:54:45,708 - watchfiles.main - INFO - 1 change detected
+2025-05-26 07:54:45,715 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 07:54:47,013 - watchfiles.main - INFO - 1 change detected
+2025-05-26 07:54:47,016 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 07:54:51,453 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 07:54:51,455 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 07:54:51,455 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 07:54:51,456 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 07:54:51,458 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 07:54:51,459 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 07:54:51,459 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 07:54:51,459 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 07:54:51,467 - uvicorn.error - INFO - Started server process [22393]
+2025-05-26 07:54:51,468 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 07:54:51,469 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 07:55:02,592 - watchfiles.main - INFO - 1 change detected
+2025-05-26 07:55:02,600 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 07:55:02,677 - uvicorn.error - INFO - Shutting down
+2025-05-26 07:55:02,780 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 07:55:02,783 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 07:55:02,785 - uvicorn.error - INFO - Finished server process [22393]
+2025-05-26 07:55:03,159 - watchfiles.main - INFO - 1 change detected
+2025-05-26 07:55:07,197 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 07:55:07,198 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 07:55:07,199 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 07:55:07,200 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 07:55:07,203 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 07:55:07,203 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 07:55:07,204 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 07:55:07,204 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 07:55:07,214 - uvicorn.error - INFO - Started server process [22535]
+2025-05-26 07:55:07,214 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 07:55:07,215 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 07:55:15,764 - watchfiles.main - INFO - 1 change detected
+2025-05-26 07:55:15,769 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 07:55:15,795 - uvicorn.error - INFO - Shutting down
+2025-05-26 07:55:15,909 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 07:55:15,913 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 07:55:15,914 - uvicorn.error - INFO - Finished server process [22535]
+2025-05-26 07:55:16,282 - watchfiles.main - INFO - 1 change detected
+2025-05-26 07:55:20,368 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 07:55:20,370 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 07:55:20,370 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 07:55:20,370 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 07:55:20,373 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 07:55:20,373 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 07:55:20,374 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 07:55:20,374 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 07:55:20,381 - uvicorn.error - INFO - Started server process [22645]
+2025-05-26 07:55:20,382 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 07:55:20,383 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 07:56:00,487 - watchfiles.main - INFO - 1 change detected
+2025-05-26 07:56:00,494 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 07:56:00,587 - uvicorn.error - INFO - Shutting down
+2025-05-26 07:56:00,694 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 07:56:00,699 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 07:56:00,701 - uvicorn.error - INFO - Finished server process [22645]
+2025-05-26 07:56:01,072 - watchfiles.main - INFO - 1 change detected
+2025-05-26 07:56:05,173 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 07:56:05,174 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 07:56:05,175 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 07:56:05,175 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 07:56:05,178 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 07:56:05,178 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 07:56:05,178 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 07:56:05,179 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 07:56:05,186 - uvicorn.error - INFO - Started server process [23010]
+2025-05-26 07:56:05,187 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 07:56:05,187 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 07:56:13,074 - watchfiles.main - INFO - 1 change detected
+2025-05-26 07:56:13,077 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 07:56:13,165 - uvicorn.error - INFO - Shutting down
+2025-05-26 07:56:13,269 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 07:56:13,274 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 07:56:13,276 - uvicorn.error - INFO - Finished server process [23010]
+2025-05-26 07:56:13,691 - watchfiles.main - INFO - 1 change detected
+2025-05-26 07:56:17,686 - watchfiles.main - INFO - 1 change detected
+2025-05-26 07:56:17,717 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 07:56:22,109 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 07:56:22,111 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 07:56:22,111 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 07:56:22,112 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 07:56:22,114 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 07:56:22,115 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 07:56:22,115 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 07:56:22,115 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 07:56:22,122 - uvicorn.error - INFO - Started server process [23156]
+2025-05-26 07:56:22,123 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 07:56:22,124 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 07:56:23,842 - watchfiles.main - INFO - 1 change detected
+2025-05-26 07:56:23,846 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 07:56:23,943 - uvicorn.error - INFO - Shutting down
+2025-05-26 07:56:24,047 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 07:56:24,050 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 07:56:24,051 - uvicorn.error - INFO - Finished server process [23156]
+2025-05-26 07:56:24,423 - watchfiles.main - INFO - 1 change detected
+2025-05-26 07:56:28,406 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 07:56:28,408 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 07:56:28,408 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 07:56:28,409 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 07:56:28,412 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 07:56:28,413 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 07:56:28,413 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 07:56:28,414 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 07:56:28,422 - uvicorn.error - INFO - Started server process [23216]
+2025-05-26 07:56:28,423 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 07:56:28,424 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:06:58,331 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:06:59,570 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 08:08:03,264 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:08:03,271 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:08:03,371 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:08:03,507 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:08:03,513 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:08:03,516 - uvicorn.error - INFO - Finished server process [23216]
+2025-05-26 08:08:03,886 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:08:08,051 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:08:08,052 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:08:08,053 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:08:08,053 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:08:08,057 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:08:08,057 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:08:08,057 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:08:08,058 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:08:08,068 - uvicorn.error - INFO - Started server process [28962]
+2025-05-26 08:08:08,069 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:08:08,069 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:08:13,548 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:08:13,682 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:08:13,765 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:08:13,887 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:08:13,890 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:08:13,891 - uvicorn.error - INFO - Finished server process [28962]
+2025-05-26 08:08:14,266 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:08:17,150 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:08:17,155 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:08:20,703 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:08:20,706 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:08:25,164 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:08:25,165 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:08:25,166 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:08:25,166 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:08:25,170 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:08:25,171 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:08:25,171 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:08:25,171 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:08:25,181 - uvicorn.error - INFO - Started server process [29119]
+2025-05-26 08:08:25,181 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:08:25,182 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:08:49,331 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:08:49,336 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:08:49,371 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:08:49,495 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:08:49,499 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:08:49,502 - uvicorn.error - INFO - Finished server process [29119]
+2025-05-26 08:08:49,876 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:08:53,938 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:08:53,940 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:08:53,940 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:08:53,941 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:08:53,943 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:08:53,944 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:08:53,945 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:08:53,945 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:08:53,953 - uvicorn.error - INFO - Started server process [29361]
+2025-05-26 08:08:53,954 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:08:53,955 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:09:12,883 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:09:12,888 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:09:12,945 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:09:13,052 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:09:13,055 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:09:13,057 - uvicorn.error - INFO - Finished server process [29361]
+2025-05-26 08:09:13,623 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:09:17,529 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:09:17,531 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:09:17,531 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:09:17,532 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:09:17,536 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:09:17,536 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:09:17,537 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:09:17,537 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:09:17,547 - uvicorn.error - INFO - Started server process [29563]
+2025-05-26 08:09:17,548 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:09:17,549 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:09:18,928 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:09:18,934 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:09:18,967 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:09:19,070 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:09:19,073 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:09:19,075 - uvicorn.error - INFO - Finished server process [29563]
+2025-05-26 08:09:19,442 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:09:20,444 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:09:20,450 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:09:24,842 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:09:24,845 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:09:24,845 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:09:24,845 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:09:24,849 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:09:24,849 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:09:24,849 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:09:24,850 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:09:24,860 - uvicorn.error - INFO - Started server process [29626]
+2025-05-26 08:09:24,860 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:09:24,861 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:09:59,638 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:10:00,972 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 08:10:01,756 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:10:01,758 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:10:01,860 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:10:01,968 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:10:01,970 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:10:01,972 - uvicorn.error - INFO - Finished server process [29626]
+2025-05-26 08:10:02,343 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:10:03,135 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:10:03,137 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:10:05,530 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:10:05,533 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:10:08,586 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:10:08,590 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:10:13,161 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:10:13,163 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:10:13,164 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:10:13,164 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:10:13,169 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:10:13,170 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:10:13,170 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:10:13,171 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:10:13,184 - uvicorn.error - INFO - Started server process [30058]
+2025-05-26 08:10:13,185 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:10:13,187 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:10:36,941 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:10:36,948 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:10:37,047 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:10:37,155 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:10:37,158 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:10:37,160 - uvicorn.error - INFO - Finished server process [30058]
+2025-05-26 08:10:37,533 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:10:41,655 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:10:41,659 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:10:41,660 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:10:41,661 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:10:41,666 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:10:41,667 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:10:41,667 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:10:41,668 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:10:41,680 - uvicorn.error - INFO - Started server process [30278]
+2025-05-26 08:10:41,681 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:10:41,682 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:12:15,322 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:12:15,330 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:12:15,373 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:12:15,486 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:12:15,491 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:12:15,493 - uvicorn.error - INFO - Finished server process [30278]
+2025-05-26 08:12:15,861 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:12:17,777 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:12:17,778 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:12:19,812 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:12:19,818 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:12:24,223 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:12:24,225 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:12:24,226 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:12:24,226 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:12:24,229 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:12:24,230 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:12:24,230 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:12:24,231 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:12:24,242 - uvicorn.error - INFO - Started server process [31117]
+2025-05-26 08:12:24,243 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:12:24,244 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:12:26,776 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:12:26,788 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:12:26,879 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:12:26,985 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:12:26,988 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:12:26,990 - uvicorn.error - INFO - Finished server process [31117]
+2025-05-26 08:12:27,355 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:12:30,501 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:12:30,503 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:12:34,863 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:12:34,864 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:12:34,864 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:12:34,865 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:12:34,868 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:12:34,868 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:12:34,869 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:12:34,869 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:12:34,877 - uvicorn.error - INFO - Started server process [31229]
+2025-05-26 08:12:34,878 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:12:34,879 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:12:35,822 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:12:35,826 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:12:35,889 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:12:35,992 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:12:35,994 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:12:35,996 - uvicorn.error - INFO - Finished server process [31229]
+2025-05-26 08:12:36,366 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:12:40,314 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:12:40,316 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:12:40,316 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:12:40,317 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:12:40,319 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:12:40,320 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:12:40,320 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:12:40,320 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:12:40,328 - uvicorn.error - INFO - Started server process [31283]
+2025-05-26 08:12:40,329 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:12:40,330 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:12:44,025 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:12:44,028 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:12:44,064 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:12:44,167 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:12:44,170 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:12:44,172 - uvicorn.error - INFO - Finished server process [31283]
+2025-05-26 08:12:44,539 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:12:48,491 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:12:48,493 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:12:48,494 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:12:48,495 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:12:48,499 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:12:48,499 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:12:48,500 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:12:48,501 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:12:48,515 - uvicorn.error - INFO - Started server process [31360]
+2025-05-26 08:12:48,516 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:12:48,517 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:13:01,047 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:13:02,475 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 08:16:02,522 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:16:04,017 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 08:17:34,032 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:17:34,049 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:17:34,074 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:17:34,181 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:17:34,183 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:17:34,185 - uvicorn.error - INFO - Finished server process [31360]
+2025-05-26 08:17:34,563 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:17:38,745 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:17:38,746 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:17:38,747 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:17:38,747 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:17:38,751 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:17:38,752 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:17:38,752 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:17:38,753 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:17:38,763 - uvicorn.error - INFO - Started server process [33691]
+2025-05-26 08:17:38,763 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:17:38,765 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:17:59,183 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:17:59,199 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/event_ws_client.py'. Reloading...
+2025-05-26 08:17:59,283 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:17:59,406 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:17:59,410 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:17:59,430 - uvicorn.error - INFO - Finished server process [33691]
+2025-05-26 08:17:59,897 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:18:05,075 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:18:05,080 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:18:05,081 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:18:05,082 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:18:05,093 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:18:05,094 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:18:05,095 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:18:05,096 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:18:05,174 - uvicorn.error - INFO - Started server process [33906]
+2025-05-26 08:18:05,181 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:18:05,185 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:18:05,852 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:18:07,690 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 08:18:47,144 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:18:47,154 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/event_ws_client.py'. Reloading...
+2025-05-26 08:18:47,245 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:18:47,351 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:18:47,354 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:18:47,356 - uvicorn.error - INFO - Finished server process [33906]
+2025-05-26 08:18:47,728 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:18:51,906 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:18:51,908 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:18:51,908 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:18:51,909 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:18:51,913 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:18:51,914 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:18:51,914 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:18:51,914 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:18:51,927 - uvicorn.error - INFO - Started server process [40530]
+2025-05-26 08:18:51,928 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:18:51,929 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:20:55,229 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:20:55,234 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:20:55,303 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:20:55,410 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:20:55,414 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:20:55,417 - uvicorn.error - INFO - Finished server process [40530]
+2025-05-26 08:20:55,790 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:20:59,933 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:20:59,935 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:20:59,936 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:20:59,936 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:20:59,939 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:20:59,939 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:20:59,940 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:20:59,940 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:20:59,949 - uvicorn.error - INFO - Started server process [41565]
+2025-05-26 08:20:59,950 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:20:59,951 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:21:07,765 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:21:09,149 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 08:23:25,337 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:23:25,338 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:23:25,339 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:23:25,339 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:23:25,343 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:23:25,344 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:23:25,344 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:23:25,344 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:23:29,379 - uvicorn.error - INFO - Will watch for changes in these directories: ['/Users/own/Workspace/GameServer']
+2025-05-26 08:23:29,382 - uvicorn.error - INFO - Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+2025-05-26 08:23:29,383 - uvicorn.error - INFO - Started reloader process [42824] using WatchFiles
+2025-05-26 08:23:33,779 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:23:33,780 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:23:33,780 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:23:33,781 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:23:33,784 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:23:33,784 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:23:33,785 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:23:33,785 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:23:33,793 - uvicorn.error - INFO - Started server process [42879]
+2025-05-26 08:23:33,794 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:23:33,795 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:23:34,379 - uvicorn.error - INFO - ('127.0.0.1', 63828) - "WebSocket /ws/metaverse/env/1" [accepted]
+2025-05-26 08:23:34,381 - gameserver.ws.endpoints.component.metaverse_connection_manager - INFO - New connection established for ID 1
+2025-05-26 08:23:34,385 - uvicorn.error - INFO - connection open
+2025-05-26 08:23:38,107 - gameserver.ws.endpoints.metaverse - INFO - WebSocket disconnected for env (env: 1, agent: None, human: None)
+2025-05-26 08:23:38,111 - gameserver.ws.endpoints.component.metaverse_connection_manager - INFO - Disconnected env_id 1
+2025-05-26 08:23:38,115 - uvicorn.error - INFO - connection closed
+2025-05-26 08:23:52,967 - uvicorn.error - INFO - ('127.0.0.1', 63857) - "WebSocket /ws/metaverse/agent/1/1" 403
+2025-05-26 08:23:52,968 - uvicorn.error - INFO - connection rejected (403 Forbidden)
+2025-05-26 08:23:52,969 - uvicorn.error - INFO - connection closed
+2025-05-26 08:23:58,406 - uvicorn.error - INFO - ('127.0.0.1', 63885) - "WebSocket /ws/metaverse/env/1" [accepted]
+2025-05-26 08:23:58,407 - gameserver.ws.endpoints.component.metaverse_connection_manager - INFO - New connection established for ID 1
+2025-05-26 08:23:58,409 - uvicorn.error - INFO - connection open
+2025-05-26 08:24:02,888 - uvicorn.error - INFO - ('127.0.0.1', 63891) - "WebSocket /ws/metaverse/agent/1/1" 403
+2025-05-26 08:24:02,889 - uvicorn.error - INFO - connection rejected (403 Forbidden)
+2025-05-26 08:24:02,890 - uvicorn.error - INFO - connection closed
+2025-05-26 08:24:07,017 - uvicorn.error - INFO - ('127.0.0.1', 63895) - "WebSocket /ws/metaverse/agent/1/1" 403
+2025-05-26 08:24:07,018 - uvicorn.error - INFO - connection rejected (403 Forbidden)
+2025-05-26 08:24:07,018 - uvicorn.error - INFO - connection closed
+2025-05-26 08:24:17,609 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:24:18,991 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 08:25:15,674 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:25:15,688 - uvicorn.error - WARNING - WatchFiles detected changes in 'gameserver/ws/endpoints/metaverse.py'. Reloading...
+2025-05-26 08:25:15,725 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:25:15,732 - gameserver.ws.endpoints.metaverse - INFO - WebSocket disconnected for env (env: 1, agent: None, human: None)
+2025-05-26 08:25:15,735 - gameserver.ws.endpoints.component.metaverse_connection_manager - INFO - Disconnected env_id 1
+2025-05-26 08:25:15,739 - uvicorn.error - INFO - connection closed
+2025-05-26 08:25:15,832 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:25:15,835 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:25:15,836 - uvicorn.error - INFO - Finished server process [42879]
+2025-05-26 08:25:16,203 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:25:20,340 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:25:20,342 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:25:20,342 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:25:20,343 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:25:20,346 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:25:20,346 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:25:20,346 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:25:20,347 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:25:20,357 - uvicorn.error - INFO - Started server process [43761]
+2025-05-26 08:25:20,358 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:25:20,358 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:25:20,447 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 08:25:21,174 - uvicorn.error - INFO - ('127.0.0.1', 63972) - "WebSocket /ws/metaverse/agent/1/1" [accepted]
+2025-05-26 08:25:21,175 - gameserver.ws.endpoints.component.metaverse_connection_manager - INFO - New connection established for ID 1
+2025-05-26 08:25:21,176 - uvicorn.error - INFO - connection open
+2025-05-26 08:25:24,358 - gameserver.ws.endpoints.metaverse - INFO - WebSocket disconnected for agent (env: 1, agent: 1, human: None)
+2025-05-26 08:25:24,361 - gameserver.ws.endpoints.component.metaverse_connection_manager - INFO - Disconnected client 1 from 1
+2025-05-26 08:25:24,363 - uvicorn.error - INFO - connection closed
+2025-05-26 08:25:26,072 - uvicorn.error - INFO - ('127.0.0.1', 63974) - "WebSocket /ws/metaverse/agent/1/1" [accepted]
+2025-05-26 08:25:26,073 - gameserver.ws.endpoints.component.metaverse_connection_manager - INFO - New connection established for ID 1
+2025-05-26 08:25:26,074 - uvicorn.error - INFO - connection open
+2025-05-26 08:25:34,068 - gameserver.ws.endpoints.metaverse - INFO - WebSocket disconnected for agent (env: 1, agent: 1, human: None)
+2025-05-26 08:25:34,072 - gameserver.ws.endpoints.component.metaverse_connection_manager - INFO - Disconnected client 1 from 1
+2025-05-26 08:25:34,074 - uvicorn.error - INFO - connection closed
+2025-05-26 08:25:37,498 - uvicorn.error - INFO - ('127.0.0.1', 63992) - "WebSocket /ws/metaverse/agent/1/1" [accepted]
+2025-05-26 08:25:37,499 - gameserver.ws.endpoints.component.metaverse_connection_manager - INFO - New connection established for ID 1
+2025-05-26 08:25:37,500 - uvicorn.error - INFO - connection open
+2025-05-26 08:27:05,228 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:27:05,240 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:27:05,328 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:27:05,335 - gameserver.ws.endpoints.metaverse - INFO - WebSocket disconnected for agent (env: 1, agent: 1, human: None)
+2025-05-26 08:27:05,339 - gameserver.ws.endpoints.component.metaverse_connection_manager - INFO - Disconnected client 1 from 1
+2025-05-26 08:27:05,343 - uvicorn.error - INFO - connection closed
+2025-05-26 08:27:05,435 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:27:05,437 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:27:05,439 - uvicorn.error - INFO - Finished server process [43761]
+2025-05-26 08:27:05,809 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:27:09,918 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:27:09,919 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:27:09,920 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:27:09,920 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:27:09,923 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:27:09,924 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:27:09,924 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:27:09,925 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:27:09,933 - uvicorn.error - INFO - Started server process [44650]
+2025-05-26 08:27:09,934 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:27:09,935 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:27:11,692 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:27:11,693 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:27:11,754 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:27:11,856 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:27:11,859 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:27:11,861 - uvicorn.error - INFO - Finished server process [44650]
+2025-05-26 08:27:12,230 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:27:16,268 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:27:16,269 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:27:16,270 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:27:16,270 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:27:16,274 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:27:16,274 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:27:16,274 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:27:16,275 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:27:16,283 - uvicorn.error - INFO - Started server process [44713]
+2025-05-26 08:27:16,283 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:27:16,284 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:27:19,074 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:27:20,569 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 08:27:27,400 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:27:27,403 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:27:27,492 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:27:27,605 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:27:27,608 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:27:27,609 - uvicorn.error - INFO - Finished server process [44713]
+2025-05-26 08:27:27,988 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:27:32,063 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:27:32,065 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:27:32,065 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:27:32,066 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:27:32,069 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:27:32,069 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:27:32,070 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:27:32,070 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:27:32,079 - uvicorn.error - INFO - Started server process [44861]
+2025-05-26 08:27:32,079 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:27:32,080 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:28:10,447 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:28:10,453 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:28:10,466 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:28:10,573 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:28:10,576 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:28:10,578 - uvicorn.error - INFO - Finished server process [44861]
+2025-05-26 08:28:10,956 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:28:13,486 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:28:13,667 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:28:18,360 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:28:18,361 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:28:18,361 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:28:18,362 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:28:18,365 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:28:18,365 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:28:18,366 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:28:18,366 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:28:18,374 - uvicorn.error - INFO - Started server process [45252]
+2025-05-26 08:28:18,375 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:28:18,376 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:28:29,691 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:28:29,697 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:28:29,788 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:28:29,894 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:28:29,897 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:28:29,899 - uvicorn.error - INFO - Finished server process [45252]
+2025-05-26 08:28:30,268 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:28:33,918 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:28:33,920 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:28:37,370 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:28:37,372 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:28:40,685 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:28:40,688 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:28:45,088 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:28:45,091 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:28:45,092 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:28:45,093 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:28:45,098 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:28:45,099 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:28:45,100 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:28:45,100 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:28:45,113 - uvicorn.error - INFO - Started server process [45492]
+2025-05-26 08:28:45,114 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:28:45,115 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:28:51,586 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:28:51,597 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:28:51,686 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:28:51,789 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:28:51,791 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:28:51,793 - uvicorn.error - INFO - Finished server process [45492]
+2025-05-26 08:28:52,160 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:28:56,219 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:28:56,220 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:28:56,221 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:28:56,221 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:28:56,224 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:28:56,224 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:28:56,224 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:28:56,225 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:28:56,233 - uvicorn.error - INFO - Started server process [45594]
+2025-05-26 08:28:56,234 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:28:56,235 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:29:59,032 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:29:59,038 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:29:59,065 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:29:59,172 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:29:59,174 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:29:59,176 - uvicorn.error - INFO - Finished server process [45594]
+2025-05-26 08:29:59,543 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:30:00,762 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:30:00,765 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:30:05,160 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:30:05,162 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:30:05,162 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:30:05,162 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:30:05,165 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:30:05,166 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:30:05,166 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:30:05,167 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:30:05,175 - uvicorn.error - INFO - Started server process [46160]
+2025-05-26 08:30:05,176 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:30:05,176 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:30:17,207 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:30:17,212 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:30:17,227 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:30:17,331 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:30:17,334 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:30:17,335 - uvicorn.error - INFO - Finished server process [46160]
+2025-05-26 08:30:17,703 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:30:19,983 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:30:19,986 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:30:20,676 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:30:21,998 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 08:30:24,332 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:30:24,335 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:30:24,336 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:30:24,336 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:30:24,341 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:30:24,341 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:30:24,342 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:30:24,342 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:30:24,353 - uvicorn.error - INFO - Started server process [46324]
+2025-05-26 08:30:24,354 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:30:24,355 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:31:07,404 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:31:07,410 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:31:07,466 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:31:07,574 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:31:07,577 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:31:07,578 - uvicorn.error - INFO - Finished server process [46324]
+2025-05-26 08:31:07,950 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:31:12,098 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:31:12,104 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:31:12,104 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:31:12,105 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:31:12,140 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:31:12,148 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:31:12,149 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:31:12,150 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:31:12,160 - uvicorn.error - INFO - Started server process [46736]
+2025-05-26 08:31:12,164 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:31:12,170 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:31:15,156 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:31:15,161 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:31:15,218 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:31:15,343 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:31:15,373 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:31:15,375 - uvicorn.error - INFO - Finished server process [46736]
+2025-05-26 08:31:15,744 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:31:19,879 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:31:19,881 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:31:19,881 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:31:19,882 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:31:19,885 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:31:19,885 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:31:19,886 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:31:19,886 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:31:19,894 - uvicorn.error - INFO - Started server process [46797]
+2025-05-26 08:31:19,895 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:31:19,895 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:31:21,753 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:31:21,755 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:31:21,815 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:31:21,923 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:31:21,925 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:31:21,927 - uvicorn.error - INFO - Finished server process [46797]
+2025-05-26 08:31:22,296 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:31:26,324 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:31:26,326 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:31:26,327 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:31:26,327 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:31:26,330 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:31:26,330 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:31:26,330 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:31:26,331 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:31:26,339 - uvicorn.error - INFO - Started server process [46853]
+2025-05-26 08:31:26,340 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:31:26,341 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:31:26,624 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:31:26,625 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:31:26,643 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:31:26,746 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:31:26,748 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:31:26,750 - uvicorn.error - INFO - Finished server process [46853]
+2025-05-26 08:31:27,122 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:31:31,095 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:31:31,096 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:31:31,097 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:31:31,097 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:31:31,100 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:31:31,100 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:31:31,101 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:31:31,101 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:31:31,109 - uvicorn.error - INFO - Started server process [46916]
+2025-05-26 08:31:31,110 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:31:31,110 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:37:11,952 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:37:12,317 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:37:12,320 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:37:12,410 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:37:12,518 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:37:12,520 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:37:12,522 - uvicorn.error - INFO - Finished server process [46916]
+2025-05-26 08:37:12,895 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:37:13,363 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 08:37:16,952 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:37:16,953 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:37:16,954 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:37:16,954 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:37:16,957 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:37:16,958 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:37:16,958 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:37:16,958 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:37:16,967 - uvicorn.error - INFO - Started server process [49666]
+2025-05-26 08:37:16,968 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:37:16,969 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:37:37,274 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:37:37,279 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:37:37,370 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:37:37,477 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:37:37,480 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:37:37,481 - uvicorn.error - INFO - Finished server process [49666]
+2025-05-26 08:37:37,847 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:37:40,190 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:37:40,191 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:37:44,571 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:37:44,572 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:37:44,646 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:37:44,647 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:37:44,648 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:37:44,648 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:37:44,652 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:37:44,652 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:37:44,652 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:37:44,653 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:37:44,661 - uvicorn.error - INFO - Started server process [49907]
+2025-05-26 08:37:44,662 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:37:44,663 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:37:45,024 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:37:48,985 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:37:48,986 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:37:48,987 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:37:48,987 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:37:48,990 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:37:48,991 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:37:48,991 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:37:48,991 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:37:48,999 - uvicorn.error - INFO - Started server process [49945]
+2025-05-26 08:37:49,000 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:37:49,001 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:38:42,307 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:38:42,316 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:38:42,328 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:38:42,435 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:38:42,438 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:38:42,439 - uvicorn.error - INFO - Finished server process [49945]
+2025-05-26 08:38:42,801 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:38:46,957 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:38:46,959 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:38:46,962 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:38:46,965 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:38:46,971 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:38:46,971 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:38:46,972 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:38:46,972 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:38:46,983 - uvicorn.error - INFO - Started server process [50402]
+2025-05-26 08:38:46,984 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:38:46,985 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:38:55,201 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:38:55,205 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:38:55,217 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:38:55,322 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:38:55,324 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:38:55,326 - uvicorn.error - INFO - Finished server process [50402]
+2025-05-26 08:38:55,694 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:38:59,884 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:38:59,886 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:38:59,886 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:38:59,886 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:38:59,890 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:38:59,890 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:38:59,891 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:38:59,891 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:38:59,899 - uvicorn.error - INFO - Started server process [50526]
+2025-05-26 08:38:59,900 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:38:59,901 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:39:22,870 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:39:22,877 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:39:22,950 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:39:23,066 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:39:23,069 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:39:23,071 - uvicorn.error - INFO - Finished server process [50526]
+2025-05-26 08:39:23,444 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:39:27,537 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:39:27,539 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:39:27,540 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:39:27,540 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:39:27,544 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:39:27,544 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:39:27,544 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:39:27,545 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:39:27,555 - uvicorn.error - INFO - Started server process [50749]
+2025-05-26 08:39:27,556 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:39:27,556 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:39:43,696 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:39:43,700 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:39:43,726 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:39:43,831 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:39:43,833 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:39:43,835 - uvicorn.error - INFO - Finished server process [50749]
+2025-05-26 08:39:44,200 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:39:48,321 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:39:48,322 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:39:48,323 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:39:48,323 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:39:48,326 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:39:48,326 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:39:48,327 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:39:48,327 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:39:48,335 - uvicorn.error - INFO - Started server process [50916]
+2025-05-26 08:39:48,336 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:39:48,337 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:40:08,543 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:40:08,550 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:40:08,572 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:40:08,680 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:40:08,683 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:40:08,684 - uvicorn.error - INFO - Finished server process [50916]
+2025-05-26 08:40:09,051 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:40:13,166 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:40:13,169 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:40:13,169 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:40:13,169 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:40:13,173 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:40:13,173 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:40:13,173 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:40:13,174 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:40:13,183 - uvicorn.error - INFO - Started server process [51128]
+2025-05-26 08:40:13,183 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:40:13,184 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:40:13,440 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:40:14,973 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 08:40:18,328 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:40:18,330 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:40:18,365 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:40:18,474 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:40:18,478 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:40:18,480 - uvicorn.error - INFO - Finished server process [51128]
+2025-05-26 08:40:18,854 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:40:22,554 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:40:22,557 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:40:26,926 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:40:26,928 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:40:26,928 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:40:26,929 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:40:26,932 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:40:26,932 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:40:26,932 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:40:26,933 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:40:26,941 - uvicorn.error - INFO - Started server process [51270]
+2025-05-26 08:40:26,942 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:40:26,943 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:40:34,369 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:40:34,372 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:40:34,413 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:40:34,518 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:40:34,521 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:40:34,522 - uvicorn.error - INFO - Finished server process [51270]
+2025-05-26 08:40:34,893 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:40:38,970 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:40:38,972 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:40:38,973 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:40:38,973 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:40:38,976 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:40:38,976 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:40:38,976 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:40:38,977 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:40:38,985 - uvicorn.error - INFO - Started server process [51365]
+2025-05-26 08:40:38,986 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:40:38,987 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:43:12,663 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:43:12,671 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:43:12,678 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:43:12,796 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:43:12,800 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:43:12,802 - uvicorn.error - INFO - Finished server process [51365]
+2025-05-26 08:43:13,174 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:43:15,033 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:43:16,619 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 08:43:17,247 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:43:17,248 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:43:17,249 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:43:17,249 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:43:17,253 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:43:17,253 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:43:17,253 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:43:17,254 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:43:17,262 - uvicorn.error - INFO - Started server process [52629]
+2025-05-26 08:43:17,263 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:43:17,264 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:44:16,726 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:44:16,732 - uvicorn.error - WARNING - WatchFiles detected changes in 'gameserver/ws/endpoints/metaverse.py'. Reloading...
+2025-05-26 08:44:16,805 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:44:16,913 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:44:16,915 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:44:16,917 - uvicorn.error - INFO - Finished server process [52629]
+2025-05-26 08:44:17,290 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:44:19,571 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:44:19,573 - uvicorn.error - WARNING - WatchFiles detected changes in 'gameserver/ws/endpoints/metaverse.py'. Reloading...
+2025-05-26 08:44:20,696 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:44:20,698 - uvicorn.error - WARNING - WatchFiles detected changes in 'gameserver/ws/endpoints/metaverse.py'. Reloading...
+2025-05-26 08:44:25,325 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:44:25,327 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:44:25,327 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:44:25,328 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:44:25,331 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:44:25,331 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:44:25,332 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:44:25,332 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:44:25,342 - uvicorn.error - INFO - Started server process [53201]
+2025-05-26 08:44:25,342 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:44:25,343 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:44:25,448 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 08:44:26,857 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:44:26,859 - uvicorn.error - WARNING - WatchFiles detected changes in 'gameserver/ws/endpoints/metaverse.py'. Reloading...
+2025-05-26 08:44:26,959 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:44:27,062 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:44:27,066 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:44:27,067 - uvicorn.error - INFO - Finished server process [53201]
+2025-05-26 08:44:27,434 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:44:31,453 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:44:31,454 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:44:31,455 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:44:31,455 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:44:31,458 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:44:31,458 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:44:31,459 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:44:31,459 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:44:31,469 - uvicorn.error - INFO - Started server process [53265]
+2025-05-26 08:44:31,470 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:44:31,471 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:44:31,556 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 08:44:44,789 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:44:44,793 - uvicorn.error - WARNING - WatchFiles detected changes in 'gameserver/ws/endpoints/metaverse.py'. Reloading...
+2025-05-26 08:44:44,799 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:44:44,903 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:44:44,906 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:44:44,908 - uvicorn.error - INFO - Finished server process [53265]
+2025-05-26 08:44:45,281 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:44:47,487 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:44:47,489 - uvicorn.error - WARNING - WatchFiles detected changes in 'gameserver/ws/endpoints/metaverse.py'. Reloading...
+2025-05-26 08:44:50,531 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:44:50,534 - uvicorn.error - WARNING - WatchFiles detected changes in 'gameserver/ws/endpoints/metaverse.py'. Reloading...
+2025-05-26 08:44:53,718 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:44:53,721 - uvicorn.error - WARNING - WatchFiles detected changes in 'gameserver/ws/endpoints/metaverse.py'. Reloading...
+2025-05-26 08:44:58,107 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:44:58,108 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:44:58,109 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:44:58,110 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:44:58,113 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:44:58,114 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:44:58,114 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:44:58,114 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:44:58,125 - uvicorn.error - INFO - Started server process [53498]
+2025-05-26 08:44:58,126 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:44:58,127 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:44:58,191 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 08:45:01,767 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:45:01,771 - uvicorn.error - WARNING - WatchFiles detected changes in 'gameserver/ws/endpoints/metaverse.py'. Reloading...
+2025-05-26 08:45:01,870 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:45:01,974 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:45:01,977 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:45:01,979 - uvicorn.error - INFO - Finished server process [53498]
+2025-05-26 08:45:02,351 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:45:06,376 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:45:06,378 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:45:06,379 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:45:06,381 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:45:06,385 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:45:06,386 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:45:06,386 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:45:06,388 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:45:06,405 - uvicorn.error - INFO - Started server process [53583]
+2025-05-26 08:45:06,407 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:45:06,408 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:45:06,495 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 08:46:09,048 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:46:09,054 - uvicorn.error - WARNING - WatchFiles detected changes in 'gameserver/ws/endpoints/metaverse.py'. Reloading...
+2025-05-26 08:46:09,155 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:46:09,264 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:46:09,267 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:46:09,270 - uvicorn.error - INFO - Finished server process [53583]
+2025-05-26 08:46:09,640 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:46:10,057 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:46:10,059 - uvicorn.error - WARNING - WatchFiles detected changes in 'gameserver/ws/endpoints/metaverse.py'. Reloading...
+2025-05-26 08:46:14,178 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:46:14,184 - uvicorn.error - WARNING - WatchFiles detected changes in 'gameserver/ws/endpoints/metaverse.py'. Reloading...
+2025-05-26 08:46:16,697 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:46:18,070 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 08:46:18,665 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:46:18,667 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:46:18,667 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:46:18,667 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:46:18,671 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:46:18,671 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:46:18,672 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:46:18,672 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:46:18,682 - uvicorn.error - INFO - Started server process [54185]
+2025-05-26 08:46:18,682 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:46:18,683 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:46:18,752 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 08:46:38,057 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:46:38,062 - uvicorn.error - WARNING - WatchFiles detected changes in 'gameserver/ws/endpoints/metaverse.py'. Reloading...
+2025-05-26 08:46:38,110 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:46:38,217 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:46:38,220 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:46:38,222 - uvicorn.error - INFO - Finished server process [54185]
+2025-05-26 08:46:38,595 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:46:42,698 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:46:42,701 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:46:42,701 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:46:42,702 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:46:42,706 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:46:42,706 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:46:42,707 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:46:42,707 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:46:42,717 - uvicorn.error - INFO - Started server process [54391]
+2025-05-26 08:46:42,718 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:46:42,719 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:46:42,782 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 08:47:01,260 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:47:01,265 - uvicorn.error - WARNING - WatchFiles detected changes in 'gameserver/ws/endpoints/metaverse.py'. Reloading...
+2025-05-26 08:47:01,311 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:47:01,425 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:47:01,429 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:47:01,431 - uvicorn.error - INFO - Finished server process [54391]
+2025-05-26 08:47:01,804 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:47:03,918 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:47:03,920 - uvicorn.error - WARNING - WatchFiles detected changes in 'gameserver/ws/endpoints/metaverse.py'. Reloading...
+2025-05-26 08:47:08,411 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:47:08,412 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:47:08,413 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:47:08,413 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:47:08,416 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:47:08,417 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:47:08,417 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:47:08,418 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:47:08,428 - uvicorn.error - INFO - Started server process [54628]
+2025-05-26 08:47:08,428 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:47:08,429 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:47:08,516 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 08:47:08,879 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:47:08,882 - uvicorn.error - WARNING - WatchFiles detected changes in 'gameserver/ws/endpoints/metaverse.py'. Reloading...
+2025-05-26 08:47:08,933 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:47:09,036 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:47:09,038 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:47:09,040 - uvicorn.error - INFO - Finished server process [54628]
+2025-05-26 08:47:09,404 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:47:11,897 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:47:11,903 - uvicorn.error - WARNING - WatchFiles detected changes in 'gameserver/ws/endpoints/metaverse.py'. Reloading...
+2025-05-26 08:47:16,403 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:47:16,404 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:47:16,404 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:47:16,405 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:47:16,408 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:47:16,408 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:47:16,409 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:47:16,409 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:47:16,419 - uvicorn.error - INFO - Started server process [54706]
+2025-05-26 08:47:16,420 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:47:16,421 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:47:16,521 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 08:47:28,375 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:47:28,377 - uvicorn.error - WARNING - WatchFiles detected changes in 'gameserver/ws/endpoints/metaverse.py'. Reloading...
+2025-05-26 08:47:28,445 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:47:28,556 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:47:28,559 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:47:28,561 - uvicorn.error - INFO - Finished server process [54706]
+2025-05-26 08:47:28,930 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:47:33,006 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:47:33,008 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:47:33,008 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:47:33,009 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:47:33,011 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:47:33,012 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:47:33,012 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:47:33,013 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:47:33,022 - uvicorn.error - INFO - Started server process [54849]
+2025-05-26 08:47:33,023 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:47:33,024 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:47:33,115 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 08:47:55,572 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:47:55,579 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:47:55,664 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:47:55,769 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:47:55,773 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:47:55,776 - uvicorn.error - INFO - Finished server process [54849]
+2025-05-26 08:47:56,144 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:48:00,229 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:48:00,230 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:48:00,231 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:48:00,231 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:48:00,235 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:48:00,236 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:48:00,236 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:48:00,236 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:48:00,248 - uvicorn.error - INFO - Started server process [55084]
+2025-05-26 08:48:00,249 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:48:00,249 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:48:34,191 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:48:34,197 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:48:34,218 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:48:34,323 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:48:34,325 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:48:34,327 - uvicorn.error - INFO - Finished server process [55084]
+2025-05-26 08:48:34,699 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:48:38,907 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:48:38,909 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:48:38,909 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:48:38,910 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:48:38,915 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:48:38,916 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:48:38,916 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:48:38,917 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:48:38,928 - uvicorn.error - INFO - Started server process [55390]
+2025-05-26 08:48:38,929 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:48:38,930 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:48:41,470 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:48:41,472 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:48:41,555 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:48:41,659 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:48:41,661 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:48:41,662 - uvicorn.error - INFO - Finished server process [55390]
+2025-05-26 08:48:42,033 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:48:42,863 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:48:42,867 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:48:45,657 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:48:45,660 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:48:50,225 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:48:50,227 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:48:50,227 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:48:50,228 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:48:50,231 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:48:50,231 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:48:50,232 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:48:50,232 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:48:50,242 - uvicorn.error - INFO - Started server process [55492]
+2025-05-26 08:48:50,242 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:48:50,243 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:49:18,107 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:49:19,438 - watchfiles.main - INFO - 3 changes detected
+2025-05-26 08:49:28,110 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:49:28,114 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:49:28,121 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:49:28,229 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:49:28,232 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:49:28,235 - uvicorn.error - INFO - Finished server process [55492]
+2025-05-26 08:49:28,605 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:49:29,658 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:49:29,660 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:49:34,098 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:49:34,100 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:49:34,100 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:49:34,101 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:49:34,104 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:49:34,104 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:49:34,105 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:49:34,105 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:49:34,115 - uvicorn.error - INFO - Started server process [55872]
+2025-05-26 08:49:34,115 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:49:34,116 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:49:36,317 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:49:36,323 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:49:36,341 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:49:36,444 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:49:36,447 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:49:36,449 - uvicorn.error - INFO - Finished server process [55872]
+2025-05-26 08:49:36,819 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:49:40,837 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:49:40,839 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:49:40,839 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:49:40,840 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:49:40,843 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:49:40,844 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:49:40,845 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:49:40,845 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:49:40,855 - uvicorn.error - INFO - Started server process [55931]
+2025-05-26 08:49:40,856 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:49:40,856 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:49:49,309 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:49:49,311 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:49:49,343 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:49:49,446 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:49:49,448 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:49:49,450 - uvicorn.error - INFO - Finished server process [55931]
+2025-05-26 08:49:49,843 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:49:53,893 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:49:53,895 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:49:53,895 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:49:53,896 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:49:53,899 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:49:53,900 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:49:53,900 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:49:53,900 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:49:53,909 - uvicorn.error - INFO - Started server process [56044]
+2025-05-26 08:49:53,910 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:49:53,911 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:50:08,370 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:50:08,377 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:50:08,453 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:50:08,564 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:50:08,567 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:50:08,569 - uvicorn.error - INFO - Finished server process [56044]
+2025-05-26 08:50:08,940 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:50:13,029 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:50:13,031 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:50:13,031 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:50:13,032 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:50:13,036 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:50:13,037 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:50:13,037 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:50:13,038 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:50:13,048 - uvicorn.error - INFO - Started server process [56207]
+2025-05-26 08:50:13,049 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:50:13,051 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:50:48,928 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:50:48,945 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:50:49,049 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:50:49,154 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:50:49,157 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:50:49,159 - uvicorn.error - INFO - Finished server process [56207]
+2025-05-26 08:50:49,525 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:50:53,671 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:50:53,672 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:50:53,672 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:50:53,673 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:50:53,676 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:50:53,677 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:50:53,677 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:50:53,678 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:50:53,687 - uvicorn.error - INFO - Started server process [56553]
+2025-05-26 08:50:53,687 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:50:53,688 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:50:54,359 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:50:54,361 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:50:54,394 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:50:54,498 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:50:54,500 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:50:54,502 - uvicorn.error - INFO - Finished server process [56553]
+2025-05-26 08:50:54,874 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:50:58,843 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:50:58,845 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:50:58,845 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:50:58,846 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:50:58,849 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:50:58,849 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:50:58,850 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:50:58,850 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:50:58,858 - uvicorn.error - INFO - Started server process [56617]
+2025-05-26 08:50:58,859 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:50:58,860 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 08:51:11,890 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:51:11,895 - uvicorn.error - WARNING - WatchFiles detected changes in 'examples/demo_ws_client.py'. Reloading...
+2025-05-26 08:51:11,987 - uvicorn.error - INFO - Shutting down
+2025-05-26 08:51:12,091 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-05-26 08:51:12,094 - uvicorn.error - INFO - Application shutdown complete.
+2025-05-26 08:51:12,097 - uvicorn.error - INFO - Finished server process [56617]
+2025-05-26 08:51:12,466 - watchfiles.main - INFO - 1 change detected
+2025-05-26 08:51:17,104 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 08:51:17,106 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:51:17,106 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:51:17,107 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:51:17,111 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 08:51:17,111 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 08:51:17,112 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 08:51:17,112 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 08:51:17,123 - uvicorn.error - INFO - Started server process [56756]
+2025-05-26 08:51:17,124 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 08:51:17,126 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 18:02:03,911 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 18:02:03,912 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 18:02:03,912 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 18:02:03,913 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 18:02:03,916 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 18:02:03,916 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 18:02:03,917 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 18:02:03,917 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 18:02:07,949 - uvicorn.error - INFO - Will watch for changes in these directories: ['/Users/own/Workspace/GameServer']
+2025-05-26 18:02:07,953 - uvicorn.error - INFO - Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+2025-05-26 18:02:07,955 - uvicorn.error - INFO - Started reloader process [59754] using WatchFiles
+2025-05-26 18:02:12,417 - agent_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/agent_api_20250526.log
+2025-05-26 18:02:12,418 - agent_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 18:02:12,419 - agent_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 18:02:12,419 - agent_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 18:02:12,422 - rotk_api - INFO - Logging to file: /Users/own/Workspace/GameServer/gameserver/storage/logs/rotk_api_20250526.log
+2025-05-26 18:02:12,422 - rotk_api - INFO - Storage path: /Users/own/Workspace/GameServer/gameserver/storage
+2025-05-26 18:02:12,423 - rotk_api - INFO - Memory space: /Users/own/Workspace/GameServer/gameserver/storage/memory
+2025-05-26 18:02:12,423 - rotk_api - INFO - Role path: /Users/own/Workspace/GameServer/gameserver/storage/configs/roles
+2025-05-26 18:02:12,431 - uvicorn.error - INFO - Started server process [59819]
+2025-05-26 18:02:12,431 - uvicorn.error - INFO - Waiting for application startup.
+2025-05-26 18:02:12,432 - uvicorn.error - INFO - Application startup complete.
+2025-05-26 18:02:34,663 - uvicorn.error - INFO - Shutting down
+2025-05-26 18:02:34,768 - uvicorn.error - INFO - Finished server process [59819]
+2025-05-26 18:02:34,779 - uvicorn.error - INFO - Stopping reloader process [59754]

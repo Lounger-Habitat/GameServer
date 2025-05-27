@@ -117,7 +117,7 @@ router = APIRouter()
 async def websocket_test_endpoint(websocket: WebSocket):
     """General WebSocket endpoint for all connections."""
     # Authenticate the WebSocket connection
-    from gameserver.utils.ws_auth import authenticate_websocket
+    from gameserver.utils.auth.ws_auth import authenticate_websocket
 
     authenticated, user_data = await authenticate_websocket(websocket)
 
@@ -186,7 +186,7 @@ async def websocket_test_endpoint(websocket: WebSocket):
 async def game_websocket_endpoint(websocket: WebSocket, env_id: int, agent_id: int):
     """Game-specific WebSocket endpoint with env and agent identification."""
     # Authenticate the WebSocket connection
-    from gameserver.utils.ws_auth import authenticate_websocket
+    from gameserver.utils.auth.ws_auth import authenticate_websocket
 
     authenticated, user_data = await authenticate_websocket(websocket)
 

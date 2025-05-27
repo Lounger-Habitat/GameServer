@@ -6,13 +6,17 @@ from fastapi import WebSocket, status
 from jose import JWTError, jwt
 
 from gameserver.models.user import get_user_by_username
-from gameserver.utils.auth import ALGORITHM, SECRET_KEY
+from gameserver.utils.auth.api_auth import ALGORITHM, SECRET_KEY
+
+from ..log.logger import get_logger
+
+logger = get_logger(__name__)
 
 
 async def get_token_from_query(websocket: WebSocket) -> Optional[str]:
     """Extract token from WebSocket query parameters."""
     token = websocket.query_params.get("token")
-    print("------", token)
+    logger.info(f"WebSocket token: {token}")
     if not token:
         await websocket.close(code=status.WS_1008_POLICY_VIOLATION)
         return None

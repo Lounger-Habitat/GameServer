@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
 
 from gameserver.models.user import User
-from gameserver.utils.auth import get_current_active_user
+from gameserver.utils.auth.api_auth import get_current_active_user
 
 
 # Game models
