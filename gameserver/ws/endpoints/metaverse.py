@@ -9,13 +9,13 @@ from fastapi import APIRouter, WebSocket, WebSocketDisconnect, status
 from pydantic import BaseModel
 
 from gameserver.utils.log.logger import get_logger
-from .component.metaverse_connection_manager import ConnectionManager
+from .component.connection_manager import ConnectionManager
 
 
 class WSIDInfo(BaseModel):
     """Message user id information."""
 
-    user_type: str
+    role_type: str
     env_id: Optional[int] = None
     agent_id: Optional[int] = None
     human_id: Optional[int] = None
@@ -40,14 +40,14 @@ logger = get_logger(__name__)
 
 
 async def handle_status(websocket: WebSocket, message: dict):
-    """Handle status request messages."""
+    """Handle status request messages. Just for Server."""
     status_info = manager.check_connections()
     await websocket.send_text(
         json.dumps(
             {
                 "ins": "status_response",
                 "data": {"status": "ok", "connections": status_info},
-                "msg_from": WSIDInfo(user_type="server").model_dump(),
+                "msg_from": WSIDInfo(role_type="server").model_dump(),
                 "msg_to": message.get("msg_from", {}),
                 "timestamp": time.time(),
             }
@@ -59,25 +59,24 @@ async def handle_ping(
     websocket: WebSocket,
     envelope: dict,
 ):
-    """Handle ping messages."""
+    """Handle ping messages. Just for Server, Use for heartbeat."""
     msg_to = envelope.get("msg_to", {})
+    # to_type = msg_to.get("role_type", "unknown")
     envelope_timestamp = envelope.get("timestamp", None)
     msg_from = envelope.get("msg_from", {})
-    from_type = msg_from.get("user_type", "unknown")
-    which_env = msg_to.get("env_id") if msg_to else msg_from.get("env_id")
-    which_client = (
-        msg_to.get("agent_id")
-        or msg_to.get("human_id")
-        or msg_from.get("agent_id")
-        or msg_from.get("human_id")
-    )
+    # from_type = msg_from.get("role_type", "unknown")
+    # which_env = msg_to.get("env_id") if msg_to else msg_from.get("env_id")
+    # which_client = (
+    #     msg_to.get("agent_id")
+    #     or msg_to.get("human_id")
+    #     or msg_from.get("agent_id")
+    #     or msg_from.get("human_id")
+    # )
 
-    # Forward ping to the environment if coming from agent or human
-    if from_type in ["agent", "human"] and which_env:
-        logger.info(
-            f"Forwarding ping from {from_type} {which_client} to env {which_env}"
-        )
-        await manager.send_to_environment(which_env, envelope)
+    # # Forward ping to the environment if coming from agent or human
+    # if to_type in ["agent", "human", "env"]:
+    #     logger.info(f"Forwarding ping from {from_type} to env {to_type}")
+    #     await manager.send_to_environment(which_env, envelope)
 
     # Respond with pong
     await websocket.send_text(
@@ -88,7 +87,7 @@ async def handle_ping(
                     "original_timestamp": envelope_timestamp,
                     "message": f"Pong from server",
                 },
-                "msg_from": WSIDInfo(user_type="server").model_dump(),
+                "msg_from": WSIDInfo(role_type="server").model_dump(),
                 "msg_to": msg_from,
                 "timestamp": time.time(),
             }
@@ -96,7 +95,7 @@ async def handle_ping(
     )
 
 
-async def handle_env_message(websocket: WebSocket, message: dict):
+async def handle_notification(websocket: WebSocket, message: dict):
     """Handle environment messages."""
     msg_from = message.get("msg_from", {})
     which_env = msg_from.get("env_id")
@@ -113,7 +112,7 @@ async def handle_env_message(websocket: WebSocket, message: dict):
                 {
                     "ins": "error",
                     "data": "Environment message must include env_id",
-                    "msg_from": WSIDInfo(user_type="server").model_dump(),
+                    "msg_from": WSIDInfo(role_type="server").model_dump(),
                     "msg_to": message.get("msg_from", {}),
                     "timestamp": time.time(),
                 }
@@ -121,15 +120,47 @@ async def handle_env_message(websocket: WebSocket, message: dict):
         )
 
 
-async def handle_direct_message(
+async def handle_echo(
+    websocket: WebSocket,
+    message: dict,
+):
+    """Handle echo messages for testing."""
+    msg_from = message.get("msg_from", {})
+    msg_to = message.get("msg_to", {})
+    to_type = msg_to.get("role_type", "unknown")
+
+    if to_type not in ["agent", "human", "env"]:
+        # Echo back the message to the sender
+        await websocket.send_text(
+            json.dumps(
+                {
+                    "ins": "response",
+                    "data": message.get("data", ""),
+                    "msg_from": WSIDInfo(role_type="server").model_dump(),
+                    "msg_to": msg_from,
+                    "timestamp": time.time(),
+                }
+            )
+        )
+        logger.info(f"Echoed message back to {msg_from.get('role_type', 'unknown')}")
+    else:
+        await manager.send_direct_message(
+            to_type,
+            msg_to.get("agent_id"),
+            msg_to.get("env_id"),
+            message,
+        )
+
+
+async def handle_message(
     websocket: WebSocket,
     message: dict,
 ):
     """Handle direct messages."""
     msg_from = message.get("msg_from", {})
-    from_type = msg_from.get("user_type", "unknown")
+    from_type = msg_from.get("role_type", "unknown")
     msg_to = message.get("msg_to", {})
-    target_type = msg_to.get("user_type")
+    target_type = msg_to.get("role_type")
     target_env_id = msg_to.get("env_id")
     target_client_id = msg_to.get("agent_id") or msg_to.get("human_id")
 
@@ -138,8 +169,8 @@ async def handle_direct_message(
             json.dumps(
                 {
                     "ins": "error",
-                    "data": "Direct message must specify target user_type",
-                    "msg_from": WSIDInfo(user_type="server").model_dump(),
+                    "data": "Direct message must specify target role_type",
+                    "msg_from": WSIDInfo(role_type="server").model_dump(),
                     "msg_to": msg_from,
                     "timestamp": time.time(),
                 }
@@ -153,7 +184,7 @@ async def handle_direct_message(
                 {
                     "ins": "error",
                     "data": f"Direct message to {target_type} must specify {target_type}_id",
-                    "msg_from": WSIDInfo(user_type="server").model_dump(),
+                    "msg_from": WSIDInfo(role_type="server").model_dump(),
                     "msg_to": msg_from,
                     "timestamp": time.time(),
                 }
@@ -175,7 +206,7 @@ async def handle_direct_message(
                 {
                     "ins": "error",
                     "data": f"Failed to send direct message to {target_type} {target_client_id or target_env_id}",
-                    "msg_from": WSIDInfo(user_type="server").model_dump(),
+                    "msg_from": WSIDInfo(role_type="server").model_dump(),
                     "msg_to": msg_from,
                     "timestamp": time.time(),
                 }
@@ -220,12 +251,10 @@ HANDLES = {
     "status": handle_status,  # Server status (to server ,no requirement)
     "heartbeat": handle_ping,  # Server heartbeat (to server ,no requirement)
     "ping": handle_ping,  # Alternative name for heartbeat
-    "broadcast": handle_env_message,  # Environment broadcast messages (to all clients ,requirement env_id)
-    "message": handle_direct_message,  # Direct messages (to specific client ,requirement env_id, agent_id or human_id)
-    "echo": handle_direct_message,  # Echo messages (to specific client for test ,echo self no requirement)
-    "env_update": handle_env_message,  # Environment update messages
-    "agent_action": handle_direct_message,  # Agent action messages
-    "human_action": handle_direct_message,  # Human action messages
+    "broadcast": handle_ping,  # Environment broadcast messages (to all clients ,requirement env_id)
+    "message": handle_message,  # Direct messages (to specific client ,requirement env_id, agent_id or human_id)
+    "response": handle_message,  # Direct messages (to specific client ,requirement env_id, agent_id or human_id)
+    "echo": handle_message,  # Echo messages (to specific client for test ,echo self no requirement)
 }
 
 
@@ -254,9 +283,9 @@ async def metaverse_websocket_handler(
             WSMessage(
                 ins="connected",
                 data=f"message: {ws_type} connected, env_id: {env_id}",
-                msg_from=WSIDInfo(user_type="server"),
+                msg_from=WSIDInfo(role_type="server"),
                 msg_to=WSIDInfo(
-                    user_type=ws_type,
+                    role_type=ws_type,
                     env_id=env_id,
                     agent_id=agent_id,
                     human_id=human_id,
@@ -281,19 +310,19 @@ async def metaverse_websocket_handler(
                     message["msg_to"] = message["to"]
 
                 msg_from = message.get("msg_from", {})
-                user_type = msg_from.get("user_type", ws_type)
+                role_type = msg_from.get("role_type", ws_type)
 
                 # Ensure msg_from has correct info if missing
-                if not msg_from.get("user_type"):
+                if not msg_from.get("role_type"):
                     message["msg_from"] = {
-                        "user_type": ws_type,
+                        "role_type": ws_type,
                         "env_id": env_id,
                         "agent_id": agent_id,
                         "human_id": human_id,
                     }
 
                 # Log message receipt
-                logger.info(f"Received {msg_ins} message from {user_type}")
+                logger.info(f"Received {msg_ins} message from {role_type}")
 
                 # Find appropriate handler
                 handler = HANDLES.get(msg_ins)
@@ -307,7 +336,7 @@ async def metaverse_websocket_handler(
                             {
                                 "ins": "error",
                                 "data": f"Unknown message type: {msg_ins}",
-                                "msg_from": WSIDInfo(user_type="server").model_dump(),
+                                "msg_from": WSIDInfo(role_type="server").model_dump(),
                                 "msg_to": message.get("msg_from", {}),
                                 "timestamp": time.time(),
                             }
@@ -321,7 +350,7 @@ async def metaverse_websocket_handler(
                         {
                             "ins": "error",
                             "data": "Invalid JSON format",
-                            "msg_from": WSIDInfo(user_type="server").model_dump(),
+                            "msg_from": WSIDInfo(role_type="server").model_dump(),
                             "timestamp": time.time(),
                         }
                     )
@@ -333,7 +362,7 @@ async def metaverse_websocket_handler(
                         {
                             "ins": "error",
                             "data": f"Server error: {str(e)}",
-                            "msg_from": WSIDInfo(user_type="server").model_dump(),
+                            "msg_from": WSIDInfo(role_type="server").model_dump(),
                             "timestamp": time.time(),
                         }
                     )

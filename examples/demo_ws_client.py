@@ -87,11 +87,11 @@ class WebSocketClient:
 
         if msg_to is None:
             msg_to = {
-                "user_type": "server"
+                "role_type": "server"
             }  # Default to server if no recipient specified
         elif isinstance(msg_to, str):
             # Convert string to proper format
-            msg_to = {"user_type": msg_to}
+            msg_to = {"role_type": msg_to}
 
         envelope = {
             "ins": msg_ins,
@@ -129,12 +129,16 @@ class WebSocketClient:
                     data = json.loads(message)
                     msg_ins = data.get("ins", "")
 
-                    # Trigger message event with original data
-                    await self._trigger_event("message", data)
+                    if msg_ins == "message":
+                        # Trigger message event with original data
+                        await self._trigger_event("message", data)
 
                     # Trigger specific event type if handlers exist
-                    if msg_ins:
-                        await self._trigger_event(msg_ins, data)
+                    if msg_ins == "response":
+                        await self._trigger_event("response", data)
+
+                    if msg_ins == "error":
+                        await self._trigger_event("error", data)
 
                 except json.JSONDecodeError:
                     print(f"Invalid JSON received: {message}")
@@ -222,12 +226,38 @@ class WebSocketClient:
             return True
 
         if cmd == "message":
-            if len(parts) < 2:
-                print("Usage: message [action] [params...]")
+            if len(parts) < 4:
+                print("Usage: message [who] [action] [params...]")
                 return True
-            action_name = parts[1]
-            params = parts[2:] if len(parts) > 2 else []
-            await self.send("message", {"action": action_name, "parameters": params})
+            msg_to = parts[1].lower()
+            msg_to = msg_to.split("_")
+            if msg_to[0] == "agent":
+                msg_to = {
+                    "role_type": "agent",
+                    "env_id": self.own_info.get("env_id"),
+                    "agent_id": int(msg_to[1]),
+                }
+            elif msg_to[0] == "human":
+                msg_to = {
+                    "role_type": "human",
+                    "env_id": self.own_info.get("env_id"),
+                    "human_id": int(msg_to[1]),
+                }
+            else:
+                msg_to = {"role_type": "env", "env_id": self.own_info.get("env_id")}
+
+            action_name = parts[2]
+            params = parts[3:] if len(parts) > 3 else []
+            await self.send(
+                "message",
+                {
+                    "type": "action",
+                    "id": "",
+                    "action": action_name,
+                    "parameters": params,
+                },
+                msg_to=msg_to,
+            )
             return True
 
         # Client-specific commands
@@ -254,7 +284,7 @@ class WebSocketClient:
                 target_id = int(parts[2])
                 message = " ".join(parts[3:]) if len(parts) > 3 else "Hello"
                 msg_to = {
-                    "user_type": target_type,
+                    "role_type": target_type,
                     "env_id": self.own_info.get("env_id"),
                 }
                 if target_type == "agent":
@@ -284,37 +314,37 @@ class WebSocketClient:
                 "ping",
                 {"timestamp": time.time(), "message": "Ping from agent to environment"},
                 msg_to={
-                    "user_type": "env",
+                    "role_type": "env",
                     "env_id": self.own_info.get("env_id"),
                 },
             )
-        elif cmd == "action":
+        elif cmd == "message":
             action_name = parts[1] if len(parts) > 1 else "act"
             params = parts[2:] if len(parts) > 2 else []
             await self.send(
-                "agent_action",
+                "message",
                 {"action": action_name, "parameters": params},
                 msg_to={
-                    "user_type": "env",
+                    "role_type": "env",
                     "env_id": self.own_info.get("env_id"),
                 },
             )
         elif cmd == "observe":
             await self.send(
-                "agent_action",
+                "message",
                 {"action": "observe", "target": "env"},
                 msg_to={
-                    "user_type": "env",
+                    "role_type": "env",
                     "env_id": self.own_info.get("env_id"),
                 },
             )
         else:
             # Default action
             await self.send(
-                "agent_action",
+                "message",
                 {"action": "custom", "message": " ".join(parts)},
                 msg_to={
-                    "user_type": "env",
+                    "role_type": "env",
                     "env_id": self.own_info.get("env_id"),
                 },
             )
@@ -331,7 +361,7 @@ class WebSocketClient:
                 "human_action",
                 {"action": "say", "message": message},
                 msg_to={
-                    "user_type": "env",
+                    "role_type": "env",
                     "env_id": self.own_info.get("env_id"),
                 },
             )
@@ -342,7 +372,7 @@ class WebSocketClient:
                 "human_action",
                 {"action": action_name, "parameters": params},
                 msg_to={
-                    "user_type": "env",
+                    "role_type": "env",
                     "env_id": self.own_info.get("env_id"),
                 },
             )
@@ -352,7 +382,7 @@ class WebSocketClient:
                 "human_action",
                 {"action": "say", "message": " ".join(parts)},
                 msg_to={
-                    "user_type": "env",
+                    "role_type": "env",
                     "env_id": self.own_info.get("env_id"),
                 },
             )
@@ -370,6 +400,106 @@ class WebSocketClient:
                         handler(data)
                 except Exception as e:
                     print(f"Error in event handler for {event_type}: {e}")
+
+
+async def hello(data: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Example function to handle 'hello' event.
+
+    description: This function processes a hello message from the client.
+    params:
+        message (str): The hello message sent by the client.
+    returns:
+        dict: A response containing the status and a message.
+    """
+    params = data.get("parameters", {})
+    await asyncio.sleep(1)  # Simulate some processing delay
+    print(f"Received hello message: {params}")
+    return {
+        "type": "response",
+        "id": "",
+        "action": "hello_response",
+        "parameters": f"Hello back! You said: {params}",
+        "status": "success",
+    }
+
+
+async def echo(data: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Example function to handle 'echo' event.
+
+    description: This function echoes back the received message.
+    params:
+        action (str): The action to perform.
+        params (object): The parameters for the action.
+    returns:
+        dict: A response containing the status and the echoed data.
+    """
+    action = data.get("action", "echo")
+    parameters = data.get("parameters", {})
+    print(f"Received echo request: {action}, {parameters}")
+    return {"status": "success", "data": {"action": action, "parameters": parameters}}
+
+
+async def add(data: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Example function to handle 'add' event.
+
+    description: This function adds two numbers and returns the result.
+    params:
+        a (int): The first number.
+        b (int): The second number.
+    returns:
+        dict: A response containing the sum of the two numbers.
+    """
+    parameters = data.get("parameters", {})
+    a = parameters[0]
+    b = parameters[1] if len(parameters) > 1 else 0
+    result = int(a) + int(b)
+    print(f"Adding {a} + {b} = {result}")
+    return {
+        "type": "response",
+        "id": "",
+        "action": "add_response",
+        "result": result,
+        "status": "success",
+    }
+
+
+async def chat(data: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Example function to handle 'chat' event.
+
+    description: This function simulates a chat response.
+    params:
+        message (str): The chat message sent by the client.
+    returns:
+        dict: A response containing the status and a chat reply.
+    """
+    parameters = data.get("parameters", "")
+    from mlong import Model
+    from mlong import user, system
+
+    model = Model()
+    res = model.chat(messages=[user(f"{parameters}")])
+
+    print(f"Chat message received: {parameters}")
+    print(f"Chatbot response: {res.message.content.text_content}")
+    return {
+        "type": "response",
+        "id": "",
+        "action": "chat_response",
+        "result": f"{res.message.content.text_content}",
+        "status": "success",
+    }
+
+
+API_FUNC = {
+    "hello": hello,
+    "echo": echo,
+    "add": add,
+    "chat": chat,
+}
 
 
 async def setup_default_handlers(client: WebSocketClient):
@@ -405,7 +535,8 @@ async def setup_default_handlers(client: WebSocketClient):
         """Handle incoming messages with nice formatting."""
         msg_ins = data.get("ins", "unknown")
         msg_from = data.get("msg_from", {})
-        from_type = msg_from.get("user_type", "unknown")
+        msg_to = data.get("msg_to", {})
+        from_type = msg_from.get("role_type", "unknown")
         msg_data = data.get("data", {})
 
         print(
@@ -413,22 +544,36 @@ async def setup_default_handlers(client: WebSocketClient):
         )
 
         # Respond to specific messages
-        if msg_ins == "hello":
-            print("💓 Hello event received, connection is alive.")
-            await client.send(
-                "message",
-                {"type": "hello", "message": "Hello from client!"},
-                msg_to=msg_from,
-            )
+        handler = API_FUNC.get(msg_data.get("action", ""), None)
+        if handler:
+            response = await handler(msg_data)
+            await client.send("response", response, msg_to=msg_from)
+        else:
+            print(f"⚠️  No handler for action: {msg_data.get('action', 'unknown')}")
+
+    async def on_response(data):
+        """Handle responses from the server."""
+        msg_ins = data.get("ins", "unknown")
+        msg_from = data.get("msg_from", {})
+        msg_to = data.get("msg_to", {})
+        from_type = msg_from.get("role_type", "unknown")
+        msg_data = data.get("data", {})
+
+        print(
+            f"\n✅ Response [{msg_ins}] - Action: {msg_data.get('action', 'unknown')}, Status: {msg_data.get('status', 'unknown')}"
+        )
+        print(f"Data: {json.dumps(msg_data, ensure_ascii=False, indent=2)}")
 
     def on_close(data):
         print(f"\n❌ Connection closed: {data.get('reason', 'Unknown')}")
 
     def on_error(data):
-        print(f"\n⚠️  Error: {data.get('error', 'Unknown error')}")
+        """Handle errors from the server."""
+        print(f"\n⚠️ Error: {data}")
 
     client.addListener("connect", on_connect)
     client.addListener("message", on_message)
+    client.addListener("response", on_response)
     client.addListener("close", on_close)
     client.addListener("error", on_error)
 
@@ -476,7 +621,7 @@ async def main():
     client = WebSocketClient(args.server)
 
     # Set up connection details
-    details = {"user_type": args.type, "env_id": args.env_id}
+    details = {"role_type": args.type, "env_id": args.env_id}
     if args.type == "agent":
         details["agent_id"] = args.agent_id
     elif args.type == "human":

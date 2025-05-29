@@ -14,3 +14,4 @@ wheels/
 .gameserver/storage/users
 .gameserver/storage/logs
 .gameserver/storage/memory
+*.log
