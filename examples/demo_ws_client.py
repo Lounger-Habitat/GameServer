@@ -477,8 +477,8 @@ async def chat(data: Dict[str, Any]) -> Dict[str, Any]:
         dict: A response containing the status and a chat reply.
     """
     parameters = data.get("parameters", "")
-    from mlong import Model
-    from mlong import user, system
+    from menglong import Model
+    from menglong import user, system
 
     model = Model()
     res = model.chat(messages=[user(f"{parameters}")])

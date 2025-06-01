@@ -15,7 +15,7 @@ from .component.connection_manager import ConnectionManager
 class WSIDInfo(BaseModel):
     """Message user id information."""
 
-    role_type: str
+    role_type: str  # env, agent, human, server
     env_id: Optional[int] = None
     agent_id: Optional[int] = None
     human_id: Optional[int] = None
@@ -25,6 +25,7 @@ class WSIDInfo(BaseModel):
 class WSMessage(BaseModel):
     """Base WebSocket message model."""
 
+    # envelope
     ins: str
     data: str
     msg_from: Optional[WSIDInfo]

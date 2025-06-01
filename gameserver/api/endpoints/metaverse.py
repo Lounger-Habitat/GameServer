@@ -28,12 +28,15 @@ from pydantic import BaseModel, Field
 from gameserver.models.user import User
 from gameserver.utils.auth.api_auth import get_current_active_user
 
-from mlong import Model
-from mlong import user, system
-from mlong import RoleAgent
-from mlong import GTGConversation
+from menglong import Model
+from menglong.ml_model.schema.ml_request import (
+    UserMessage as user,
+    SystemMessage as system,
+)
+from menglong.agents.role_play import RoleAgent
+from menglong.agents.conversation import GTGConversation
 
-# from mlong import VectorStore
+# from menglong import VectorStore
 
 # Setup rich traceback display
 install_rich_traceback(show_locals=True)
@@ -135,6 +138,9 @@ class ModelID(str, Enum):
     ANTHROPIC_CLAUDE_3_5 = "us.anthropic.claude-3-5-sonnet-20241022-v2:0"
     ANTHROPIC_CLAUDE_3_7 = "us.anthropic.claude-3-7-sonnet-20250219-v1:0"
     COHERE_EMBED = "cohere.embed-multilingual-v3"
+    ANTHROPIC_CLAUDE_SONNET_4 = "us.anthropic.claude-sonnet-4-20250514-v1:0"
+    ANTHROPIC_CLAUDE_OPUS_4 = "us.anthropic.claude-opus-4-20250514-v1:0"
+    INFINIGENCE_CLAUDE_3_7 = "claude-3-7-sonnet-20250219"
 
 
 # 定义请求和响应模型

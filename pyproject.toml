@@ -16,11 +16,15 @@ dependencies = [
     "python-multipart",
     "boto3",
     "openai",
-    "fastapi_poe"
+    "fastapi_poe",
+    "menglong",
 ]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = "test_*.py"
 python_functions = "test_*"
+
+[tool.uv.sources]
+menglong = { git = "https://github.com/GCYYfun/MengLong" }
 
