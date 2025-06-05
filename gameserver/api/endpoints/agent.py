@@ -204,7 +204,7 @@ async def test(message: TestMessage, current_user=Depends(get_current_active_use
     model = Model()
     try:
         res = model.chat(
-            messages=[message.message.model_dump()],
+            messages=[user(content=message.message.content)],
             model_id=message.model_id,
         )
         elapsed = time.time() - start_time
