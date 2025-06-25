@@ -3,7 +3,6 @@
 import json
 from typing import Dict, Optional, Callable
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect, status
-
 from .models import WSMessage, WSIDInfo, ClientType, MessageType
 from .core.connection_manager import ConnectionManager
 from .handlers import (
@@ -12,6 +11,7 @@ from .handlers import (
     MessageHandler,
     BroadcastHandler,
     EchoHandler,
+    ConnectHandler,
 )
 from .utils import ValidationError
 from gameserver.utils.log.logger import get_logger
@@ -27,13 +27,14 @@ class MetaverseWebSocketServer:
 
         # Initialize message handlers
         self.handlers: Dict[str, Callable] = {
+            # MessageType.CONNECT.value: ConnectHandler(self.manager).handle,
             MessageType.STATUS.value: StatusHandler(self.manager).handle,
             MessageType.HEARTBEAT.value: PingHandler(self.manager).handle,
-            MessageType.PING.value: PingHandler(self.manager).handle,
+            # MessageType.PING.value: PingHandler(self.manager).handle,
             MessageType.MESSAGE.value: MessageHandler(self.manager).handle,
-            MessageType.RESPONSE.value: MessageHandler(self.manager).handle,
-            MessageType.BROADCAST.value: BroadcastHandler(self.manager).handle,
-            MessageType.NOTIFICATION.value: BroadcastHandler(self.manager).handle,
+            # MessageType.RESPONSE.value: MessageHandler(self.manager).handle,
+            # MessageType.BROADCAST.value: BroadcastHandler(self.manager).handle,
+            # MessageType.NOTIFICATION.value: BroadcastHandler(self.manager).handle,
             MessageType.ECHO.value: EchoHandler(self.manager).handle,
         }
 

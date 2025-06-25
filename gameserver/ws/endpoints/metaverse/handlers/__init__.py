@@ -6,6 +6,7 @@ from .ping import PingHandler
 from .message import MessageHandler
 from .broadcast import BroadcastHandler
 from .echo import EchoHandler
+from .connect import ConnectHandler
 
 __all__ = [
     "BaseMessageHandler",
@@ -14,4 +15,5 @@ __all__ = [
     "MessageHandler",
     "BroadcastHandler",
     "EchoHandler",
+    "ConnectHandler",
 ]
