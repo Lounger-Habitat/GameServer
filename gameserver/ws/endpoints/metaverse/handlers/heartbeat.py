@@ -8,7 +8,7 @@ from .base import BaseMessageHandler
 from ..models import ClientType
 
 
-class PingHandler(BaseMessageHandler):
+class HeartbeatHandler(BaseMessageHandler):
     """Handler for ping/heartbeat messages."""
 
     async def handle(self, websocket: WebSocket, message: Dict[str, Any]) -> None:

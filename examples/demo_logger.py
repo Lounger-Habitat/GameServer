@@ -9,7 +9,7 @@ from pathlib import Path
 # Add the project root to the Python path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from gameserver.utils.log.logger import get_logger
+from gameserver.utils.log import get_logger
 
 
 def main():

@@ -8,7 +8,7 @@ from jose import JWTError, jwt
 from gameserver.models.user import get_user_by_username
 from gameserver.utils.auth.api_auth import ALGORITHM, SECRET_KEY
 
-from ..log.logger import get_logger
+from ..log import get_logger
 
 logger = get_logger(__name__)
 

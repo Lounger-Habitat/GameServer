@@ -2,12 +2,11 @@
 
 一个使用FastAPI构建的游戏后台服务，提供RESTful API和WebSocket接口。
 
-## 功能特点
+## 简介
 
-- RESTful API接口
-- WebSocket实时通信
-- 使用uv进行依赖管理
-- 完整的测试套件
+GameServer是一个使用FastAPI构建的游戏后台服务，旨在为游戏提供高性能的RESTful API和WebSocket接口。
+
+遵循 Star Protocol 提供 Agent 通信。
 
 ## 安装
 
@@ -15,26 +14,11 @@
 
 ```bash
 # 克隆仓库
-git clone <repository-url>
+git clone https://github.com/Lounger-Habitat/GameServer
 cd GameServer
 
 # 使用uv安装依赖
 uv sync
-```
-
-暂行编辑模式单独安装 agent 依赖
-
-```bash
-# 下载依赖
-cd ~/Workspace
-git clone https://github.com/GCYYfun/MengLong
-
-# 然后使用可编辑模式安装 MengLong
-cd ~/Workspace/MengLong
-uv pip install -e .
-
-# 返回 GameServer 目录
-cd ~/Workspace/GameServer
 ```
 
 ## 运行服务

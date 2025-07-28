@@ -11,7 +11,7 @@ from ..utils import (
     EnvironmentNotFoundError,
     DuplicateConnectionError,
 )
-from gameserver.utils.log.logger import get_logger
+from gameserver.utils.log import get_logger
 
 
 class ConnectionManager:

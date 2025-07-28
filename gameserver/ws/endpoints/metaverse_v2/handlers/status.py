@@ -13,33 +13,29 @@ class StatusHandler(BaseMessageHandler):
 
     async def handle(self, websocket: WebSocket, message: Dict[str, Any]) -> None:
         """Handle status request messages."""
+        self.logger.info("Query Hub Status")
         try:
             connection_info = self.manager.get_connection_info()
 
-            response = self._create_response(
-                instruction="message",
-                data={
+            response = self._build_hub_envelope(
+                msg_type="message",
+                payload={
                     "status": "ok",
                     "connections": {
-                        "environments": connection_info.environments,
-                        "agents": connection_info.agents,
-                        "humans": connection_info.humans,
-                        "total_connections": {
-                            "env_count": connection_info.env_count,
-                            "agent_count": connection_info.agent_count,
-                            "human_count": connection_info.human_count,
-                        },
+                        "env_info": connection_info.env_info,
+                        "agent_info": connection_info.agent_info,
+                        "human_info": connection_info.human_info,
                     },
                 },
-                target=message.get("msg_from", {}),
+                target=message.get("sender", {}),
             )
 
             await websocket.send_text(json.dumps(response))
-            self.logger.info("Status information sent")
+            self.logger.info("Status information Done!")
 
         except Exception as e:
             self.logger.error(f"Failed to handle status request: {e}")
-            error_response = self._create_error_response(
-                f"Failed to get status: {str(e)}", message.get("msg_from", {})
+            error_response = self._build_hub_envelope(
+                "error", f"Failed to get status: {str(e)}", message.get("sender", {})
             )
             await websocket.send_text(json.dumps(error_response))

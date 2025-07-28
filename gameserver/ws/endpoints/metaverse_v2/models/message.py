@@ -13,7 +13,6 @@ class ClientType(str, Enum):
     ENV = "env"
     AGENT = "agent"
     HUMAN = "human"
-    SERVER = "server"
     HUB = "hub"
 
 
@@ -37,43 +36,11 @@ class MessageType(str, Enum):
     MESSAGE = "message"
 
 
-class WSIDInfo(BaseModel):
-    """WebSocket client identification information."""
-
-    role_type: ClientType
-    env_id: Optional[int] = None
-    agent_id: Optional[int] = None
-    human_id: Optional[int] = None
-
-    def __hash__(self) -> int:
-        """Make WSIDInfo hashable for use in dictionaries."""
-        return hash((self.role_type, self.env_id, self.agent_id, self.human_id))
-
-
-class WSMessage(BaseModel):
-    """WebSocket message model."""
-
-    instruction: MessageType = Field(..., description="Message instruction/type")
-    data: str = Field(..., description="Message data payload")
-    msg_from: Optional[WSIDInfo] = Field(None, description="Message sender")
-    msg_to: Optional[WSIDInfo] = Field(None, description="Message recipient")
-    timestamp: float = Field(default_factory=time.time, description="Message timestamp")
-
-    class Config:
-        """Pydantic configuration."""
-
-        use_enum_values = True
-        json_encoders = {
-            MessageType: lambda v: v.value,
-            ClientType: lambda v: v.value,
-        }
-
-
 class ClientInfo(BaseModel):
     """WebSocket client identification information."""
 
     type: ClientType
-    client_id: Optional[str] = None
+    id: Optional[str] = None
 
 
 class Envelope(BaseModel):
@@ -82,8 +49,8 @@ class Envelope(BaseModel):
     type: MessageType = Field(..., description="Message type")
     sender: Optional[ClientInfo] = Field(None, description="Message sender")
     recipient: Optional[ClientInfo] = Field(None, description="Message recipient")
-    payload: Union[str, dict] = Field(..., description="Message data payload")
-    timestamp: float = Field(
+    payload: Union[str, dict, None] = Field(..., description="Message data payload")
+    timestamp: datetime = Field(
         default_factory=datetime.now, description="Message timestamp"
     )
 
@@ -92,10 +59,9 @@ if __name__ == "__main__":
     # Example usage
     message = Envelope(
         type=MessageType.MESSAGE,
-        sender=ClientInfo(type=ClientType.AGENT, client_id="agent123"),
-        recipient=ClientInfo(type=ClientType.HUMAN, client_id="human456"),
+        sender=ClientInfo(type=ClientType.AGENT, id="agent123"),
+        recipient=ClientInfo(type=ClientType.HUMAN, id="human456"),
         payload="Hello, World!",
-        timestamp=time.time(),
     )
     print(type(message.model_dump_json()))
     print(message.model_dump_json())

@@ -1,12 +1,13 @@
 """Base message handler class."""
 
 from abc import ABC, abstractmethod
+from datetime import datetime
 import time
 from typing import Dict, Any
 from fastapi import WebSocket
 
-from ..models import WSMessage, WSIDInfo, ClientType
-from ..core.connection_manager import ConnectionManager
+from ..models import Envelope, ClientInfo, ClientType
+from ..manager.connection_manager import ConnectionManager
 from gameserver.utils.log import get_logger
 
 
@@ -23,13 +24,13 @@ class BaseMessageHandler(ABC):
         pass
 
     def _build_hub_envelope(
-        self, instruction: str, data: Any, target: Dict[str, Any]
+        self, msg_type: str, payload: Any, target: Dict[str, Any]
     ) -> Dict[str, Any]:
         """Create a standardized envelope."""
         return {
-            "instruction": instruction,
-            "data": data,
-            "msg_from": WSIDInfo(role_type=ClientType.SERVER).model_dump(),
+            "type": msg_type,
+            "payload": payload,
+            "sender": ClientInfo(type=ClientType.HUB).model_dump(),
             "msg_to": target,
-            "timestamp": time.time(),
+            "timestamp": datetime.now().timestamp(),
         }

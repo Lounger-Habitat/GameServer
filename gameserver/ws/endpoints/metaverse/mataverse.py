@@ -7,14 +7,11 @@ from .models import WSMessage, WSIDInfo, ClientType, MessageType
 from .core.connection_manager import ConnectionManager
 from .handlers import (
     StatusHandler,
-    PingHandler,
+    HeartbeatHandler,
     MessageHandler,
-    BroadcastHandler,
-    EchoHandler,
-    ConnectHandler,
 )
 from .utils import ValidationError
-from gameserver.utils.log.logger import get_logger
+from gameserver.utils.log import get_logger
 
 
 class MetaverseWebSocketServer:
@@ -22,20 +19,14 @@ class MetaverseWebSocketServer:
 
     def __init__(self):
         self.manager = ConnectionManager()
-        self.logger = get_logger(__name__)
+        self.logger = get_logger(__name__, level="debug")
         self.router = APIRouter()
 
         # Initialize message handlers
         self.handlers: Dict[str, Callable] = {
-            # MessageType.CONNECT.value: ConnectHandler(self.manager).handle,
             MessageType.STATUS.value: StatusHandler(self.manager).handle,
-            MessageType.HEARTBEAT.value: PingHandler(self.manager).handle,
-            # MessageType.PING.value: PingHandler(self.manager).handle,
+            MessageType.HEARTBEAT.value: HeartbeatHandler(self.manager).handle,
             MessageType.MESSAGE.value: MessageHandler(self.manager).handle,
-            # MessageType.RESPONSE.value: MessageHandler(self.manager).handle,
-            # MessageType.BROADCAST.value: BroadcastHandler(self.manager).handle,
-            # MessageType.NOTIFICATION.value: BroadcastHandler(self.manager).handle,
-            MessageType.ECHO.value: EchoHandler(self.manager).handle,
         }
 
         self._setup_routes()
