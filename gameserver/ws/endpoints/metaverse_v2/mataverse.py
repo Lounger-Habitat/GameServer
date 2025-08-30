@@ -1,6 +1,7 @@
 """Refactored WebSocket endpoints for the star server."""
 
 import json
+import traceback
 from typing import Dict, Optional, Callable
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect, status
 from .models import Envelope, ClientInfo, ClientType, MessageType
@@ -164,7 +165,20 @@ class MetaverseWebSocketServer:
             except json.JSONDecodeError:
                 await self._json_error(websocket, client_info, data)
             except Exception as e:
-                await self._processing_error(websocket, client_info, str(e))
+                # 捕获所有其他异常，提供详细的调试信息
+                error_details = {
+                    "error": str(e),
+                    "traceback": traceback.format_exc(),
+                    "raw_data": (
+                        data[:500] if len(data) > 500 else data
+                    ),  # 限制数据长度避免日志过长
+                }
+                self.logger.error(
+                    f"Unexpected error in message processing loop: {error_details}"
+                )
+                await self._processing_error(
+                    websocket, client_info, str(e), traceback.format_exc()
+                )
 
     async def _check_message_format(
         self,
@@ -183,13 +197,40 @@ class MetaverseWebSocketServer:
         for field in required_fields:
             if field not in message:
                 raise ValidationError(f"Message must include '{field}' field")
+
+            # 详细检查 sender 和 recipient 字段
             if field == "sender" or field == "recipient":
-                if not message.get(field, {}).get("type"):
+                field_value = message.get(field)
+
+                # 检查是否为字典类型
+                if not isinstance(field_value, dict):
+                    raise ValidationError(
+                        f"Message '{field}' must be a dictionary object, got {type(field_value).__name__}: {field_value}"
+                    )
+
+                # 检查必需的子字段
+                if not field_value.get("type"):
                     raise ValidationError(
                         f"Message '{field}' must include 'type' field"
                     )
-                # if not message.get(field, {}).get("id"):
-                #     raise ValidationError(f"Message '{field}' must include 'id' field")
+
+                # 验证 type 是否为有效的 ClientType
+                try:
+                    client_type = field_value.get("type")
+                    ClientType(client_type)  # 验证是否为有效的 ClientType
+                except ValueError:
+                    raise ValidationError(
+                        f"Message '{field}' has invalid type '{client_type}'. Valid types: {[t.value for t in ClientType]}"
+                    )
+
+                # 对于非 HUB 类型，检查是否有 id 字段
+                if field_value.get(
+                    "type"
+                ) != ClientType.HUB.value and not field_value.get("id"):
+                    raise ValidationError(
+                        f"Message '{field}' with type '{field_value.get('type')}' must include 'id' field"
+                    )
+
         return message
 
     async def _process_message(self, websocket: WebSocket, message: Dict) -> None:
@@ -198,10 +239,25 @@ class MetaverseWebSocketServer:
         handler = self.handlers.get(msg_type)
 
         # self.logger.info(f"Processing message of type: {msg_type}, content: {message}")
-        if handler:
-            await handler(websocket, message)
-        else:
-            await self._unknown_type_error(websocket, msg_type, message)
+        try:
+            if handler:
+                await handler(websocket, message)
+            else:
+                await self._unknown_type_error(websocket, msg_type, message)
+        except Exception as e:
+            # 捕获处理器中的所有异常，提供详细的错误信息
+            error_details = {
+                "error": str(e),
+                "traceback": traceback.format_exc(),
+                "message_type": msg_type,
+                "message_data": message,
+            }
+            self.logger.error(f"Error in message handler: {error_details}")
+
+            # 向客户端发送详细错误信息
+            await self._handler_error(
+                websocket, message, str(e), traceback.format_exc()
+            )
 
     async def _validation_error(
         self, websocket: WebSocket, client_info: ClientInfo, error_message: str
@@ -234,15 +290,65 @@ class MetaverseWebSocketServer:
         await websocket.send_text(error_response.model_dump_json())
 
     async def _processing_error(
-        self, websocket: WebSocket, client_info: ClientInfo, error_message: str
+        self,
+        websocket: WebSocket,
+        client_info: ClientInfo,
+        error_message: str,
+        traceback_info: str = None,
     ) -> None:
         """Send general processing error response."""
 
         self.logger.error(f"Error processing message: {error_message}")
+        if traceback_info:
+            self.logger.error(f"Traceback: {traceback_info}")
+
+        error_payload = {
+            "error": f"Server error: {error_message}",
+            "debug_info": (
+                traceback_info if traceback_info else "No traceback available"
+            ),
+        }
 
         error_response = Envelope(
             type=MessageType.ERROR.value,
-            payload=f"Server error: {error_message}",
+            payload=error_payload,
+            sender=ClientInfo(type=ClientType.HUB),
+            recipient=client_info,
+        )
+
+        await websocket.send_text(error_response.model_dump_json())
+
+    async def _handler_error(
+        self,
+        websocket: WebSocket,
+        original_message: Dict,
+        error_message: str,
+        traceback_info: str,
+    ) -> None:
+        """Send handler-specific error response."""
+
+        # 尝试从原始消息中提取发送者信息
+        sender_info = original_message.get("sender", {})
+        if isinstance(sender_info, dict) and sender_info.get("type"):
+            try:
+                client_info = ClientInfo(
+                    type=ClientType(sender_info.get("type")), id=sender_info.get("id")
+                )
+            except ValueError:
+                # 如果发送者信息无效，使用默认信息
+                client_info = ClientInfo(type=ClientType.HUB)
+        else:
+            client_info = ClientInfo(type=ClientType.HUB)
+
+        error_payload = {
+            "error": f"Message handler error: {error_message}",
+            "debug_info": traceback_info,
+            "original_message_type": original_message.get("type", "unknown"),
+        }
+
+        error_response = Envelope(
+            type=MessageType.ERROR.value,
+            payload=error_payload,
             sender=ClientInfo(type=ClientType.HUB),
             recipient=client_info,
         )
