@@ -1,0 +1,29 @@
+# API Server 配置文件
+
+# 服务器配置
+server:
+  host: "0.0.0.0"
+  port: 8000
+  reload: true  # 开发模式下自动重载
+
+# 模块启用开关
+modules:
+  # RESTful API 模块
+  enable_openai_api: true      # OpenAI 兼容 API
+  enable_response_api: true    # OpenAI Response API
+  enable_custom_api: true      # 自定义 API
+  
+  # WebSocket 模块
+  enable_websocket: true       # WebSocket (StarProtocol)
+
+# CORS 配置
+cors:
+  enabled: true
+  allow_origins: ["*"]
+  allow_credentials: true
+  allow_methods: ["*"]
+  allow_headers: ["*"]
+
+# 日志配置
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
