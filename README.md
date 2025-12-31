@@ -35,6 +35,45 @@ modules:
   enable_response_api: true    # Response API
   enable_custom_api: true      # 自定义 API
   enable_websocket: true       # WebSocket
+
+# 鉴权配置
+auth:
+  enabled: true                # 启用 API Key 鉴权
+  keys_file: "api_keys.json"   # Key 存储文件
+```
+
+## API Key 鉴权
+
+启用鉴权后，访问受保护的 API 需要提供 API Key。
+
+### 管理 API Keys（命令行）
+
+```bash
+# 创建 Key（永久有效）
+uv run api_key.py create my-app
+
+# 创建 Key（30天有效）
+uv run api_key.py create my-app --days 30
+
+# 列出所有 Keys
+uv run api_key.py list
+
+# 删除 Key
+uv run api_key.py delete my-app
+```
+
+### 使用 API Key
+
+请求时添加 Header（二选一）：
+
+```bash
+# 方式一：Authorization Header
+curl http://localhost:8000/custom/hello \
+  -H "Authorization: Bearer sk-your-api-key"
+
+# 方式二：X-API-Key Header
+curl http://localhost:8000/custom/hello \
+  -H "X-API-Key: sk-your-api-key"
 ```
 
 ## API 端点
@@ -44,15 +83,15 @@ modules:
 
 ### OpenAI 兼容 API
 - `GET /v1/models` - 列出模型
-- `POST /v1/chat/completions` - 聊天补全
+- `POST /v1/chat` - 聊天
 
 ### Response API（预留）
 - `GET /response/status` - 获取状态
 
-### 自定义 API
-- `GET /custom/hello?name=xxx` - 问候
-- `GET /custom/info` - 服务信息
-- `POST /custom/echo` - 消息回显
+### MengLong API
+- `GET /menglong/models` - 列出模型
+- `GET /menglong/models/{model_id}` - 查看模型信息
+- `POST /menglong/chat` - 聊天
 
 ### WebSocket
 - `ws://localhost:8000/ws` - 基础连接

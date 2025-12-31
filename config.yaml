@@ -9,9 +9,9 @@ server:
 # 模块启用开关
 modules:
   # RESTful API 模块
-  enable_openai_api: true      # OpenAI 兼容 API
-  enable_response_api: true    # OpenAI Response API
-  enable_custom_api: true      # 自定义 API
+  enable_openai_api: false      # OpenAI 兼容 API
+  enable_response_api: false    # OpenAI Response API
+  enable_menglong_api: true    # 朦胧 API
   
   # WebSocket 模块
   enable_websocket: true       # WebSocket (StarProtocol)
@@ -27,3 +27,14 @@ cors:
 # 日志配置
 logging:
   level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+
+# 鉴权配置
+auth:
+  enabled: true                  # 是否启用 API Key 鉴权
+  keys_file: "api_keys.json"     # API Keys 存储文件
+  allow_no_auth_paths:           # 无需鉴权的路径前缀
+    - "/health"
+    - "/docs"
+    - "/redoc"
+    - "/openapi.json"
+    - "/auth"

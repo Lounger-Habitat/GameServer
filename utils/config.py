@@ -18,7 +18,7 @@ class ModulesConfig(BaseModel):
     """模块启用配置"""
     enable_openai_api: bool = True
     enable_response_api: bool = True
-    enable_custom_api: bool = True
+    enable_menglong_api: bool = True
     enable_websocket: bool = True
 
 
@@ -36,12 +36,20 @@ class LoggingConfig(BaseModel):
     level: str = "INFO"
 
 
+class AuthConfig(BaseModel):
+    """鉴权配置"""
+    enabled: bool = True
+    keys_file: str = "api_keys.json"
+    allow_no_auth_paths: List[str] = ["/health", "/docs", "/redoc", "/openapi.json", "/auth"]
+
+
 class Settings(BaseSettings):
     """应用配置"""
     server: ServerConfig = ServerConfig()
     modules: ModulesConfig = ModulesConfig()
     cors: CORSConfig = CORSConfig()
     logging: LoggingConfig = LoggingConfig()
+    auth: AuthConfig = AuthConfig()
 
     @classmethod
     def from_yaml(cls, config_path: str = "config.yaml") -> "Settings":

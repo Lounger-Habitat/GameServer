@@ -1,14 +1,15 @@
 """FastAPI 应用工厂"""
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
-from config import settings
-
+from fastapi import Depends
+from utils.config import settings
+# 获取鉴权依赖项（用于保护其他路由）
+from api.auth.dependencies import verify_api_key
 
 def create_app() -> FastAPI:
     """创建并配置 FastAPI 应用"""
     app = FastAPI(
-        title="Modular API Server",
+        title="MengLong API Server",
         description="支持 RESTful API 和 WebSocket 的模块化服务器",
         version="0.1.0",
     )
@@ -32,23 +33,49 @@ def create_app() -> FastAPI:
 def register_routes(app: FastAPI) -> None:
     """根据配置动态注册路由"""
     
+    # Auth API（始终启用，用于 Key 管理）
+    from api.auth.routes import router as auth_router
+    app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
+    if settings.auth.enabled:
+        print("✅ API Key 鉴权已启用")
+    else:
+        print("⚠️  API Key 鉴权已禁用")
+    
+
+
+    
     # OpenAI 兼容 API
     if settings.modules.enable_openai_api:
         from api.openai.routes import router as openai_router
-        app.include_router(openai_router, prefix="/v1", tags=["OpenAI Compatible"])
+        app.include_router(
+            openai_router, 
+            prefix="/v1", 
+            tags=["OpenAI Compatible"],
+            dependencies=[Depends(verify_api_key)]
+        )
         print("✅ OpenAI Compatible API 已启用")
     
     # Response API
     if settings.modules.enable_response_api:
         from api.response.routes import router as response_router
-        app.include_router(response_router, prefix="/response", tags=["Response API"])
+        app.include_router(
+            response_router, 
+            prefix="/response", 
+            tags=["Response API"],
+            dependencies=[Depends(verify_api_key)]
+        )
         print("✅ Response API 已启用")
     
-    # 自定义 API
-    if settings.modules.enable_custom_api:
-        from api.custom.routes import router as custom_router
-        app.include_router(custom_router, prefix="/custom", tags=["Custom API"])
-        print("✅ Custom API 已启用")
+    # 朦胧 API
+    if settings.modules.enable_menglong_api:
+        from api.menglong.routes import router as menglong_router
+        app.include_router(
+            menglong_router, 
+            prefix="/menglong", 
+            tags=["MengLong API"],
+            dependencies=[Depends(verify_api_key)]
+        )
+        print("✅ MengLong API 已启用")
     
     # WebSocket
     if settings.modules.enable_websocket:
@@ -62,10 +89,11 @@ def register_routes(app: FastAPI) -> None:
         """健康检查"""
         return {
             "status": "healthy",
+            "auth_enabled": settings.auth.enabled,
             "modules": {
                 "openai_api": settings.modules.enable_openai_api,
                 "response_api": settings.modules.enable_response_api,
-                "custom_api": settings.modules.enable_custom_api,
+                "menglong_api": settings.modules.enable_menglong_api,
                 "websocket": settings.modules.enable_websocket,
             }
         }

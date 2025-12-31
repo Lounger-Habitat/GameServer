@@ -8,3 +8,5 @@ wheels/
 
 # Virtual environments
 .venv
+*configs.toml
+*keys.json

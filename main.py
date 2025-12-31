@@ -1,6 +1,6 @@
 """模块化 API Server 主入口"""
 from core.app import create_app
-from config import settings
+from utils.config import settings
 
 # 打印启动信息
 print("=" * 60)
