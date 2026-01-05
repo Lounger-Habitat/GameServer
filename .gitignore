@@ -10,3 +10,5 @@ wheels/
 .venv
 *configs.toml
 *keys.json
+test*.py
+*.db

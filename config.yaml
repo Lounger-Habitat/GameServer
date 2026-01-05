@@ -38,3 +38,12 @@ auth:
     - "/redoc"
     - "/openapi.json"
     - "/auth"
+    - "/statistics/dashboard"   # Dashboard 页面公开访问
+
+# 统计模块配置
+statistics:
+  enabled: true                  # 是否启用统计
+  database_file: "statistics.db" # SQLite 数据库文件
+  retention_days: 0              # 数据保留天数（0=永久保留）
+  async_logging: true            # 是否异步记录（推荐）
+

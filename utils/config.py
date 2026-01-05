@@ -43,6 +43,14 @@ class AuthConfig(BaseModel):
     allow_no_auth_paths: List[str] = ["/health", "/docs", "/redoc", "/openapi.json", "/auth"]
 
 
+class StatisticsConfig(BaseModel):
+    """统计模块配置"""
+    enabled: bool = True
+    database_file: str = "statistics.db"
+    retention_days: int = 0  # 0 表示永久保留
+    async_logging: bool = True
+
+
 class Settings(BaseSettings):
     """应用配置"""
     server: ServerConfig = ServerConfig()
@@ -50,6 +58,7 @@ class Settings(BaseSettings):
     cors: CORSConfig = CORSConfig()
     logging: LoggingConfig = LoggingConfig()
     auth: AuthConfig = AuthConfig()
+    statistics: StatisticsConfig = StatisticsConfig()
 
     @classmethod
     def from_yaml(cls, config_path: str = "config.yaml") -> "Settings":

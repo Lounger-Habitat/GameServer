@@ -5,6 +5,7 @@
 from fastapi._compat.model_field import ModelField
 from .models import ModelInfo
 
+DOLLAR_TO_RMB = 8
 
 # 支持的模型配置
 SUPPORTED_MODELS = {
@@ -13,54 +14,63 @@ SUPPORTED_MODELS = {
         name="DeepSeek Chat",
         provider="DeepSeek",
         description="DeepSeek 通用对话模型",
-        max_tokens=4096,
+        max_tokens=8000,
         supports={"streaming": True,"image": False,"audio": False,"file": False},
-        price={"input": 0.0001,"cache_input":0.0001,"output": 0.0001}
+        price={"input": 2,"cache_input":0.2,"output": 3}
+    ),
+    "deepseek-reasoner": ModelInfo(
+        id="deepseek-reasoner",
+        name="DeepSeek Reasoner",
+        provider="DeepSeek",
+        description="DeepSeek 智能推理模型",
+        max_tokens=64000,
+        supports={"streaming": True,"image": False,"audio": False,"file": False},
+        price={"input": 2,"cache_input":0.2,"output": 3}
     ),
     "gemini-3-pro-preview": ModelInfo(
         id="gemini-3-pro-preview",
         name="Gemini 3 Pro",
         provider="Google",
         description="Google Gemini 3 Pro Preview",
-        max_tokens=8192,
+        max_tokens=64000,
         supports={"streaming": True,"image": False,"audio": False,"file": False},
-        price={"input": 0.0001,"cache_input":0.0001,"output": 0.0001}
+        price={"input": 2 * DOLLAR_TO_RMB,"cache_input":0.2 * DOLLAR_TO_RMB,"output": 12 * DOLLAR_TO_RMB}
     ),
     "gemini-3-flash-preview": ModelInfo(
         id="gemini-3-flash-preview",
         name="Gemini 3 Flash",
         provider="Google",
         description="Google Gemini 3 Flash Preview",
-        max_tokens=8192,
+        max_tokens=64000,
         supports={"streaming": True,"image": False,"audio": False,"file": False},
-        price={"input": 0.0001,"cache_input":0.0001,"output": 0.0001}
+        price={"input": 0.5 * DOLLAR_TO_RMB,"cache_input":0.05 * DOLLAR_TO_RMB,"output": 3 * DOLLAR_TO_RMB}
     ),
-    "gpt-5.1": ModelInfo(
-        id="gpt-5.1",
-        name="GPT-5.1",
+    "gpt-5.2": ModelInfo(
+        id="gpt-5.2",
+        name="GPT-5.2",
         provider="OpenAI",
-        description="OpenAI GPT-5.1 多模态模型",
+        description="OpenAI GPT-5.2 多模态模型",
         max_tokens=128000,
         supports={"streaming": True,"image": False,"audio": False,"file": False},
-        price={"input": 0.0001,"cache_input":0.0001,"output": 0.0001}
+        price={"input": 1.75 * DOLLAR_TO_RMB,"cache_input":0.175 * DOLLAR_TO_RMB,"output": 14 * DOLLAR_TO_RMB}
     ),
     "claude-sonnet-4-20250514": ModelInfo(
         id="claude-sonnet-4-20250514",
-        name="Claude 4.5 Sonnet",
+        name="Claude 4 Sonnet",
         provider="Infinigence",
-        description="Anthropic Claude 4.5 Sonnet",
-        max_tokens=200000,
+        description="Anthropic Claude 4 Sonnet",
+        max_tokens=64000,
         supports={"streaming": True,"image": False,"audio": False,"file": False},
-        price={"input": 0.0001,"cache_input":0.0001,"output": 0.0001}
+        price={"input": 3 * DOLLAR_TO_RMB,"cache_input":0.3 * DOLLAR_TO_RMB,"output": 15 * DOLLAR_TO_RMB}
     ),
     "global.anthropic.claude-sonnet-4-5-20250929-v1:0": ModelInfo(
         id="global.anthropic.claude-sonnet-4-5-20250929-v1:0",
         name="Claude 4.5 Sonnet",
         provider="Anthropic",
         description="Anthropic Claude 4.5 Sonnet",
-        max_tokens=200000,
+        max_tokens=64000,
         supports={"streaming": True,"image": False,"audio": False,"file": False},
-        price={"input": 0.0001,"cache_input":0.0001,"output": 0.0001}
+        price={"input": 3 * DOLLAR_TO_RMB,"cache_input":0.3 * DOLLAR_TO_RMB,"output": 15 * DOLLAR_TO_RMB}
     ),
 }
 

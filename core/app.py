@@ -23,6 +23,12 @@ def create_app() -> FastAPI:
             allow_methods=settings.cors.allow_methods,
             allow_headers=settings.cors.allow_headers,
         )
+    
+    # 注册统计中间件
+    if settings.statistics.enabled:
+        from api.statistics.middleware import StatisticsMiddleware
+        app.add_middleware(StatisticsMiddleware)
+        print("✅ 统计中间件已注册")
 
     # 动态注册路由
     register_routes(app)
@@ -82,6 +88,17 @@ def register_routes(app: FastAPI) -> None:
         from ws.starprotocol import router as ws_router
         app.include_router(ws_router, tags=["WebSocket"])
         print("✅ WebSocket 已启用")
+    
+    # 统计 API
+    if settings.statistics.enabled:
+        from api.statistics.routes import router as stats_router
+        app.include_router(
+            stats_router,
+            prefix="/statistics",
+            tags=["Statistics"],
+            dependencies=[Depends(verify_api_key)]
+        )
+        print("✅ 统计 API 已启用")
 
     # 健康检查端点
     @app.get("/health", tags=["System"])
@@ -95,5 +112,6 @@ def register_routes(app: FastAPI) -> None:
                 "response_api": settings.modules.enable_response_api,
                 "menglong_api": settings.modules.enable_menglong_api,
                 "websocket": settings.modules.enable_websocket,
+                "statistics": settings.statistics.enabled,
             }
         }

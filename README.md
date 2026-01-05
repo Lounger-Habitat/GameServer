@@ -104,8 +104,96 @@ curl http://localhost:8000/custom/hello \
 uv run test_websocket.py
 ```
 
+## 统计模块
+
+统计模块自动记录所有 API 调用的详细信息，包括 token 使用、费用计算等。
+
+### 功能特性
+
+- ✅ **自动记录**：通过中间件自动记录每次 API 调用
+- ✅ **Token 统计**：精确统计输入/输出 token 数量
+- ✅ **费用计算**：根据模型定价自动计算费用
+- ✅ **流式支持**：特殊处理流式响应的 token 统计
+- ✅ **权限控制**：管理员查看全部，普通用户只看自己
+- ✅ **数据导出**：支持 CSV 和 JSON 格式导出
+- ✅ **可视化 Dashboard**：图表展示统计数据
+
+### 统计 API 端点
+
+```bash
+# 查看我的统计
+curl http://localhost:8000/statistics/my \
+  -H "X-API-Key: sk-your-key"
+
+# 查看总体统计（仅管理员）
+curl http://localhost:8000/statistics/overview \
+  -H "X-API-Key: sk-admin-key"
+
+# 查看所有 Key 的统计（仅管理员）
+curl http://localhost:8000/statistics/all-keys \
+  -H "X-API-Key: sk-admin-key"
+
+# 查询调用日志（分页）
+curl http://localhost:8000/statistics/logs?page=1&page_size=20 \
+  -H "X-API-Key: sk-your-key"
+
+# 导出数据为 CSV
+curl http://localhost:8000/statistics/export?format=csv \
+  -H "X-API-Key: sk-your-key" \
+  -O
+
+# 清理旧记录（仅管理员）
+curl -X POST http://localhost:8000/statistics/cleanup?days=90 \
+  -H "X-API-Key: sk-admin-key"
+```
+
+### 访问 Dashboard
+
+在浏览器中打开：
+```
+http://localhost:8000/statistics/dashboard
+```
+
+输入您的 API Key 即可查看可视化统计数据。
+
+### 权限说明
+
+- **管理员**：API Key 名称为 `admin`
+  - 可以查看所有 Key 的统计
+  - 可以查看总体统计
+  - 可以清理旧数据
+  
+- **普通用户**：
+  - 只能查看自己的统计
+  - 只能导出自己的数据
+
+**创建管理员 Key**：
+```bash
+uv run utils/api_key.py create admin
+```
+
+### 配置说明
+
+在 `config.yaml` 中配置统计模块：
+
+```yaml
+statistics:
+  enabled: true                  # 是否启用统计
+  database_file: "statistics.db" # SQLite 数据库文件
+  retention_days: 0              # 数据保留天数（0=永久）
+  async_logging: true            # 是否异步记录
+```
+
+### 测试统计功能
+
+```bash
+# 运行测试脚本
+uv run test_statistics.py
+```
+
 ## 后续开发
 
 - StarProtocol 协议实现：修改 `ws/starprotocol.py`
 - Response API 实现：修改 `api/response/routes.py`
 - 添加新的 API 模块：在 `api/` 下创建新目录
+
