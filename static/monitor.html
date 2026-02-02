@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Protocol Monitor</title>
+    <link rel="stylesheet" href="/static/css/monitor.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <h1>⭐ Star Protocol Monitor</h1>
+                <span class="subtitle">实时消息流转可视化</span>
+            </div>
+            <div class="header-right">
+                <div class="status-indicator" id="connectionStatus">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Connecting...</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Left Sidebar: Connection Panel -->
+            <aside class="sidebar">
+                <div class="panel panel-compact">
+                    <h2>📊 统计信息</h2>
+                    <div class="stat-grid">
+                        <div class="stat-item">
+                            <div class="stat-label">总连接数</div>
+                            <div class="stat-value" id="totalClients">0</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">环境数量</div>
+                            <div class="stat-value" id="totalEnvs">0</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">运行时长</div>
+                            <div class="stat-value" id="uptime">0s</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">消息数/秒</div>
+                            <div class="stat-value" id="msgRate">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-compact">
+                    <h2>🌍 环境列表</h2>
+                    <div id="environmentList" class="list-container">
+                        <div class="empty-state">暂无环境</div>
+                    </div>
+                </div>
+
+                <div class="panel panel-compact">
+                    <h2>👥 客户端列表</h2>
+                    <div id="clientList" class="list-container">
+                        <div class="empty-state">暂无连接</div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Center: Message Flow Visualization -->
+            <main class="visualization-area">
+                <div class="panel full-height">
+                    <h2>🔄 消息流向图</h2>
+                    <div id="flowGraph"></div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Bottom: Message Log Panel -->
+        <section class="log-panel">
+            <div class="log-header">
+                <h2>📝 消息日志</h2>
+                <div class="log-controls">
+                    <input type="text" id="searchInput" placeholder="搜索发送者/接收者..." class="search-input">
+                    <select id="filterType" class="filter-select">
+                        <option value="all">全部类型</option>
+                        <option value="system">System</option>
+                        <option value="message">Message</option>
+                        <option value="broadcast">Broadcast</option>
+                    </select>
+                    <button id="pauseBtn" class="control-btn">⏸️ 暂停</button>
+                    <button id="clearBtn" class="control-btn">🗑️ 清空</button>
+                    <button id="exportBtn" class="control-btn">💾 导出</button>
+                </div>
+            </div>
+            <div id="messageLog" class="log-content"></div>
+        </section>
+    </div>
+
+    <script src="/static/js/monitor.js"></script>
+</body>
+
+</html>

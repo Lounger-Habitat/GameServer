@@ -635,7 +635,7 @@ wheels = [
 [[package]]
 name = "menglong"
 version = "0.1.0"
-source = { git = "https://github.com/gcyyfun/menglong.git#4c15c54edff6411ff192e489f4e08064e85aa04e" }
+source = { git = "https://github.com/gcyyfun/menglong.git#203898c1eb8cad607cf209dc39348ad0e522c626" }
 dependencies = [
     { name = "anthropic", extra = ["bedrock"] },
     { name = "boto3" },

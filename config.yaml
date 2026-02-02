@@ -12,6 +12,7 @@ modules:
   enable_openai_api: false      # OpenAI 兼容 API
   enable_response_api: false    # OpenAI Response API
   enable_menglong_api: true    # 朦胧 API
+  enable_agent_api: true        # Agent API (Interview, NPC)
   
   # WebSocket 模块
   enable_websocket: true       # WebSocket (StarProtocol)
