@@ -5,7 +5,7 @@ import uuid
 from typing import Union, Literal
 from pydantic import BaseModel, Field, field_validator, ConfigDict
 
-from .payloads import SystemPayload, MessagePayload, BroadcastPayload
+from .payloads import SystemPayload, MessagePayload, BroadcastPayload, MonitorPayload
 
 
 class Envelope(BaseModel):
@@ -16,6 +16,7 @@ class Envelope(BaseModel):
     - type="system" -> data 必须是 SystemPayload
     - type="message" -> data 必须是 MessagePayload  
     - type="broadcast" -> data 必须是 BroadcastPayload
+    - type="monitor" -> data 必须是 MonitorPayload
     """
     
     model_config = ConfigDict(
@@ -48,7 +49,7 @@ class Envelope(BaseModel):
         description="发送时间戳 (Unix ms)"
     )
     
-    type: Literal["system", "message", "broadcast"] = Field(
+    type: Literal["system", "message", "broadcast", "monitor"] = Field(
         description="消息类型，决定 data 的结构"
     )
     
@@ -60,7 +61,7 @@ class Envelope(BaseModel):
         description="接收者 ID 或特殊目标 ('hub', '@all', '@env')"
     )
     
-    data: Union[SystemPayload, MessagePayload, BroadcastPayload] = Field(
+    data: Union[SystemPayload, MessagePayload, BroadcastPayload, MonitorPayload] = Field(
         description="业务载荷，类型取决于 Envelope.type"
     )
     
@@ -74,4 +75,7 @@ class Envelope(BaseModel):
             raise ValueError("message type requires MessagePayload")
         elif info.data.get('type') == 'broadcast' and not isinstance(v, (dict, BroadcastPayload)):
             raise ValueError("broadcast type requires BroadcastPayload")
+        elif info.data.get('type') == 'monitor' and not isinstance(v, (dict, MonitorPayload)):
+            raise ValueError("monitor type requires MonitorPayload")
         return v
+

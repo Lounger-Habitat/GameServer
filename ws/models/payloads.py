@@ -20,3 +20,9 @@ class BroadcastPayload(BaseModel):
     """广播消息载荷"""
     type: Literal["event", "stream"]
     content: Any
+
+
+class MonitorPayload(BaseModel):
+    """监控消息载荷"""
+    type: Literal["ctrl", "data", "notify"]
+    content: Any

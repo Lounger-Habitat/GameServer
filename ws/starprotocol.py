@@ -20,68 +20,16 @@ async def websocket_endpoint(websocket: WebSocket, role: str, client_id: str):
     """
     Star Protocol WebSocket 端点
     
+    支持的角色：
+    - agent: 代理
+    - environment: 环境
+    - human: 人类
+    - monitor: 业务监控（接收 monitor 协议消息）
+    - hub_monitor: 系统监控（监听所有消息）
+    
     Args:
         websocket: WebSocket 连接
-        role: 客户端角色 (agent, environment, human, monitor)
+        role: 客户端角色
         client_id: 客户端唯一标识
     """
     await message_router.handle_connection(websocket, role, client_id)
-
-
-@router.get("/ws/stats", deprecated=True)
-async def get_stats():
-    """
-    获取 WebSocket 统计信息
-    
-    **已废弃**: 请使用 /api/monitor/stats
-    """
-    stats = message_router.connection_manager.get_statistics()
-    return {
-        "total_clients": stats["total_sessions"],
-        "environments": stats["environments"]["details"],
-        "uptime": message_router.get_uptime()
-    }
-
-
-@router.get("/ws/environments", deprecated=True)
-async def list_environments():
-    """
-    列出所有环境详情
-    
-    **已废弃**: 请使用 /api/monitor/environments
-    """
-    return {
-        "environments": message_router.connection_manager.get_environment_details()
-    }
-
-
-@router.get("/ws/clients/{client_id}", deprecated=True)
-async def get_client_info(client_id: str):
-    """
-    获取客户端信息
-    
-    **已废弃**: 请使用 /api/monitor/clients/{client_id}
-    """
-    session = message_router.connection_manager.get_session(client_id)
-    if not session:
-        return {"error": "Client not found"}
-    
-    return session.to_dict()
-
-
-@router.get("/ws/clients", deprecated=True)
-async def list_all_clients():
-    """
-    列出所有连接的客户端
-    
-    **已废弃**: 请使用 /api/monitor/clients
-    """
-    from ws.connection import ClientRole
-    
-    all_clients = []
-    for role in ClientRole:
-        sessions = message_router.connection_manager.get_sessions_by_role(role)
-        for session in sessions:
-            all_clients.append(session.to_dict())
-    
-    return {"clients": all_clients}

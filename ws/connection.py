@@ -5,7 +5,13 @@ from typing import Dict, Set, Optional, List
 from enum import Enum
 import time
 from fastapi import WebSocket
+        
+# 导入必要的模型
+from .models import Envelope, EnvelopeType, MonitorPayload, MonitorType
 
+import logging
+
+logger = logging.getLogger(__name__)
 
 class SessionState(str, Enum):
     """会话状态"""
@@ -19,7 +25,8 @@ class ClientRole(str, Enum):
     AGENT = "agent"
     ENVIRONMENT = "environment"
     HUMAN = "human"
-    MONITOR = "monitor"
+    MONITOR = "monitor"              # 业务监控（接收 monitor 协议消息）
+    HUB_MONITOR = "hub_monitor"      # 系统监控（监听所有消息）
 
 
 @dataclass
@@ -50,7 +57,7 @@ class Session:
         }
 
 
-class ConnectionManager:
+class SessionManager:
     """
     统一的连接管理器
     
@@ -73,6 +80,7 @@ class ConnectionManager:
             ClientRole.ENVIRONMENT: set(),
             ClientRole.HUMAN: set(),
             ClientRole.MONITOR: set(),
+            ClientRole.HUB_MONITOR: set(),
         }
         
         # 环境管理：env_id -> set of client_ids (members)
@@ -80,6 +88,12 @@ class ConnectionManager:
         
         # 反向索引：client_id -> env_id
         self._client_to_env: Dict[str, str] = {}
+
+        # Monitor 功能：哪些 Client 启用了监控
+        self._monitored_clients: Dict[str, str] = {}  # {client_id: level}
+        
+        # Monitor 功能：订阅关系
+        self._subscriptions: Dict[str, Set[str]] = {}  # {client_id: {monitor_ids}}
     
     # ==================== 会话管理 ====================
     
@@ -149,6 +163,11 @@ class ConnectionManager:
         if session.role == ClientRole.ENVIRONMENT:
             self._destroy_environment(client_id)
         
+        # 清理 Monitor 相关数据
+        if session.role == ClientRole.MONITOR:
+            self._cleanup_monitor(client_id)
+        else:
+            self._cleanup_monitored_client(client_id)
         # 关闭 WebSocket
         try:
             await session.websocket.close()
@@ -319,7 +338,7 @@ class ConnectionManager:
         """获取所有环境 ID"""
         return list(self._environments.keys())
     
-    def get_environment_details(self) -> List[dict]:
+    def get_environments_info(self) -> List[dict]:
         """获取所有环境详情"""
         return [
             {
@@ -371,9 +390,183 @@ class ConnectionManager:
                 "environments": len(self._by_role[ClientRole.ENVIRONMENT]),
                 "humans": len(self._by_role[ClientRole.HUMAN]),
                 "monitors": len(self._by_role[ClientRole.MONITOR]),
+                "hub_monitors": len(self._by_role[ClientRole.HUB_MONITOR]),
             },
             "environments": {
                 "total": len(self._environments),
-                "details": self.get_environment_details()
+                "details": self.get_environments_info()
             }
         }
+
+
+    # ==================== Monitor 管理 ====================
+    
+    def enable_monitoring(self, client_id: str, level: str) -> bool:
+        """
+        启用客户端监控
+        
+        Args:
+            client_id: 客户端 ID
+            level: 监控级别
+        
+        Returns:
+            是否成功启用
+        """
+        if client_id not in self._sessions:
+            return False
+        
+        self._monitored_clients[client_id] = level
+        logger.info(f"Client {client_id} enabled monitoring (level: {level})")
+        return True
+    
+    def disable_monitoring(self, client_id: str) -> bool:
+        """
+        禁用客户端监控
+        
+        Args:
+            client_id: 客户端 ID
+        
+        Returns:
+            是否成功禁用
+        """
+        if client_id not in self._monitored_clients:
+            return False
+        
+        self._monitored_clients.pop(client_id, None)
+        logger.info(f"Client {client_id} disabled monitoring")
+        return True
+    
+    def is_monitored(self, client_id: str) -> bool:
+        """检查客户端是否启用了监控"""
+        return client_id in self._monitored_clients
+    
+    def subscribe_monitor(self, monitor_id: str, target_client_id: str) -> bool:
+        """
+        Monitor 订阅客户端
+        
+        Args:
+            monitor_id: Monitor ID
+            target_client_id: 目标客户端 ID
+        
+        Returns:
+            是否成功订阅
+        """
+        # 检查 Monitor 和目标客户端是否存在
+        if monitor_id not in self._sessions or target_client_id not in self._sessions:
+            return False
+        
+        # 添加订阅关系
+        if target_client_id not in self._subscriptions:
+            self._subscriptions[target_client_id] = set()
+        
+        self._subscriptions[target_client_id].add(monitor_id)
+        logger.info(f"Monitor {monitor_id} subscribed to {target_client_id}")
+        return True
+    
+    def unsubscribe_monitor(self, monitor_id: str, target_client_id: str) -> bool:
+        """
+        Monitor 取消订阅客户端
+        
+        Args:
+            monitor_id: Monitor ID
+            target_client_id: 目标客户端 ID
+        
+        Returns:
+            是否成功取消订阅
+        """
+        if target_client_id not in self._subscriptions:
+            return False
+        
+        self._subscriptions[target_client_id].discard(monitor_id)
+        
+        # 如果没有订阅者了，删除键
+        if not self._subscriptions[target_client_id]:
+            del self._subscriptions[target_client_id]
+        
+        logger.info(f"Monitor {monitor_id} unsubscribed from {target_client_id}")
+        return True
+    
+    def get_subscribers(self, client_id: str) -> Set[str]:
+        """
+        获取订阅某个客户端的所有 Monitor
+        
+        Args:
+            client_id: 客户端 ID
+        
+        Returns:
+            Monitor ID 集合
+        """
+        return self._subscriptions.get(client_id, set()).copy()
+    
+    async def forward_monitor_data(
+        self,
+        client_id: str,
+        data_type: str,
+        data: dict
+    ) -> None:
+        """
+        转发监控数据给订阅的 Monitor
+        
+        Args:
+            client_id: 被监控的客户端 ID
+            data_type: 监控数据类型
+            data: 监控数据内容
+        """
+        # 检查是否有 Monitor 订阅此客户端
+        if client_id not in self._subscriptions:
+            return
+
+        # 构建转发消息
+        envelope = Envelope(
+            type=EnvelopeType.MONITOR,
+            sender=client_id,  # 保持原始客户端 ID
+            recipient="",      # 稍后填充
+            data=MonitorPayload(
+                type=MonitorType.DATA,
+                content={
+                    "data_type": data_type,
+                    "data": data,
+                    "timestamp": int(time.time() * 1000)
+                }
+            )
+        )
+        
+        # 转发给所有订阅的 Monitor
+        for monitor_id in self._subscriptions[client_id]:
+            envelope.recipient = monitor_id
+            session = self.get_session(monitor_id)
+            if session:
+                await session.websocket.send_text(envelope.model_dump_json())
+                logger.debug(f"Forwarded {data_type} from {client_id} to {monitor_id}")
+            else:
+                logger.warning(f"Monitor {monitor_id} session not found")
+    
+    def _cleanup_monitored_client(self, client_id: str) -> None:
+        """
+        清理被监控客户端的数据（内部方法）
+        
+        Args:
+            client_id: 客户端 ID
+        """
+        # 移除监控状态
+        self._monitored_clients.pop(client_id, None)
+        
+        # 移除订阅关系
+        self._subscriptions.pop(client_id, None)
+        
+        logger.info(f"Cleaned up monitoring data for {client_id}")
+    
+    def _cleanup_monitor(self, monitor_id: str) -> None:
+        """
+        清理 Monitor 的订阅数据（内部方法）
+        
+        Args:
+            monitor_id: Monitor ID
+        """
+        # 从所有订阅中移除此 Monitor
+        for client_id in list(self._subscriptions.keys()):
+            self._subscriptions[client_id].discard(monitor_id)
+            if not self._subscriptions[client_id]:
+                del self._subscriptions[client_id]
+        
+        logger.info(f"Cleaned up subscriptions for monitor {monitor_id}")

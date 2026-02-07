@@ -31,7 +31,8 @@ class StarProtocolMonitor {
     // WebSocket Connection
     setupWebSocket() {
         const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-        const wsUrl = `${protocol}//${window.location.host}/ws/monitor/monitor_${Date.now()}`;
+        // 使用 hub_monitor 角色（系统监控）
+        const wsUrl = `${protocol}//${window.location.host}/ws/hub_monitor/monitor_${Date.now()}`;
 
         this.ws = new WebSocket(wsUrl);
 

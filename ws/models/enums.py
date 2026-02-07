@@ -8,6 +8,7 @@ class EnvelopeType(str, Enum):
     SYSTEM = "system"
     MESSAGE = "message"
     BROADCAST = "broadcast"
+    MONITOR = "monitor"
 
 
 class SystemType(str, Enum):
@@ -29,6 +30,13 @@ class BroadcastType(str, Enum):
     """广播消息类型"""
     EVENT = "event"
     STREAM = "stream"
+
+
+class MonitorType(str, Enum):
+    """监控消息类型"""
+    CTRL = "ctrl"      # 控制命令
+    DATA = "data"      # 监控数据
+    NOTIFY = "notify"  # 通知
 
 
 class ClientState(str, Enum):

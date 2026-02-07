@@ -102,10 +102,10 @@ def register_routes(app: FastAPI) -> None:
         app.include_router(ws_router, tags=["WebSocket"])
         print("✅ WebSocket 已启用")
         
-        # Monitor API（新的规范化 API）
-        from ws.monitor_api import router as monitor_router
-        app.include_router(monitor_router, tags=["Monitor"])
-        print("✅ Monitor API 已启用")
+        # Hub Monitor API（新的规范化 API）
+        from ws.hub_monitor_api import router as hub_monitor_router
+        app.include_router(hub_monitor_router, tags=["Hub Monitor"])
+        print("✅ Hub Monitor API 已启用")
     
     # 统计 API
     if settings.statistics.enabled:
@@ -126,7 +126,7 @@ def register_routes(app: FastAPI) -> None:
         print(f"⚠️  静态文件服务启用失败: {e}")
     
     # 监控页面端点
-    @app.get("/monitor", tags=["System"])
+    @app.get("/hub_monitor", tags=["System"])
     async def monitor_page():
         """重定向到 Star Protocol 监控页面"""
         return RedirectResponse(url="/static/monitor.html")

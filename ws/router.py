@@ -4,9 +4,8 @@ import logging
 import time
 from fastapi import WebSocket, WebSocketDisconnect
 
-from ws.connection import ConnectionManager, Session
-from ws.models import Envelope, SystemPayload
-
+from ws.connection import SessionManager,ClientRole
+from ws.models import Envelope, SystemPayload, MonitorPayload, MonitorType,EnvelopeType
 
 logger = logging.getLogger(__name__)
 
@@ -27,7 +26,7 @@ class MessageRouter:
         max_connections: int = 1000,
         heartbeat_interval: float = 30.0
     ):
-        self.connection_manager = ConnectionManager(max_connections)
+        self.connection_manager = SessionManager(max_connections)
         self.heartbeat_interval = heartbeat_interval
         self.start_time = time.time()
     
@@ -118,37 +117,49 @@ class MessageRouter:
         """
         路由消息到目标
         
+        路由规则：
+        1. Hub Monitor 接收所有非 monitor 协议的消息（系统监控）
+        2. Monitor 只接收 monitor 协议的消息（业务监控）
+        3. 其他消息正常路由
+        
         Args:
             envelope: 消息信封
         """
-        # 先广播给所有 monitor 客户端
-        await self.broadcast_to_monitors(envelope)
+        # 1. 广播给 Hub Monitor（系统监控）- 不包括 monitor 协议消息
+        if envelope.type != "monitor":
+            await self.handle_hub_monitors_message(envelope)
         
-        # 然后路由到目标
+        # 2. 路由到目标
         if envelope.type == "system":
             await self.handle_system_message(envelope)
         elif envelope.type == "message":
             await self.handle_unicast_message(envelope)
         elif envelope.type == "broadcast":
             await self.handle_broadcast_message(envelope)
-    
-    async def broadcast_to_monitors(self, envelope: Envelope) -> None:
+        elif envelope.type == "monitor":
+            await self.handle_monitor_message(envelope)
+
+    async def handle_hub_monitors_message(self, envelope: Envelope) -> None:
         """
-        广播消息给所有 monitor 客户端
+        广播消息给所有 Hub Monitor 客户端（系统监控）
+        
+        Hub Monitor 接收所有非 monitor 协议的消息，用于系统监控和调试
         
         Args:
             envelope: 消息信封
         """
-        from ws.connection import ClientRole
+
         
-        monitors = self.connection_manager.get_sessions_by_role(ClientRole.MONITOR)
+        hub_monitors = self.connection_manager.get_sessions_by_role(ClientRole.HUB_MONITOR)
         
-        for monitor_session in monitors:
+        for monitor_session in hub_monitors:
             try:
                 await monitor_session.websocket.send_text(envelope.model_dump_json())
             except Exception as e:
-                logger.warning(f"Failed to send to monitor {monitor_session.client_id}: {e}")
-    
+                logger.warning(f"Failed to send to hub_monitor {monitor_session.client_id}: {e}")
+
+    # Handle   
+
     async def handle_system_message(self, envelope: Envelope) -> None:
         """
         处理系统消息
@@ -254,15 +265,28 @@ class MessageRouter:
             return
         
         # 检查接收者是否在同一环境
-        recipient_env = self.connection_manager.get_client_environment(envelope.recipient)
-        if recipient_env != sender_env:
-            await self.send_error(
-                envelope.sender,
-                403,
-                f"Recipient '{envelope.recipient}' is not in the same environment",
-                envelope.id
-            )
-            return
+        # 特殊情况：如果接收者是 Environment 角色，检查其 client_id 是否等于发送者的环境
+        if target_session.role == ClientRole.ENVIRONMENT:
+            # Agent/Human -> Environment: 检查 environment 的 client_id 是否等于发送者的环境
+            if target_session.client_id != sender_env:
+                await self.send_error(
+                    envelope.sender,
+                    403,
+                    f"Recipient environment '{envelope.recipient}' is not your current environment (you are in '{sender_env}')",
+                    envelope.id
+                )
+                return
+        else:
+            # Agent/Human -> Agent/Human: 检查是否在同一环境
+            recipient_env = self.connection_manager.get_client_environment(envelope.recipient)
+            if recipient_env != sender_env:
+                await self.send_error(
+                    envelope.sender,
+                    403,
+                    f"Recipient '{envelope.recipient}' is not in the same environment",
+                    envelope.id
+                )
+                return
         
         # 转发消息给接收者
         try:
@@ -323,6 +347,111 @@ class MessageRouter:
         
         logger.debug(f"Broadcast from {envelope.sender} to {broadcast_count} clients")
     
+    async def handle_monitor_message(self, envelope: Envelope) -> None:
+        """
+        处理 Monitor 消息
+        
+        Args:
+            envelope: 消息信封
+        """
+        
+        payload = envelope.data
+        
+        if payload.type == MonitorType.CTRL:
+            # 处理控制命令
+            op = payload.content.get("op")
+            response = None
+            
+            if op == "enable":
+                # Client 启用监控
+                level = payload.content.get("level", "INFO")
+                success = self.connection_manager.enable_monitoring(envelope.sender, level)
+                
+                if success:
+                    response = Envelope(
+                        type=EnvelopeType.MONITOR,
+                        sender="hub",
+                        recipient=envelope.sender,
+                        data=MonitorPayload(
+                            type=MonitorType.NOTIFY,
+                            content={
+                                "event": "monitoring_enabled",
+                                "level": level
+                            }
+                        )
+                    )
+            
+            elif op == "disable":
+                # Client 禁用监控
+                success = self.connection_manager.disable_monitoring(envelope.sender)
+                
+                if success:
+                    response = Envelope(
+                        type=EnvelopeType.MONITOR,
+                        sender="hub",
+                        recipient=envelope.sender,
+                        data=MonitorPayload(
+                            type=MonitorType.NOTIFY,
+                            content={"event": "monitoring_disabled"}
+                        )
+                    )
+            
+            elif op == "subscribe":
+                # Monitor 订阅 Client
+                target = payload.content.get("target_client_id")
+                if target:
+                    success = self.connection_manager.subscribe_monitor(envelope.sender, target)
+                    
+                    if success:
+                        response = Envelope(
+                            type=EnvelopeType.MONITOR,
+                            sender="hub",
+                            recipient=envelope.sender,
+                            data=MonitorPayload(
+                                type=MonitorType.NOTIFY,
+                                content={
+                                    "event": "subscribed",
+                                    "target_client_id": target
+                                }
+                            )
+                        )
+            
+            elif op == "unsubscribe":
+                # Monitor 取消订阅
+                target = payload.content.get("target_client_id")
+                if target:
+                    success = self.connection_manager.unsubscribe_monitor(envelope.sender, target)
+                    
+                    if success:
+                        response = Envelope(
+                            type=EnvelopeType.MONITOR,
+                            sender="hub",
+                            recipient=envelope.sender,
+                            data=MonitorPayload(
+                                type=MonitorType.NOTIFY,
+                                content={
+                                    "event": "unsubscribed",
+                                    "target_client_id": target
+                                }
+                            )
+                        )
+            
+            # 发送响应
+            if response:
+                session = self.connection_manager.get_session(envelope.sender)
+                if session:
+                    await session.websocket.send_text(response.model_dump_json())
+        
+        elif payload.type == MonitorType.DATA:
+            # 转发监控数据
+            await self.connection_manager.forward_monitor_data(
+                client_id=envelope.sender,
+                data_type=payload.content.get("data_type"),
+                data=payload.content.get("data")
+            )
+    
+    # Send
+
     async def send_system_message(
         self,
         client_id: str,
@@ -379,6 +508,8 @@ class MessageRouter:
             }
         )
     
+    # Utils
+
     def get_uptime(self) -> float:
         """获取运行时间（秒）"""
         return time.time() - self.start_time

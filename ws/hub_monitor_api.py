@@ -36,7 +36,8 @@ async def get_system_stats():
                 "agent": stats["by_role"]["agents"],
                 "environment": stats["by_role"]["environments"],
                 "human": stats["by_role"]["humans"],
-                "monitor": stats["by_role"]["monitors"]
+                "monitor": stats["by_role"]["monitors"],
+                "hub_monitor": stats["by_role"]["hub_monitors"],
             },
             "total_environments": len(stats["environments"]["details"]),
             "environments": stats["environments"]["details"],
@@ -50,7 +51,7 @@ async def get_system_stats():
 
 @router.get("/clients")
 async def list_clients(
-    role: Optional[str] = Query(None, description="按角色过滤 (agent/environment/human/monitor)"),
+    role: Optional[str] = Query(None, description="按角色过滤 (agent/environment/human/monitor/hub_monitor)"),
     state: Optional[str] = Query(None, description="按状态过滤 (connected/in_env/disconnected)"),
     env_id: Optional[str] = Query(None, description="按环境过滤")
 ):
@@ -67,7 +68,7 @@ async def list_clients(
     """
     try:
         # 验证参数
-        if role and role not in ["agent", "environment", "human", "monitor"]:
+        if role and role not in ["agent", "environment", "human", "monitor", "hub_monitor"]:
             raise InvalidParameterError("role", f"Invalid role: {role}")
         
         if state and state not in ["connected", "in_env", "disconnected"]:
@@ -140,7 +141,7 @@ async def list_environments():
         所有活跃环境的详细信息
     """
     try:
-        envs = message_router.connection_manager.get_environment_details()
+        envs = message_router.connection_manager.get_environments_info()
         
         # 增强环境信息
         enhanced_envs = []
