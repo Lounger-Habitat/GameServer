@@ -167,7 +167,7 @@ class MessageRouter:
         Args:
             envelope: 消息信封
         """
-        payload = envelope.data
+        payload = envelope.payload
         
         if payload.type == "ctrl":
             op = payload.content.get("op")
@@ -355,7 +355,7 @@ class MessageRouter:
             envelope: 消息信封
         """
         
-        payload = envelope.data
+        payload = envelope.payload
         
         if payload.type == MonitorType.CTRL:
             # 处理控制命令
@@ -372,7 +372,7 @@ class MessageRouter:
                         type=EnvelopeType.MONITOR,
                         sender="hub",
                         recipient=envelope.sender,
-                        data=MonitorPayload(
+                        payload=MonitorPayload(
                             type=MonitorType.NOTIFY,
                             content={
                                 "event": "monitoring_enabled",
@@ -390,7 +390,7 @@ class MessageRouter:
                         type=EnvelopeType.MONITOR,
                         sender="hub",
                         recipient=envelope.sender,
-                        data=MonitorPayload(
+                        payload=MonitorPayload(
                             type=MonitorType.NOTIFY,
                             content={"event": "monitoring_disabled"}
                         )
@@ -407,7 +407,7 @@ class MessageRouter:
                             type=EnvelopeType.MONITOR,
                             sender="hub",
                             recipient=envelope.sender,
-                            data=MonitorPayload(
+                            payload=MonitorPayload(
                                 type=MonitorType.NOTIFY,
                                 content={
                                     "event": "subscribed",
@@ -427,7 +427,7 @@ class MessageRouter:
                             type=EnvelopeType.MONITOR,
                             sender="hub",
                             recipient=envelope.sender,
-                            data=MonitorPayload(
+                            payload=MonitorPayload(
                                 type=MonitorType.NOTIFY,
                                 content={
                                     "event": "unsubscribed",
@@ -474,7 +474,7 @@ class MessageRouter:
             type="system",
             sender="hub",
             recipient=client_id,
-            data=SystemPayload(type=msg_type, content=content)
+            payload=SystemPayload(type=msg_type, content=content)
         )
         
         try:

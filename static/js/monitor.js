@@ -104,13 +104,13 @@ class StarProtocolMonitor {
 
         let contentPreview = '';
         try {
-            if (envelope.data && envelope.data.content) {
-                contentPreview = JSON.stringify(envelope.data.content, null, 2);
+            if (envelope.payload && envelope.payload.content) {
+                contentPreview = JSON.stringify(envelope.payload.content, null, 2);
             } else {
-                contentPreview = JSON.stringify(envelope.data, null, 2);
+                contentPreview = JSON.stringify(envelope.payload, null, 2);
             }
         } catch (e) {
-            contentPreview = String(envelope.data);
+            contentPreview = String(envelope.payload);
         }
 
         entry.innerHTML = `

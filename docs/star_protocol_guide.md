@@ -240,9 +240,9 @@ ws.onmessage = (event) => {
     
     // 处理不同类型的消息
     if (envelope.type === 'system') {
-        console.log('System message:', envelope.data.content);
+        console.log('System message:', envelope.payload.content);
     } else if (envelope.type === 'message') {
-        console.log('Business message:', envelope.data.content);
+        console.log('Business message:', envelope.payload.content);
     }
 };
 
