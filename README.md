@@ -94,14 +94,13 @@ curl http://localhost:8000/custom/hello \
 - `POST /menglong/chat` - 聊天
 
 ### WebSocket
-- `ws://localhost:8000/ws` - 基础连接
-- `ws://localhost:8000/ws/{room_id}` - 房间连接
+- `ws://localhost:8000/ws/{role}/{client_id}` - Star Protocol 客户端连接
 
 ## 测试 WebSocket
 
 运行测试脚本：
 ```bash
-uv run test_websocket.py
+uv run python -m tests.test_star_protocol
 ```
 
 ## 统计模块
@@ -193,7 +192,7 @@ uv run test_statistics.py
 
 ## 后续开发
 
-- StarProtocol 协议实现：修改 `ws/starprotocol.py`
+- StarProtocol 协议实现：修改 `ws/router.py` 和 `ws/connection.py`
 - Response API 实现：修改 `api/response/routes.py`
 - 添加新的 API 模块：在 `api/` 下创建新目录
 

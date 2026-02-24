@@ -77,7 +77,7 @@ class MessageRouter:
             await self.send_system_message(
                 client_id,
                 "notify",
-                {"message": "Connected to Star Protocol Hub"}
+                {"event": "connected", "msg": "Connected to Star Protocol Hub"}
             )
             
             # 消息循环
@@ -106,7 +106,7 @@ class MessageRouter:
                     await self.send_system_message(
                         member_id,
                         "notify",
-                        {"message": f"Environment {client_id} has been closed"}
+                        {"event": "environment_closed", "msg": f"Environment {client_id} has been closed"}
                     )
                 
                 logger.info(f"Environment {client_id} closing, {len(members)} members notified")
@@ -198,7 +198,7 @@ class MessageRouter:
                     await self.send_system_message(
                         envelope.sender,
                         "notify",
-                        {"message": f"Joined environment {env_id}"}
+                        {"event": "joined", "msg": f"Joined environment {env_id}", "env_id": env_id}
                     )
                     logger.info(f"{envelope.sender} joined {env_id}")
                 else:
@@ -229,7 +229,7 @@ class MessageRouter:
                     await self.send_system_message(
                         envelope.sender,
                         "notify",
-                        {"message": f"Left environment {env_id}"}
+                        {"event": "left", "msg": f"Left environment {env_id}", "env_id": env_id}
                     )
                     logger.info(f"{envelope.sender} left {env_id}")
     
@@ -405,6 +405,7 @@ class MessageRouter:
                             type=MonitorType.NOTIFY,
                             content={
                                 "event": "monitoring_enabled",
+                                "msg": "Monitoring is now enabled",
                                 "level": level
                             }
                         )
@@ -421,7 +422,7 @@ class MessageRouter:
                         recipient=envelope.sender,
                         payload=MonitorPayload(
                             type=MonitorType.NOTIFY,
-                            content={"event": "monitoring_disabled"}
+                            content={"event": "monitoring_disabled", "msg": "Monitoring is now disabled"}
                         )
                     )
             
@@ -440,6 +441,7 @@ class MessageRouter:
                                 type=MonitorType.NOTIFY,
                                 content={
                                     "event": "subscribed",
+                                    "msg": f"Subscribed to {target}",
                                     "target_client_id": target
                                 }
                             )
@@ -460,6 +462,7 @@ class MessageRouter:
                                 type=MonitorType.NOTIFY,
                                 content={
                                     "event": "unsubscribed",
+                                    "msg": f"Unsubscribed from {target}",
                                     "target_client_id": target
                                 }
                             )
@@ -473,7 +476,7 @@ class MessageRouter:
             # 转发监控数据
             await self.connection_manager.forward_monitor_data(
                 client_id=envelope.sender,
-                data_type=payload.content.get("data_type"),
+                name=payload.content.get("name"),
                 data=payload.content.get("data")
             )
     

@@ -42,7 +42,7 @@ ws://localhost:8000/ws/{role}/{client_id}
   "type": "system|message|broadcast",
   "sender": "agent_01",
   "recipient": "hub|client_id|@all",
-  "data": {
+  "payload": {
     "type": "...",
     "content": {}
   }
@@ -61,7 +61,7 @@ ws://localhost:8000/ws/{role}/{client_id}
   "type": "system",
   "sender": "agent_01",
   "recipient": "hub",
-  "data": {
+  "payload": {
     "type": "ctrl",
     "content": {
       "op": "join",
@@ -77,7 +77,7 @@ ws://localhost:8000/ws/{role}/{client_id}
   "type": "system",
   "sender": "agent_01",
   "recipient": "hub",
-  "data": {
+  "payload": {
     "type": "ctrl",
     "content": {
       "op": "leave"
@@ -95,12 +95,14 @@ ws://localhost:8000/ws/{role}/{client_id}
   "type": "message",
   "sender": "agent_01",
   "recipient": "agent_02",
-  "data": {
+  "payload": {
     "type": "action",
     "content": {
       "name": "move",
-      "x": 10,
-      "y": 5
+      "params": {
+        "x": 10,
+        "y": 5
+      }
     }
   }
 }
@@ -115,11 +117,13 @@ ws://localhost:8000/ws/{role}/{client_id}
   "type": "broadcast",
   "sender": "agent_01",
   "recipient": "@all",
-  "data": {
+  "payload": {
     "type": "event",
     "content": {
-      "event_name": "game_start",
-      "timestamp": 1620000000
+      "name": "game_start",
+      "data": {
+        "timestamp": 1620000000
+      }
     }
   }
 }
@@ -150,7 +154,7 @@ async def connect_to_hub():
             type="system",
             sender="agent_01",
             recipient="hub",
-            data=SystemPayload(
+            payload=SystemPayload(
                 type="ctrl",
                 content={"op": "join", "env_id": "env_main"}
             )
@@ -166,9 +170,9 @@ async def connect_to_hub():
             type="message",
             sender="agent_01",
             recipient="agent_02",
-            data=MessagePayload(
+            payload=MessagePayload(
                 type="action",
-                content={"name": "move", "x": 10, "y": 5}
+                content={"name": "move", "params": {"x": 10, "y": 5}}
             )
         )
         await websocket.send(action_envelope.model_dump_json())
@@ -193,7 +197,7 @@ async def broadcast_event():
             type="system",
             sender="agent_01",
             recipient="hub",
-            data=SystemPayload(type="ctrl", content={"op": "join", "env_id": "game_room"})
+            payload=SystemPayload(type="ctrl", content={"op": "join", "env_id": "game_room"})
         )
         await websocket.send(join_envelope.model_dump_json())
         await websocket.recv()  # 等待确认
@@ -203,9 +207,9 @@ async def broadcast_event():
             type="broadcast",
             sender="agent_01",
             recipient="@all",
-            data=BroadcastPayload(
+            payload=BroadcastPayload(
                 type="event",
-                content={"event": "player_joined", "player_id": "agent_01"}
+                content={"name": "player_joined", "data": {"player_id": "agent_01"}}
             )
         )
         await websocket.send(broadcast_envelope.model_dump_json())
@@ -226,7 +230,7 @@ ws.onopen = () => {
         type: 'system',
         sender: 'agent_01',
         recipient: 'hub',
-        data: {
+        payload: {
             type: 'ctrl',
             content: { op: 'join', env_id: 'env_main' }
         }
@@ -252,7 +256,7 @@ function sendAction(targetId, action) {
         type: 'message',
         sender: 'agent_01',
         recipient: targetId,
-        data: {
+        payload: {
             type: 'action',
             content: action
         }
