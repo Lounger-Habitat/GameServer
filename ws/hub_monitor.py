@@ -4,7 +4,7 @@ from fastapi import APIRouter, Query, HTTPException
 from typing import Optional, List
 import time
 
-from .starprotocol import message_router
+from .hub import message_router
 from .connection import ClientRole, SessionState
 from .errors import (
     ClientNotFoundError,

@@ -98,12 +98,12 @@ def register_routes(app: FastAPI) -> None:
     
     # WebSocket
     if settings.modules.enable_websocket:
-        from ws.starprotocol import router as ws_router
+        from ws.hub import router as ws_router
         app.include_router(ws_router, tags=["WebSocket"])
         print("✅ WebSocket 已启用")
         
         # Hub Monitor API（新的规范化 API）
-        from ws.hub_monitor_api import router as hub_monitor_router
+        from ws.hub_monitor import router as hub_monitor_router
         app.include_router(hub_monitor_router, tags=["Hub Monitor"])
         print("✅ Hub Monitor API 已启用")
     
