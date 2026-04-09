@@ -20,6 +20,7 @@ class ModulesConfig(BaseModel):
     enable_response_api: bool = True
     enable_menglong_api: bool = True
     enable_agent_api: bool = True
+    enable_anthropic_api: bool = True
     enable_websocket: bool = True
 
 

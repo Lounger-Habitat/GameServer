@@ -10,8 +10,9 @@ dependencies = [
     "pydantic>=2.12.5",
     "pydantic-settings>=2.12.0",
     "pyyaml>=6.0.3",
-    "websockets>=15.0.1",
+    "star-protocol",
 ]
 
 [tool.uv.sources]
 menglong = { git = "https://github.com/gcyyfun/menglong.git" }
+star-protocol = { path = "../star_protocol_python", editable = true }

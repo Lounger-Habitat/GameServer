@@ -1,17 +1,13 @@
-"""Star Protocol WebSocket 实现"""
-
 import logging
 from fastapi import APIRouter, WebSocket
-
-from .router import MessageRouter
-
+from star_protocol.server import MessageRouter
 
 logger = logging.getLogger(__name__)
 
 # 创建路由器
 router = APIRouter()
 
-# 全局消息路由器实例
+# 全局消息路由器实例 (使用 SDK 中的版本)
 message_router = MessageRouter(max_connections=1000, heartbeat_interval=30.0)
 
 

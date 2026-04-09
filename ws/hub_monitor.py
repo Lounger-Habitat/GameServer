@@ -1,11 +1,10 @@
 """Monitor API 端点 - 符合 API 规范"""
 import logging
 from fastapi import APIRouter, Query, HTTPException
-from typing import Optional, List
-import time
+from typing import Optional
 
 from .hub import message_router
-from .connection import ClientRole, SessionState
+from star_protocol.server import ClientRole
 from .errors import (
     ClientNotFoundError,
     EnvironmentNotFoundError,

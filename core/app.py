@@ -1,12 +1,15 @@
 """FastAPI 应用工厂"""
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import Depends
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
 from utils.config import settings
+
 # 获取鉴权依赖项（用于保护其他路由）
 from api.auth.dependencies import verify_api_key
+
 
 def create_app() -> FastAPI:
     """创建并配置 FastAPI 应用"""
@@ -25,10 +28,11 @@ def create_app() -> FastAPI:
             allow_methods=settings.cors.allow_methods,
             allow_headers=settings.cors.allow_headers,
         )
-    
+
     # 注册统计中间件
     if settings.statistics.enabled:
         from api.statistics.middleware import StatisticsMiddleware
+
         app.add_middleware(StatisticsMiddleware)
         print("✅ 统计中间件已注册")
 
@@ -40,91 +44,108 @@ def create_app() -> FastAPI:
 
 def register_routes(app: FastAPI) -> None:
     """根据配置动态注册路由"""
-    
+
     # Auth API（始终启用，用于 Key 管理）
     from api.auth.routes import router as auth_router
+
     app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
     if settings.auth.enabled:
         print("✅ API Key 鉴权已启用")
     else:
         print("⚠️  API Key 鉴权已禁用")
-    
 
-
-    
     # OpenAI 兼容 API
     if settings.modules.enable_openai_api:
         from api.openai.routes import router as openai_router
+
         app.include_router(
-            openai_router, 
-            prefix="/v1", 
+            openai_router,
+            prefix="/v1",
             tags=["OpenAI Compatible"],
-            dependencies=[Depends(verify_api_key)]
+            dependencies=[Depends(verify_api_key)],
         )
         print("✅ OpenAI Compatible API 已启用")
-    
+
     # Response API
     if settings.modules.enable_response_api:
         from api.response.routes import router as response_router
+
         app.include_router(
-            response_router, 
-            prefix="/response", 
+            response_router,
+            prefix="/response",
             tags=["Response API"],
-            dependencies=[Depends(verify_api_key)]
+            dependencies=[Depends(verify_api_key)],
         )
         print("✅ Response API 已启用")
-    
+
     # 朦胧 API
     if settings.modules.enable_menglong_api:
         from api.menglong.routes import router as menglong_router
+
         app.include_router(
-            menglong_router, 
-            prefix="/menglong", 
+            menglong_router,
+            prefix="/menglong",
             tags=["MengLong API"],
-            dependencies=[Depends(verify_api_key)]
+            dependencies=[Depends(verify_api_key)],
         )
         print("✅ MengLong API 已启用")
-    
+
     # Agent API
     if settings.modules.enable_agent_api:
         from api.agent.routes import router as agent_router
+
         app.include_router(
             agent_router,
             prefix="/agent",
             tags=["Agent API"],
-            dependencies=[Depends(verify_api_key)]
+            dependencies=[Depends(verify_api_key)],
         )
         print("✅ Agent API 已启用")
-    
+
+    # Anthropic 兼容 API
+    if settings.modules.enable_anthropic_api:
+        from api.anthropic.routes import router as anthropic_router
+
+        app.include_router(
+            anthropic_router,
+            prefix="/anthropic",
+            tags=["Anthropic Compatible"],
+            dependencies=[Depends(verify_api_key)],
+        )
+        print("✅ Anthropic Compatible API 已启用")
+
     # WebSocket
     if settings.modules.enable_websocket:
         from ws.hub import router as ws_router
+
         app.include_router(ws_router, tags=["WebSocket"])
         print("✅ WebSocket 已启用")
-        
+
         # Hub Monitor API（新的规范化 API）
         from ws.hub_monitor import router as hub_monitor_router
+
         app.include_router(hub_monitor_router, tags=["Hub Monitor"])
         print("✅ Hub Monitor API 已启用")
-    
+
     # 统计 API
     if settings.statistics.enabled:
         from api.statistics.routes import router as stats_router
+
         app.include_router(
             stats_router,
             prefix="/statistics",
             tags=["Statistics"],
-            dependencies=[Depends(verify_api_key)]
+            dependencies=[Depends(verify_api_key)],
         )
         print("✅ 统计 API 已启用")
-    
+
     # 静态文件服务（用于监控页面）
     try:
         app.mount("/static", StaticFiles(directory="static"), name="static")
         print("✅ 静态文件服务已启用")
     except Exception as e:
         print(f"⚠️  静态文件服务启用失败: {e}")
-    
+
     # 监控页面端点
     @app.get("/hub_monitor", tags=["System"])
     async def monitor_page():
@@ -143,7 +164,8 @@ def register_routes(app: FastAPI) -> None:
                 "response_api": settings.modules.enable_response_api,
                 "menglong_api": settings.modules.enable_menglong_api,
                 "agent_api": settings.modules.enable_agent_api,
+                "anthropic_api": settings.modules.enable_anthropic_api,
                 "websocket": settings.modules.enable_websocket,
                 "statistics": settings.statistics.enabled,
-            }
+            },
         }
