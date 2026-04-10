@@ -31,6 +31,7 @@ def create_app() -> FastAPI:
 
     # 注册统计中间件
     if settings.statistics.enabled:
+        # 使用新的统计中间件
         from api.statistics.middleware import StatisticsMiddleware
 
         app.add_middleware(StatisticsMiddleware)
@@ -129,6 +130,7 @@ def register_routes(app: FastAPI) -> None:
 
     # 统计 API
     if settings.statistics.enabled:
+        # 使用新的统计API，但保持原有路径
         from api.statistics.routes import router as stats_router
 
         app.include_router(

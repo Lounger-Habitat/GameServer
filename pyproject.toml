@@ -14,5 +14,5 @@ dependencies = [
 ]
 
 [tool.uv.sources]
-menglong = { git = "https://github.com/gcyyfun/menglong.git" }
+menglong = { path = "../New_MengLong", editable = true }              #{ git = "https://github.com/gcyyfun/menglong.git" }
 star-protocol = { path = "../star_protocol_python", editable = true }

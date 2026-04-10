@@ -1,91 +1,115 @@
 """MengLong 服务层
 
-使用 MengLong SDK 调用 LLM
+直接使用 MengLong SDK 调用 LLM，支持多模态内容（图片、文件、音频、视频）
 """
-from typing import AsyncIterator, List, Optional
+from typing import AsyncIterator, List, Optional, Any
 
 from menglong import Model
-from menglong.schemas.chat import Message, Response, StreamResponse
-
-from .config import is_model_supported,get_model_full_id
+from .config import is_model_supported, get_model_full_id
 
 
 class MengLongService:
     """MengLong LLM 服务"""
-    
+
     def __init__(self):
-        """初始化服务"""
-        # MengLong SDK 会自动从配置文件加载
-        self.model = Model()
-    
+        """初始化服务，直接使用 MengLong SDK"""
+        self.model_client = Model()
+
     async def chat(
         self,
         model: str,
-        messages: List[Message],
+        messages: List[Any],
         temperature: Optional[float] = 0.7,
         max_tokens: Optional[int] = None,
-    ) -> Response:
+        tools: Optional[list] = None,
+        tool_choice: Optional[str] = "auto",
+    ) -> Any:
         """对话补全
-        
+
         Args:
             model: 模型名称
-            messages: 消息列表（MengLong SDK 的 Message 类型）
+            messages: 消息列表（支持字典或 SDK Message 类型）
             temperature: 温度参数
             max_tokens: 最大 token 数
-            
+            tools: 工具列表
+            tool_choice: 工具选择模式
+
         Returns:
-            Response: MengLong SDK 的 Response 对象
-            
-        Raises:
-            ValueError: 模型不支持
+            MengLong SDK 的 Response 对象
         """
-        # 验证模型
+        # 验证并获取完整模型 ID
         if not is_model_supported(model):
             raise ValueError(f"不支持的模型: {model}")
-        else:
-            model = get_model_full_id(model)
         
-        # 调用 MengLong SDK，直接返回 Response
-        return self.model.chat(
-            model=model,
-            messages=messages,
-            temperature=temperature,
-            max_tokens=max_tokens,
-        )
+        full_model_id = get_model_full_id(model)
+
+        try:
+            # 直接透传给 SDK，SDK 会自动处理消息归一化（包括多模态支持）
+            response = await self.model_client.async_chat(
+                model=full_model_id,
+                messages=messages,
+                temperature=temperature,
+                max_tokens=max_tokens,
+                tools=tools,
+                tool_choice=tool_choice,
+            )
+            
+            # 防御性检查：确保 response 不为 None 且 output 存在
+            if response is None:
+                raise ValueError("SDK 返回了空响应 (None)")
+            
+            return response
+
+        except Exception as e:
+            import traceback
+            error_details = traceback.format_exc()
+            raise ValueError(f"MengLong SDK 调用失败: {str(e)}\n{error_details}")
+
     async def stream_chat(
-    # def stream_chat(
         self,
         model: str,
-        messages: List[Message],
+        messages: List[Any],
         temperature: Optional[float] = 0.7,
         max_tokens: Optional[int] = None,
-    ) -> AsyncIterator[StreamResponse]:
-    # ):
+        tools: Optional[list] = None,
+        tool_choice: Optional[str] = "auto",
+    ) -> AsyncIterator[Any]:
         """流式对话补全
-        
+
         Args:
             model: 模型名称
             messages: 消息列表
             temperature: 温度参数
             max_tokens: 最大 token 数
-            
+            tools: 工具列表
+            tool_choice: 工具选择模式
+
         Yields:
-            StreamResponse: MengLong SDK 的 StreamResponse 对象
+            MengLong SDK 的 StreamResponse 对象
         """
-        # 验证模型
+        # 验证并获取完整模型 ID
         if not is_model_supported(model):
             raise ValueError(f"不支持的模型: {model}")
-        else:
-            model = get_model_full_id(model)
         
-        # 调用 MengLong SDK 流式接口，直接 yield StreamResponse
-        async for chunk in self.model.async_stream_chat(
-            model=model,
-            messages=messages,
-            temperature=temperature,
-            max_tokens=max_tokens,
-        ):
-            yield chunk
+        full_model_id = get_model_full_id(model)
+
+        try:
+            # async_stream_chat 返回的是 async_generator，必须用 async for
+            sdk_gen = self.model_client.async_stream_chat(
+                model=full_model_id,
+                messages=messages,
+                temperature=temperature,
+                max_tokens=max_tokens,
+                tools=tools,
+                tool_choice=tool_choice,
+            )
+            async for chunk in sdk_gen:
+                yield chunk
+
+        except Exception as e:
+            import traceback
+            error_details = traceback.format_exc()
+            raise ValueError(f"MengLong SDK 流式调用失败: {str(e)}\n{error_details}")
 
 
 # 全局服务实例
@@ -98,4 +122,3 @@ def get_service() -> MengLongService:
     if _service is None:
         _service = MengLongService()
     return _service
-

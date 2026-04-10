@@ -1,1132 +1,931 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>API 统计 Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/date-fns@3.0.0/index.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Google Sans', 'Segoe UI', 'PingFang SC', sans-serif;
-            background: #1a1a1a;
-            color: #e8eaed;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0f172a;
+            color: #f8fafc;
             min-height: 100vh;
         }
 
         /* 登录界面 */
         .login-screen {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             min-height: 100vh;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
         }
-
         .login-box {
-            background: #2d2d2d;
-            border: 1px solid #3c4043;
-            border-radius: 12px;
-            padding: 40px;
-            width: 100%;
-            max-width: 450px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            background: #1e293b; border: 1px solid #334155; border-radius: 16px;
+            padding: 48px; width: 100%; max-width: 480px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
         }
-
+        .login-logo { font-size: 48px; margin-bottom: 16px; text-align: center; }
         .login-title {
-            font-size: 28px;
-            font-weight: 400;
-            margin-bottom: 8px;
-            color: #e8eaed;
+            font-size: 28px; font-weight: 700; text-align: center;
+            margin-bottom: 8px; color: #f8fafc;
         }
-
-        .login-subtitle {
-            font-size: 14px;
-            color: #9aa0a6;
-            margin-bottom: 32px;
+        .login-subtitle { font-size: 15px; color: #94a3b8; margin-bottom: 40px; text-align: center; }
+        .input-group { margin-bottom: 24px; }
+        .input-label { display: block; font-size: 14px; font-weight: 500; color: #cbd5e1; margin-bottom: 10px; }
+        .input-field {
+            width: 100%; padding: 14px 16px;
+            background: #334155; border: 1px solid #475569; border-radius: 10px;
+            font-size: 15px; color: #f8fafc; transition: all 0.2s;
         }
-
-        .input-group {
-            margin-bottom: 24px;
-        }
-
-        .input-label {
-            display: block;
-            font-size: 14px;
-            color: #9aa0a6;
-            margin-bottom: 8px;
-        }
-
-        input[type="password"] {
-            width: 100%;
-            padding: 12px 16px;
-            background: #3c4043;
-            border: 1px solid #5f6368;
-            border-radius: 8px;
-            font-size: 14px;
-            color: #e8eaed;
-            transition: all 0.2s;
-        }
-
-        input[type="password"]:focus {
-            outline: none;
-            border-color: #8ab4f8;
-            background: #404347;
-        }
-
+        .input-field:focus { outline: none; border-color: #60a5fa; box-shadow: 0 0 0 3px rgba(96,165,250,0.15); }
         .btn-primary {
-            width: 100%;
-            padding: 12px;
-            background: #8ab4f8;
-            color: #202124;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
+            width: 100%; padding: 14px;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white; border: none; border-radius: 10px;
+            font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s;
         }
-
-        .btn-primary:hover {
-            background: #aecbfa;
+        .btn-primary:hover { background: linear-gradient(135deg, #2563eb, #1d4ed8); transform: translateY(-1px); }
+        .btn-sm {
+            padding: 8px 16px; background: #334155; border: 1px solid #475569;
+            border-radius: 8px; color: #cbd5e1; font-size: 13px; font-weight: 500;
+            cursor: pointer; transition: all 0.2s;
         }
-
-        /* 主容器 */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0;
+        .btn-sm:hover { background: #475569; }
+        .btn-accent {
+            padding: 8px 16px; background: linear-gradient(135deg, #3b82f6, #2563eb);
+            border: none; border-radius: 8px; color: white; font-size: 13px; font-weight: 600;
+            cursor: pointer; transition: all 0.2s;
         }
+        .btn-accent:hover { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
 
-        /* 顶部栏 */
+        /* 消息 */
+        .error-msg {
+            background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3);
+            color: #fca5a5; padding: 14px 18px; border-radius: 10px; font-size: 14px;
+            margin-top: 20px;
+        }
+        .hidden { display: none !important; }
+
+        /* 主应用布局 */
         .header {
-            background: #2d2d2d;
-            border-bottom: 1px solid #3c4043;
-            padding: 16px 32px;
+            background: #1e293b; border-bottom: 1px solid #334155;
+            padding: 16px 32px; position: sticky; top: 0; z-index: 100;
         }
-
-        .header-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        .header-row { display: flex; align-items: center; justify-content: space-between; }
+        .header-title { font-size: 20px; font-weight: 700; color: #f8fafc; }
+        .header-right { display: flex; align-items: center; gap: 16px; }
+        .badge {
+            padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;
         }
+        .badge-green { background: rgba(16,185,129,0.2); color: #10b981; }
+        .badge-purple { background: rgba(139,92,246,0.2); color: #a78bfa; }
+        .badge-blue { background: rgba(59,130,246,0.2); color: #60a5fa; }
+        .badge-yellow { background: rgba(245,158,11,0.2); color: #fbbf24; }
 
-        .header-title {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .header-title h1 {
-            font-size: 22px;
-            font-weight: 400;
-            color: #e8eaed;
-        }
-
-        .header-badge {
-            background: #37474f;
-            color: #81c995;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            font-size: 14px;
-            color: #9aa0a6;
-        }
-
-        .user-role {
-            background: #37474f;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .admin-role {
-            background: #fdd663;
-            color: #202124;
-        }
-
-        /* 标签页导航 */
-        .tabs {
-            background: #2d2d2d;
-            border-bottom: 1px solid #3c4043;
-            padding: 0 32px;
-        }
-
-        .tabs-list {
-            display: flex;
-            gap: 32px;
-            list-style: none;
-        }
-
+        /* 标签页 */
+        .tabs { background: #1e293b; border-bottom: 1px solid #334155; padding: 0 32px; }
+        .tabs-list { display: flex; gap: 4px; list-style: none; }
         .tab-item {
-            padding: 16px 0;
-            font-size: 14px;
-            font-weight: 500;
-            color: #9aa0a6;
-            border-bottom: 2px solid transparent;
-            cursor: pointer;
-            transition: all 0.2s;
+            padding: 16px 20px; font-size: 14px; font-weight: 500;
+            color: #94a3b8; border-bottom: 2px solid transparent;
+            cursor: pointer; transition: all 0.2s; white-space: nowrap;
         }
-
-        .tab-item:hover {
-            color: #e8eaed;
-        }
-
-        .tab-item.active {
-            color: #8ab4f8;
-            border-bottom-color: #8ab4f8;
-        }
+        .tab-item:hover { color: #cbd5e1; }
+        .tab-item.active { color: #60a5fa; border-bottom-color: #60a5fa; }
 
         /* 控制栏 */
-        .controls {
-            background: #1a1a1a;
-            padding: 24px 32px;
-            border-bottom: 1px solid #3c4043;
+        .toolbar {
+            background: #0f172a; padding: 20px 32px;
+            display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap;
+            border-bottom: 1px solid #1e293b;
         }
+        .ctrl-group { display: flex; flex-direction: column; gap: 6px; }
+        .ctrl-label { font-size: 12px; color: #64748b; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+        .ctrl-select, .ctrl-input {
+            padding: 10px 14px; background: #1e293b; border: 1px solid #334155;
+            border-radius: 8px; color: #f8fafc; font-size: 14px;
+            min-width: 160px; cursor: pointer;
+        }
+        .ctrl-select:focus, .ctrl-input:focus { outline: none; border-color: #60a5fa; }
+        .toolbar-actions { margin-left: auto; display: flex; gap: 10px; align-items: center; }
 
-        .controls-row {
-            display: flex;
-            gap: 16px;
-            align-items: center;
-        }
+        /* 内容区 */
+        .content { padding: 32px; }
 
-        .control-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .control-label {
-            font-size: 12px;
-            color: #9aa0a6;
-            font-weight: 500;
-        }
-
-        select {
-            padding: 8px 12px;
-            background: #2d2d2d;
-            border: 1px solid #5f6368;
-            border-radius: 6px;
-            color: #e8eaed;
-            font-size: 14px;
-            cursor: pointer;
-            min-width: 180px;
-        }
-
-        select:focus {
-            outline: none;
-            border-color: #8ab4f8;
-        }
-
-        /* 主内容区 */
-        .main-content {
-            padding: 32px;
-            background: #1a1a1a;
-        }
-
-        .section-title {
-            font-size: 16px;
-            font-weight: 500;
-            color: #e8eaed;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .info-icon {
-            width: 18px;
-            height: 18px;
-            color: #9aa0a6;
-        }
-
-        /* 指标卡片网格 */
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 16px;
-            margin-bottom: 32px;
-        }
+        /* 指标卡片 */
+        .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 32px; }
+        @media (max-width: 1200px) { .metrics-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 640px) { .metrics-grid { grid-template-columns: 1fr; } }
 
         .metric-card {
-            background: #2d2d2d;
-            border: 1px solid #3c4043;
-            border-radius: 12px;
-            padding: 24px;
-            transition: all 0.2s;
+            background: #1e293b; border: 1px solid #334155; border-radius: 14px;
+            padding: 28px; transition: all 0.3s; position: relative; overflow: hidden;
         }
+        .metric-card:hover { border-color: #475569; transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.3); }
+        .metric-card::after {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+        }
+        .metric-card.blue::after { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+        .metric-card.green::after { background: linear-gradient(90deg, #10b981, #34d399); }
+        .metric-card.purple::after { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+        .metric-card.yellow::after { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
 
-        .metric-card:hover {
-            border-color: #5f6368;
-        }
+        .metric-icon { font-size: 24px; margin-bottom: 12px; }
+        .metric-label { font-size: 13px; color: #94a3b8; font-weight: 500; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .metric-value { font-size: 36px; font-weight: 700; color: #f8fafc; line-height: 1; margin-bottom: 10px; }
+        .metric-sub { font-size: 13px; color: #64748b; }
 
-        .metric-label {
-            font-size: 14px;
-            color: #9aa0a6;
-            margin-bottom: 12px;
-        }
-
-        .metric-value {
-            font-size: 32px;
-            font-weight: 400;
-            color: #e8eaed;
-            margin-bottom: 8px;
-        }
-
-        .metric-change {
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .metric-change.positive {
-            color: #81c995;
-        }
-
-        .metric-change.negative {
-            color: #f28b82;
-        }
-
-        /* 图表网格 */
-        .charts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 24px;
-            margin-bottom: 32px;
-        }
+        /* 图表 */
+        .charts-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-bottom: 32px; }
+        @media (max-width: 1200px) { .charts-grid { grid-template-columns: 1fr; } }
 
         .chart-card {
-            background: #2d2d2d;
-            border: 1px solid #3c4043;
-            border-radius: 12px;
-            padding: 24px;
+            background: #1e293b; border: 1px solid #334155; border-radius: 14px; padding: 28px;
         }
+        .chart-title { font-size: 16px; font-weight: 600; color: #f8fafc; margin-bottom: 4px; }
+        .chart-subtitle { font-size: 13px; color: #64748b; margin-bottom: 20px; }
+        .chart-body { position: relative; height: 280px; }
 
-        .chart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .chart-title {
-            font-size: 16px;
-            font-weight: 500;
-            color: #e8eaed;
-        }
-
-        .chart-subtitle {
-            font-size: 12px;
-            color: #9aa0a6;
-            margin-top: 4px;
-        }
-
-        .chart-body {
-            position: relative;
-            height: 300px;
-        }
-
-        .no-data {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            color: #9aa0a6;
-            font-size: 14px;
-            font-style: italic;
-        }
-
-        /* 表格 */
+        /* 表格卡片 */
         .table-card {
-            background: #2d2d2d;
-            border: 1px solid #3c4043;
-            border-radius: 12px;
-            overflow: hidden;
+            background: #1e293b; border: 1px solid #334155; border-radius: 14px;
+            overflow: hidden; margin-bottom: 32px;
         }
-
-        .table-header {
-            padding: 24px;
-            border-bottom: 1px solid #3c4043;
+        .table-card-header {
+            padding: 24px 28px; border-bottom: 1px solid #334155;
+            display: flex; justify-content: space-between; align-items: center;
         }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        thead {
-            background: #1a1a1a;
-        }
-
+        .table-card-title { font-size: 16px; font-weight: 600; color: #f8fafc; }
+        .table-card-subtitle { font-size: 13px; color: #64748b; margin-top: 2px; }
+        table { width: 100%; border-collapse: collapse; }
+        thead tr { background: #0f172a; }
         th {
-            padding: 16px 24px;
-            text-align: left;
-            font-size: 12px;
-            font-weight: 500;
-            color: #9aa0a6;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            padding: 14px 24px; text-align: left; font-size: 12px; font-weight: 600;
+            color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;
+            border-bottom: 1px solid #334155;
         }
+        td { padding: 16px 24px; font-size: 14px; color: #cbd5e1; border-bottom: 1px solid #1e293b; }
+        tr:last-child td { border-bottom: none; }
+        tbody tr:hover { background: rgba(255,255,255,0.02); }
 
-        td {
-            padding: 16px 24px;
-            font-size: 14px;
-            color: #e8eaed;
-            border-top: 1px solid #3c4043;
+        /* 状态徽章 */
+        .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+        .status-success { background: #10b981; }
+        .status-error { background: #ef4444; }
+        .status-stream { background: #3b82f6; }
+
+        /* 分页 */
+        .pagination { display: flex; align-items: center; gap: 12px; font-size: 14px; color: #94a3b8; }
+
+        /* 空状态 */
+        .empty-state { text-align: center; padding: 60px 20px; color: #64748b; }
+        .empty-state-icon { font-size: 48px; margin-bottom: 16px; }
+        .empty-state-text { font-size: 16px; }
+
+        /* 加载 */
+        .spinner {
+            display: inline-block; width: 16px; height: 16px;
+            border: 2px solid rgba(96,165,250,0.3); border-radius: 50%;
+            border-top-color: #60a5fa; animation: spin 0.8s linear infinite;
         }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        tr:hover {
-            background: #252525;
+        /* 提示框 */
+        .toast {
+            position: fixed; bottom: 32px; right: 32px;
+            background: #1e293b; border: 1px solid #334155; border-radius: 12px;
+            padding: 16px 24px; font-size: 14px; z-index: 9999;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4); transition: all 0.3s;
         }
-
-        .error-message {
-            background: #3c2929;
-            border: 1px solid #5f2120;
-            color: #f28b82;
-            padding: 16px;
-            border-radius: 8px;
-            margin-bottom: 24px;
-            font-size: 14px;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        /* 响应式 */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 12px;
-            }
-
-            .controls-row {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .charts-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .metrics-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+        .toast.success { border-color: rgba(16,185,129,0.4); color: #86efac; }
+        .toast.error { border-color: rgba(239,68,68,0.4); color: #fca5a5; }
     </style>
 </head>
-
 <body>
-    <!-- 登录界面 -->
-    <div class="login-screen" id="loginScreen">
-        <div class="login-box">
-            <h1 class="login-title">API 统计 Dashboard</h1>
-            <p class="login-subtitle">输入您的 API Key 以查看使用统计</p>
 
-            <div class="input-group">
-                <label class="input-label" for="apiKeyInput">API Key</label>
-                <input type="password" id="apiKeyInput" placeholder="sk-xxxxxxxxxxxxxxxx">
-            </div>
-
-            <button class="btn-primary" onclick="authenticate()">登录</button>
-
-            <div id="loginError" class="error-message hidden"></div>
+<!-- 登录界面 -->
+<div class="login-screen" id="loginScreen">
+    <div class="login-box">
+        <div class="login-logo">📊</div>
+        <h1 class="login-title">API 统计 Dashboard</h1>
+        <p class="login-subtitle">输入 API Key 查看使用统计</p>
+        <div class="input-group">
+            <label class="input-label">API Key</label>
+            <input class="input-field" type="password" id="apiKeyInput" placeholder="sk-xxxxxxxxxxxxxxxx">
         </div>
+        <button class="btn-primary" onclick="login()">登 录</button>
+        <div id="loginError" class="error-msg hidden"></div>
     </div>
+</div>
 
-    <!-- 主界面 -->
-    <div class="hidden" id="mainApp">
-        <!-- 顶部栏 -->
-        <div class="header">
-            <div class="header-content">
-                <div class="header-title">
-                    <h1>API 使用统计</h1>
-                    <span class="header-badge" id="statusBadge">已连接</span>
-                </div>
-                <div class="user-info">
-                    <span id="userKeyName">-</span>
-                    <span class="user-role" id="userRole">用户</span>
-                </div>
+<!-- 主界面 -->
+<div class="hidden" id="mainApp">
+    <!-- Header -->
+    <div class="header">
+        <div class="header-row">
+            <div style="display:flex;align-items:center;gap:16px;">
+                <span class="header-title">📊 API 统计 Dashboard</span>
+                <span class="badge badge-green">● 已连接</span>
+                <span class="badge badge-purple" id="userRoleBadge">用户</span>
             </div>
-        </div>
-
-        <!-- 标签页 -->
-        <div class="tabs">
-            <ul class="tabs-list">
-                <li class="tab-item active" data-tab="usage">使用情况</li>
-                <li class="tab-item" data-tab="billing">费用统计</li>
-            </ul>
-        </div>
-
-        <!-- 控制栏 -->
-        <div class="controls">
-            <div class="controls-row">
-                <div class="control-group" id="keySelector" style="display: none;">
-                    <label class="control-label">API Key</label>
-                    <select id="keySelect">
-                        <option value="">所有 Keys</option>
-                    </select>
-                </div>
-                <div class="control-group">
-                    <label class="control-label">时间范围</label>
-                    <select id="timeRange">
-                        <option value="1">最近 1 天</option>
-                        <option value="7">最近 7 天</option>
-                        <option value="28" selected>最近 28 天</option>
-                        <option value="90">最近 90 天</option>
-                        <option value="0">全部时间</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <div id="errorMessage" class="error-message hidden" style="margin: 24px 32px 0;"></div>
-
-        <!-- 使用情况标签页 -->
-        <div class="main-content" id="usageTab">
-            <div class="section-title">
-                概览
-                <svg class="info-icon" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd"
-                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                        clip-rule="evenodd" />
-                </svg>
-            </div>
-
-            <!-- 指标卡片 -->
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <div class="metric-label">总 API 请求</div>
-                    <div class="metric-value" id="totalRequests">0</div>
-                    <div class="metric-change">
-                        <span id="requestsChange">-</span>
-                    </div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-label">成功请求</div>
-                    <div class="metric-value" id="successRequests">0</div>
-                    <div class="metric-change">
-                        <span id="successRate">-</span>
-                    </div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-label">总 Token 使用</div>
-                    <div class="metric-value" id="totalTokens">0</div>
-                    <div class="metric-change">
-                        <span id="tokensChange">-</span>
-                    </div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-label">流式请求</div>
-                    <div class="metric-value" id="streamRequests">0</div>
-                    <div class="metric-change">
-                        <span id="streamRate">-</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 图表 -->
-            <div class="charts-grid">
-                <div class="chart-card">
-                    <div class="chart-header">
-                        <div>
-                            <div class="chart-title">API 请求趋势</div>
-                            <div class="chart-subtitle">每日请求次数统计</div>
-                        </div>
-                    </div>
-                    <div class="chart-body">
-                        <canvas id="requestsChart"></canvas>
-                    </div>
-                </div>
-
-                <div class="chart-card">
-                    <div class="chart-header">
-                        <div>
-                            <div class="chart-title">Token 使用趋势</div>
-                            <div class="chart-subtitle">每日 Token 消耗统计</div>
-                        </div>
-                    </div>
-                    <div class="chart-body">
-                        <canvas id="tokensChart"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Keys 排行榜（仅管理员） -->
-            <div class="table-card" id="keysRanking" style="display: none;">
-                <div class="table-header">
-                    <div class="chart-title">API Keys 使用排行</div>
-                    <div class="chart-subtitle">按使用量排序</div>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>API Key</th>
-                            <th>请求次数</th>
-                            <th>Token 使用</th>
-                            <th>流式请求</th>
-                        </tr>
-                    </thead>
-                    <tbody id="keysTableBody">
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- 费用统计标签页 -->
-        <div class="main-content hidden" id="billingTab">
-            <div class="section-title">费用概览</div>
-
-            <!-- 费用指标 -->
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <div class="metric-label">总费用</div>
-                    <div class="metric-value" id="totalCost">¥0.00</div>
-                    <div class="metric-change">
-                        <span id="costChange">-</span>
-                    </div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-label">平均每次调用成本</div>
-                    <div class="metric-value" id="avgCost">¥0.00</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-label">输入 Token 费用</div>
-                    <div class="metric-value" id="inputCost">¥0.00</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-label">输出 Token 费用</div>
-                    <div class="metric-value" id="outputCost">¥0.00</div>
-                </div>
-            </div>
-
-            <!-- 费用图表 -->
-            <div class="charts-grid">
-                <div class="chart-card">
-                    <div class="chart-header">
-                        <div>
-                            <div class="chart-title">费用趋势</div>
-                            <div class="chart-subtitle">每日费用统计</div>
-                        </div>
-                    </div>
-                    <div class="chart-body">
-                        <canvas id="costChart"></canvas>
-                    </div>
-                </div>
-
-                <div class="chart-card">
-                    <div class="chart-header">
-                        <div>
-                            <div class="chart-title">费用分布</div>
-                            <div class="chart-subtitle">按模型统计</div>
-                        </div>
-                    </div>
-                    <div class="chart-body">
-                        <canvas id="modelCostChart"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Keys 费用排行（仅管理员） -->
-            <div class="table-card" id="keysCostRanking" style="display: none;">
-                <div class="table-header">
-                    <div class="chart-title">API Keys 费用排行</div>
-                    <div class="chart-subtitle">按费用排序</div>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>API Key</th>
-                            <th>总费用</th>
-                            <th>请求次数</th>
-                            <th>平均成本</th>
-                        </tr>
-                    </thead>
-                    <tbody id="keysCostTableBody">
-                    </tbody>
-                </table>
+            <div class="header-right">
+                <span id="userKeyName" style="font-size:14px;color:#94a3b8;"></span>
+                <button class="btn-sm" onclick="logout()">退出</button>
             </div>
         </div>
     </div>
 
-    <script>
-        let apiKey = '';
-        let isAdmin = false;
-        let currentKeyName = '';
-        let charts = {};
-        let currentTab = 'usage';
+    <!-- 标签页 -->
+    <div class="tabs">
+        <ul class="tabs-list">
+            <li class="tab-item active" data-tab="overview">📊 概览</li>
+            <li class="tab-item" data-tab="logs">📝 调用日志</li>
+            <li class="tab-item admin-only" data-tab="models" style="display:none;">🤖 模型统计</li>
+            <li class="tab-item admin-only" data-tab="keys" style="display:none;">🔑 Key 统计</li>
+            <li class="tab-item admin-only" data-tab="pricing" style="display:none;">💰 定价管理</li>
+        </ul>
+    </div>
 
-        // 标签页切换
-        document.querySelectorAll('.tab-item').forEach(tab => {
-            tab.addEventListener('click', () => {
-                document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
+    <!-- 工具栏 -->
+    <div class="toolbar">
+        <div class="ctrl-group admin-only" id="keySelector" style="display:none;">
+            <label class="ctrl-label">API Key</label>
+            <select class="ctrl-select" id="keySelect">
+                <option value="">所有 Keys（总览）</option>
+            </select>
+        </div>
+        <div class="ctrl-group">
+            <label class="ctrl-label">时间范围</label>
+            <select class="ctrl-select" id="timeRange" onchange="onTimeRangeChange()">
+                <option value="1">最近 1 天</option>
+                <option value="7">最近 7 天</option>
+                <option value="30" selected>最近 30 天</option>
+                <option value="90">最近 90 天</option>
+                <option value="0">全部时间</option>
+            </select>
+        </div>
+        <div class="toolbar-actions">
+            <span id="lastUpdated" style="font-size:13px;color:#64748b;"></span>
+            <button class="btn-sm" onclick="refreshAll()">🔄 刷新</button>
+        </div>
+    </div>
 
-                currentTab = tab.dataset.tab;
-                document.getElementById('usageTab').classList.toggle('hidden', currentTab !== 'usage');
-                document.getElementById('billingTab').classList.toggle('hidden', currentTab !== 'billing');
+    <!-- 概览 Tab -->
+    <div class="content" id="tab-overview">
+        <div class="metrics-grid">
+            <div class="metric-card blue">
+                <div class="metric-icon">📡</div>
+                <div class="metric-label">总请求次数</div>
+                <div class="metric-value" id="m-total-calls">—</div>
+                <div class="metric-sub" id="m-success-rate">成功率: —</div>
+            </div>
+            <div class="metric-card green">
+                <div class="metric-icon">🔢</div>
+                <div class="metric-label">Token 用量</div>
+                <div class="metric-value" id="m-total-tokens">—</div>
+                <div class="metric-sub" id="m-token-detail">输入: — · 输出: —</div>
+            </div>
+            <div class="metric-card yellow">
+                <div class="metric-icon">💴</div>
+                <div class="metric-label">总费用（人民币）</div>
+                <div class="metric-value" id="m-total-cost">—</div>
+                <div class="metric-sub" id="m-avg-cost">平均每次: —</div>
+            </div>
+            <div class="metric-card purple">
+                <div class="metric-icon">⚡</div>
+                <div class="metric-label">平均延迟</div>
+                <div class="metric-value" id="m-avg-latency">—</div>
+                <div class="metric-sub" id="m-stream-rate">流式比例: —</div>
+            </div>
+        </div>
 
-                loadDashboard();
-            });
+        <div class="charts-grid">
+            <div class="chart-card">
+                <div class="chart-title">API 请求趋势</div>
+                <div class="chart-subtitle">每日请求次数</div>
+                <div class="chart-body"><canvas id="chart-requests"></canvas></div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title">Token 使用趋势</div>
+                <div class="chart-subtitle">每日 Token 消耗</div>
+                <div class="chart-body"><canvas id="chart-tokens"></canvas></div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title">费用趋势</div>
+                <div class="chart-subtitle">每日费用（¥）</div>
+                <div class="chart-body"><canvas id="chart-cost"></canvas></div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title">模型使用分布</div>
+                <div class="chart-subtitle">按请求次数</div>
+                <div class="chart-body"><canvas id="chart-models"></canvas></div>
+            </div>
+        </div>
+
+        <!-- Keys 排行（仅管理员） -->
+        <div class="table-card admin-only" id="keys-ranking-card" style="display:none;">
+            <div class="table-card-header">
+                <div>
+                    <div class="table-card-title">API Keys 排行</div>
+                    <div class="table-card-subtitle">按使用量排序</div>
+                </div>
+            </div>
+            <table>
+                <thead><tr>
+                    <th>API Key</th>
+                    <th>请求次数</th>
+                    <th>Token 用量</th>
+                    <th>总费用</th>
+                    <th>流式请求</th>
+                    <th>平均延迟</th>
+                </tr></thead>
+                <tbody id="keys-ranking-body">
+                    <tr><td colspan="6" style="text-align:center;color:#64748b;padding:40px;">加载中...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 日志 Tab -->
+    <div class="content hidden" id="tab-logs">
+        <div class="table-card">
+            <div class="table-card-header">
+                <div>
+                    <div class="table-card-title">调用日志</div>
+                    <div class="table-card-subtitle" id="logs-count-label">共 0 条</div>
+                </div>
+                <div class="pagination">
+                    <span id="logs-page-info">第 1 页</span>
+                    <button class="btn-sm" id="logs-prev" onclick="logsPage(-1)" disabled>← 上页</button>
+                    <button class="btn-sm" id="logs-next" onclick="logsPage(1)">下页 →</button>
+                    <select class="ctrl-select" id="logs-page-size" onchange="loadLogs(1)" style="min-width:100px;">
+                        <option value="20">20 条</option>
+                        <option value="50" selected>50 条</option>
+                        <option value="100">100 条</option>
+                    </select>
+                </div>
+            </div>
+            <table>
+                <thead><tr>
+                    <th>时间</th>
+                    <th>API Key</th>
+                    <th>端点</th>
+                    <th>模型</th>
+                    <th>输入 T</th>
+                    <th>输出 T</th>
+                    <th>费用</th>
+                    <th>延迟</th>
+                    <th>状态</th>
+                </tr></thead>
+                <tbody id="logs-body">
+                    <tr><td colspan="9" style="text-align:center;color:#64748b;padding:40px;">加载中...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 模型统计 Tab -->
+    <div class="content hidden" id="tab-models">
+        <div class="table-card">
+            <div class="table-card-header">
+                <div>
+                    <div class="table-card-title">模型使用统计</div>
+                    <div class="table-card-subtitle" id="models-count-label">共 0 个模型</div>
+                </div>
+                <button class="btn-sm" onclick="loadModels()">🔄 刷新</button>
+            </div>
+            <table>
+                <thead><tr>
+                    <th>模型</th>
+                    <th>提供商</th>
+                    <th>请求次数</th>
+                    <th>输入 Tokens</th>
+                    <th>输出 Tokens</th>
+                    <th>总费用</th>
+                    <th>平均成本</th>
+                    <th>平均延迟</th>
+                </tr></thead>
+                <tbody id="models-body">
+                    <tr><td colspan="8" style="text-align:center;color:#64748b;padding:40px;">加载中...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Key 统计 Tab -->
+    <div class="content hidden" id="tab-keys">
+        <div class="table-card">
+            <div class="table-card-header">
+                <div>
+                    <div class="table-card-title">API Key 统计</div>
+                    <div class="table-card-subtitle" id="keys-count-label">共 0 个 Key</div>
+                </div>
+                <button class="btn-sm" onclick="loadAllKeys()">🔄 刷新</button>
+            </div>
+            <table>
+                <thead><tr>
+                    <th>API Key</th>
+                    <th>请求次数</th>
+                    <th>成功</th>
+                    <th>失败</th>
+                    <th>Token 用量</th>
+                    <th>总费用</th>
+                    <th>流式请求</th>
+                    <th>平均延迟</th>
+                </tr></thead>
+                <tbody id="keys-body">
+                    <tr><td colspan="8" style="text-align:center;color:#64748b;padding:40px;">加载中...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 定价管理 Tab -->
+    <div class="content hidden" id="tab-pricing">
+        <div class="table-card">
+            <div class="table-card-header">
+                <div>
+                    <div class="table-card-title">模型定价配置</div>
+                    <div class="table-card-subtitle" id="pricing-count-label">共 0 个定价</div>
+                </div>
+                <button class="btn-sm" onclick="loadPricing()">🔄 刷新</button>
+            </div>
+            <table>
+                <thead><tr>
+                    <th>模型</th>
+                    <th>提供商</th>
+                    <th>输入价格 ¥/M</th>
+                    <th>输出价格 ¥/M</th>
+                    <th>缓存价格 ¥/M</th>
+                    <th>货币</th>
+                    <th>生效时间</th>
+                    <th>状态</th>
+                </tr></thead>
+                <tbody id="pricing-body">
+                    <tr><td colspan="8" style="text-align:center;color:#64748b;padding:40px;">加载中...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- Toast 提示 -->
+<div class="toast hidden" id="toast"></div>
+
+<script>
+let API_KEY = '';
+let IS_ADMIN = false;
+let currentTab = 'overview';
+let logsCurrentPage = 1;
+let logsTotalPages = 1;
+let charts = {};
+
+// ===== 工具函数 =====
+function fmt(n) { return n == null ? '—' : Number(n).toLocaleString(); }
+function fmtCost(n) { return n == null ? '—' : '¥' + Number(n).toFixed(4); }
+function fmtLatency(ms) { return ms == null ? '—' : ms + ' ms'; }
+function fmtTime(ts) {
+    if (!ts) return '—';
+    const d = new Date(ts);
+    return d.toLocaleString('zh-CN', { month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', second:'2-digit' });
+}
+function fmtLargeNum(n) {
+    if (n == null) return '—';
+    if (n >= 1e9) return (n/1e9).toFixed(1) + 'B';
+    if (n >= 1e6) return (n/1e6).toFixed(1) + 'M';
+    if (n >= 1e3) return (n/1e3).toFixed(1) + 'K';
+    return String(n);
+}
+
+function showToast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = `toast ${type}`;
+    t.classList.remove('hidden');
+    setTimeout(() => t.classList.add('hidden'), 3000);
+}
+
+function getDateRange() {
+    const days = parseInt(document.getElementById('timeRange').value);
+    if (days === 0) return {};
+    const end = new Date();
+    end.setDate(end.getDate() + 1);
+    const start = new Date();
+    start.setDate(start.getDate() - days);
+    return { start_date: start.toISOString(), end_date: end.toISOString() };
+}
+
+async function apiFetch(path, options = {}) {
+    const params = options.params ? '?' + new URLSearchParams(options.params).toString() : '';
+    const res = await fetch('/statistics/' + path + params, {
+        method: options.method || 'GET',
+        headers: { 'X-API-Key': API_KEY, 'Content-Type': 'application/json', ...options.headers },
+        body: options.body ? JSON.stringify(options.body) : undefined,
+    });
+    if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.detail || `HTTP ${res.status}`);
+    }
+    return res.json();
+}
+
+// ===== 登录 =====
+async function login() {
+    const key = document.getElementById('apiKeyInput').value.trim();
+    if (!key) { document.getElementById('loginError').textContent = '请输入 API Key'; document.getElementById('loginError').classList.remove('hidden'); return; }
+    try {
+        await fetch('/statistics/my', { headers: { 'X-API-Key': key } }).then(r => { if (!r.ok) throw new Error('无效的 API Key'); });
+        API_KEY = key;
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('mainApp').classList.remove('hidden');
+        await initApp();
+    } catch (e) {
+        document.getElementById('loginError').textContent = e.message;
+        document.getElementById('loginError').classList.remove('hidden');
+    }
+}
+
+function logout() {
+    API_KEY = '';
+    IS_ADMIN = false;
+    document.getElementById('loginScreen').classList.remove('hidden');
+    document.getElementById('mainApp').classList.add('hidden');
+    document.getElementById('apiKeyInput').value = '';
+    document.getElementById('loginError').classList.add('hidden');
+}
+
+async function initApp() {
+    // 检查管理员
+    try {
+        await apiFetch('overview');
+        IS_ADMIN = true;
+    } catch { IS_ADMIN = false; }
+
+    document.getElementById('userRoleBadge').textContent = IS_ADMIN ? '管理员' : '用户';
+    document.getElementById('userRoleBadge').className = IS_ADMIN ? 'badge badge-purple' : 'badge badge-blue';
+    document.getElementById('userKeyName').textContent = IS_ADMIN ? '管理员视图' : '我的统计';
+
+    // 显示管理员功能
+    if (IS_ADMIN) {
+        document.querySelectorAll('.admin-only').forEach(el => el.style.display = '');
+        await loadKeysList();
+    }
+
+    // 绑定标签切换
+    document.querySelectorAll('.tab-item').forEach(tab => {
+        tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+    });
+    document.getElementById('keySelect').addEventListener('change', refreshAll);
+
+    refreshAll();
+}
+
+function switchTab(tab) {
+    currentTab = tab;
+    document.querySelectorAll('.tab-item').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+    document.querySelectorAll('[id^="tab-"]').forEach(el => el.classList.add('hidden'));
+    document.getElementById('tab-' + tab).classList.remove('hidden');
+
+    // 按需加载
+    if (tab === 'logs') loadLogs(1);
+    if (tab === 'models') loadModels();
+    if (tab === 'keys') loadAllKeys();
+    if (tab === 'pricing') loadPricing();
+}
+
+function onTimeRangeChange() { refreshAll(); }
+
+async function refreshAll() {
+    document.getElementById('lastUpdated').textContent = '刷新中...';
+    await Promise.allSettled([
+        loadOverview(),
+        loadChartData(),
+        IS_ADMIN ? loadKeysRanking() : Promise.resolve(),
+    ]);
+    document.getElementById('lastUpdated').textContent = '最后更新: ' + new Date().toLocaleTimeString('zh-CN');
+}
+
+// ===== 概览 =====
+async function loadOverview() {
+    try {
+        const dateRange = getDateRange();
+        const selectedKey = document.getElementById('keySelect').value;
+        let stats;
+        if (IS_ADMIN && !selectedKey) {
+            stats = await apiFetch('overview', { params: dateRange });
+        } else if (IS_ADMIN && selectedKey) {
+            stats = await apiFetch('by-key/' + selectedKey, { params: dateRange });
+        } else {
+            stats = await apiFetch('my', { params: dateRange });
+        }
+        renderMetrics(stats);
+    } catch (e) { console.error('loadOverview error:', e); }
+}
+
+function renderMetrics(s) {
+    document.getElementById('m-total-calls').textContent = fmtLargeNum(s.total_calls);
+    const srate = s.total_calls > 0 ? (s.successful_calls / s.total_calls * 100).toFixed(1) : 0;
+    document.getElementById('m-success-rate').textContent = `成功: ${fmt(s.successful_calls)} · 失败: ${fmt(s.failed_calls)} · 成功率 ${srate}%`;
+
+    document.getElementById('m-total-tokens').textContent = fmtLargeNum(s.total_tokens);
+    document.getElementById('m-token-detail').textContent = `输入: ${fmtLargeNum(s.total_input_tokens)} · 输出: ${fmtLargeNum(s.total_output_tokens)}`;
+
+    document.getElementById('m-total-cost').textContent = fmtCost(s.total_cost);
+    document.getElementById('m-avg-cost').textContent = `平均每次: ${fmtCost(s.avg_cost_per_call)}`;
+
+    document.getElementById('m-avg-latency').textContent = fmtLatency(Math.round(s.avg_latency_ms));
+    const streamRate = s.total_calls > 0 ? (s.stream_calls / s.total_calls * 100).toFixed(1) : 0;
+    document.getElementById('m-stream-rate').textContent = `流式: ${fmt(s.stream_calls)} · 占比 ${streamRate}%`;
+}
+
+// ===== 图表 =====
+async function loadChartData() {
+    try {
+        const dateRange = getDateRange();
+        const selectedKey = document.getElementById('keySelect').value;
+        const params = { page: 1, page_size: 500, ...dateRange };
+        if (selectedKey) params.key_name = selectedKey;
+
+        const data = await apiFetch('logs', { params });
+        const logs = data.logs || [];
+        buildCharts(logs);
+
+        // 模型分布（管理员用 /models 接口，普通用户从日志提取）
+        if (IS_ADMIN) {
+            const modelStats = await apiFetch('models', { params: dateRange }).catch(() => null);
+            if (modelStats) buildModelChart(modelStats);
+        } else {
+            buildModelChartFromLogs(logs);
+        }
+    } catch (e) { console.error('loadChartData error:', e); }
+}
+
+function buildCharts(logs) {
+    const daily = {};
+    logs.forEach(log => {
+        if (!log.timestamp) return;
+        const day = log.timestamp.substring(0, 10);
+        if (!daily[day]) daily[day] = { calls: 0, tokens: 0, cost: 0 };
+        daily[day].calls++;
+        daily[day].tokens += (log.total_tokens || 0);
+        daily[day].cost += (log.cost || 0);
+    });
+    const days = Object.keys(daily).sort();
+    const calls = days.map(d => daily[d].calls);
+    const tokens = days.map(d => daily[d].tokens);
+    const costs = days.map(d => daily[d].cost);
+
+    mkLineChart('chart-requests', days, calls, 'API 请求', '#3b82f6');
+    mkBarChart('chart-tokens', days, tokens, 'Token 用量', '#10b981');
+    mkLineChart('chart-cost', days, costs.map(c => +c.toFixed(6)), '费用 ¥', '#f59e0b');
+}
+
+function buildModelChart(modelStats) {
+    const top = modelStats.slice(0, 8);
+    const labels = top.map(m => (m.model_alias || m.model_full_id || '未知').replace('infinigence/', ''));
+    const data = top.map(m => m.statistics.total_calls);
+    mkDoughnutChart('chart-models', labels, data);
+}
+
+function buildModelChartFromLogs(logs) {
+    const modelMap = {};
+    logs.forEach(log => {
+        if (!log.model_full_id) return;
+        const key = log.model_alias || log.model_full_id;
+        modelMap[key] = (modelMap[key] || 0) + 1;
+    });
+    const sorted = Object.entries(modelMap).sort((a,b) => b[1]-a[1]).slice(0,8);
+    mkDoughnutChart('chart-models', sorted.map(e=>e[0]), sorted.map(e=>e[1]));
+}
+
+const COLORS = ['#3b82f6','#10b981','#f59e0b','#8b5cf6','#ef4444','#06b6d4','#84cc16','#f97316'];
+
+function mkLineChart(id, labels, data, label, color) {
+    if (charts[id]) charts[id].destroy();
+    const ctx = document.getElementById(id);
+    if (!ctx) return;
+    charts[id] = new Chart(ctx, {
+        type: 'line',
+        data: { labels, datasets: [{ label, data, borderColor: color, backgroundColor: color + '22', tension: 0.4, fill: true, pointRadius: 3 }] },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { grid: { color: '#1e293b' }, ticks: { color: '#64748b', maxTicksLimit: 8 } },
+                y: { beginAtZero: true, grid: { color: '#1e293b' }, ticks: { color: '#64748b' } }
+            }
+        }
+    });
+}
+
+function mkBarChart(id, labels, data, label, color) {
+    if (charts[id]) charts[id].destroy();
+    const ctx = document.getElementById(id);
+    if (!ctx) return;
+    charts[id] = new Chart(ctx, {
+        type: 'bar',
+        data: { labels, datasets: [{ label, data, backgroundColor: color + 'aa', borderColor: color, borderWidth: 1, borderRadius: 4 }] },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { grid: { display: false }, ticks: { color: '#64748b', maxTicksLimit: 8 } },
+                y: { beginAtZero: true, grid: { color: '#1e293b' }, ticks: { color: '#64748b' } }
+            }
+        }
+    });
+}
+
+function mkDoughnutChart(id, labels, data) {
+    if (charts[id]) charts[id].destroy();
+    const ctx = document.getElementById(id);
+    if (!ctx) return;
+    charts[id] = new Chart(ctx, {
+        type: 'doughnut',
+        data: { labels, datasets: [{ data, backgroundColor: COLORS, borderColor: '#0f172a', borderWidth: 2 }] },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'right', labels: { color: '#94a3b8', padding: 12, font: { size: 12 } } }
+            }
+        }
+    });
+}
+
+// ===== Keys 排行 =====
+async function loadKeysRanking() {
+    if (!IS_ADMIN) return;
+    document.getElementById('keys-ranking-card').style.display = '';
+    try {
+        const dateRange = getDateRange();
+        const data = await apiFetch('all-keys', { params: dateRange });
+        const tbody = document.getElementById('keys-ranking-body');
+        if (!data.length) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#64748b;padding:40px;">暂无数据</td></tr>';
+            return;
+        }
+        tbody.innerHTML = data.map(k => {
+            const s = k.statistics;
+            return `<tr>
+                <td><span class="badge badge-blue">${k.api_key_name}</span></td>
+                <td>${fmt(s.total_calls)}</td>
+                <td>${fmtLargeNum(s.total_tokens)}</td>
+                <td>${fmtCost(s.total_cost)}</td>
+                <td>${fmt(s.stream_calls)}</td>
+                <td>${fmtLatency(Math.round(s.avg_latency_ms))}</td>
+            </tr>`;
+        }).join('');
+    } catch(e) { console.error('loadKeysRanking error:', e); }
+}
+
+async function loadKeysList() {
+    try {
+        const data = await apiFetch('all-keys');
+        const sel = document.getElementById('keySelect');
+        sel.innerHTML = '<option value="">所有 Keys（总览）</option>';
+        data.forEach(k => {
+            const o = document.createElement('option');
+            o.value = k.api_key_name;
+            o.textContent = k.api_key_name;
+            sel.appendChild(o);
         });
+    } catch(e) {}
+}
 
-        // 时间范围变化
-        document.getElementById('timeRange').addEventListener('change', () => {
-            loadDashboard();
-        });
+// ===== 日志 =====
+async function loadLogs(page) {
+    logsCurrentPage = page || logsCurrentPage;
+    try {
+        const dateRange = getDateRange();
+        const selectedKey = document.getElementById('keySelect').value;
+        const pageSize = document.getElementById('logs-page-size').value;
+        const params = { page: logsCurrentPage, page_size: pageSize, ...dateRange };
+        if (selectedKey) params.key_name = selectedKey;
 
-        // Key 选择变化
-        document.getElementById('keySelect').addEventListener('change', () => {
-            loadDashboard();
-        });
+        const data = await apiFetch('logs', { params });
+        logsTotalPages = data.total_pages || 1;
+        document.getElementById('logs-count-label').textContent = `共 ${fmt(data.total)} 条`;
+        document.getElementById('logs-page-info').textContent = `第 ${logsCurrentPage} 页，共 ${logsTotalPages} 页`;
+        document.getElementById('logs-prev').disabled = logsCurrentPage <= 1;
+        document.getElementById('logs-next').disabled = logsCurrentPage >= logsTotalPages;
 
-        async function authenticate() {
-            apiKey = document.getElementById('apiKeyInput').value.trim();
-            console.log('API Key entered:', apiKey ? apiKey.substring(0, 8) + '...' : 'none');
-
-            if (!apiKey) {
-                showLoginError('请输入 API Key');
-                return;
-            }
-
-            try {
-                // 使用相对路径 'my' 对应 /statistics/my
-                const response = await fetch('my', {
-                    headers: { 'X-API-Key': apiKey }
-                });
-
-                if (response.ok) {
-                    console.log('Login successful');
-                    document.getElementById('loginScreen').classList.add('hidden');
-                    document.getElementById('mainApp').classList.remove('hidden');
-                    await checkAdminStatus();
-                    loadDashboard();
-                } else {
-                    const errorData = await response.json().catch(() => ({}));
-                    console.error('Login failed:', response.status, errorData);
-                    showLoginError('API Key 无效或无权限: ' + (errorData.detail || response.statusText));
-                }
-            } catch (error) {
-                console.error('Network error during login:', error);
-                showLoginError('连接失败: ' + error.message);
-            }
+        const logs = data.logs || [];
+        const tbody = document.getElementById('logs-body');
+        if (!logs.length) {
+            tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:#64748b;padding:40px;">暂无日志</td></tr>';
+            return;
         }
+        tbody.innerHTML = logs.map(l => {
+            const statusClass = l.status_code === 200 ? 'status-success' : 'status-error';
+            const streamDot = l.is_stream ? '<span class="status-dot status-stream" title="流式"></span>' : '';
+            return `<tr>
+                <td style="font-size:13px;white-space:nowrap;">${fmtTime(l.timestamp)}</td>
+                <td><span class="badge badge-blue">${l.api_key_name || '—'}</span></td>
+                <td style="font-size:13px;color:#94a3b8;">${l.endpoint || '—'}</td>
+                <td style="font-size:13px;">${l.model_alias || l.model_full_id || '—'}</td>
+                <td>${fmt(l.input_tokens)}</td>
+                <td>${fmt(l.output_tokens)}</td>
+                <td>${fmtCost(l.cost)}</td>
+                <td>${fmtLatency(l.latency_ms)}</td>
+                <td>${streamDot}<span class="status-dot ${statusClass}"></span>${l.status_code || '—'}</td>
+            </tr>`;
+        }).join('');
+    } catch(e) { console.error('loadLogs error:', e); }
+}
 
-        async function checkAdminStatus() {
-            try {
-                const overviewResponse = await fetch('overview', {
-                    headers: { 'X-API-Key': apiKey }
-                });
+function logsPage(delta) {
+    const next = logsCurrentPage + delta;
+    if (next < 1 || next > logsTotalPages) return;
+    loadLogs(next);
+}
 
-                isAdmin = overviewResponse.ok;
-                console.log('Admin check response status:', overviewResponse.status, 'isAdmin:', isAdmin);
-
-                // 更新 UI
-                document.getElementById('userRole').textContent = isAdmin ? '管理员' : '用户';
-                document.getElementById('userRole').classList.toggle('admin-role', isAdmin);
-
-                // 管理员显示 Key 选择器
-                if (isAdmin) {
-                    document.getElementById('keySelector').style.display = 'block';
-                    await loadKeysList();
-                }
-            } catch (error) {
-                console.error('Failed to check admin status:', error);
-            }
+// ===== 模型统计 =====
+async function loadModels() {
+    if (!IS_ADMIN) return;
+    try {
+        const dateRange = getDateRange();
+        const data = await apiFetch('models', { params: dateRange });
+        document.getElementById('models-count-label').textContent = `共 ${data.length} 个模型`;
+        const tbody = document.getElementById('models-body');
+        if (!data.length) {
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#64748b;padding:40px;">暂无数据</td></tr>';
+            return;
         }
+        tbody.innerHTML = data.map(m => {
+            const s = m.statistics;
+            return `<tr>
+                <td><span style="font-family:monospace;font-size:13px;">${m.model_alias || '—'}</span></td>
+                <td><span class="badge badge-blue">${m.model_provider || '—'}</span></td>
+                <td>${fmt(s.total_calls)}</td>
+                <td>${fmtLargeNum(s.total_input_tokens)}</td>
+                <td>${fmtLargeNum(s.total_output_tokens)}</td>
+                <td>${fmtCost(s.total_cost)}</td>
+                <td>${fmtCost(s.avg_cost_per_call)}</td>
+                <td>${fmtLatency(Math.round(s.avg_latency_ms))}</td>
+            </tr>`;
+        }).join('');
+    } catch(e) { console.error('loadModels error:', e); }
+}
 
-        async function loadKeysList() {
-            try {
-                const response = await fetch('all-keys', {
-                    headers: { 'X-API-Key': apiKey }
-                });
-
-                if (response.ok) {
-                    const keysStats = await response.json();
-                    console.log('Loaded all-keys for selector:', keysStats.length, 'keys found');
-                    const select = document.getElementById('keySelect');
-                    select.innerHTML = '<option value="">所有 Keys（总览）</option>';
-
-                    keysStats.forEach(keyData => {
-                        const option = document.createElement('option');
-                        option.value = keyData.api_key_name;
-                        option.textContent = keyData.api_key_name;
-                        select.appendChild(option);
-                    });
-                }
-            } catch (error) {
-                console.error('Failed to load keys list:', error);
-            }
+// ===== Key 统计 =====
+async function loadAllKeys() {
+    if (!IS_ADMIN) return;
+    try {
+        const dateRange = getDateRange();
+        const data = await apiFetch('all-keys', { params: dateRange });
+        document.getElementById('keys-count-label').textContent = `共 ${data.length} 个 Key`;
+        const tbody = document.getElementById('keys-body');
+        if (!data.length) {
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#64748b;padding:40px;">暂无数据</td></tr>';
+            return;
         }
+        tbody.innerHTML = data.map(k => {
+            const s = k.statistics;
+            return `<tr>
+                <td><span class="badge badge-purple">${k.api_key_name}</span></td>
+                <td>${fmt(s.total_calls)}</td>
+                <td><span class="badge badge-green">${fmt(s.successful_calls)}</span></td>
+                <td><span class="badge ${s.failed_calls > 0 ? 'badge-yellow' : ''}" style="${s.failed_calls > 0 ? '' : 'color:#64748b;'}">${fmt(s.failed_calls)}</span></td>
+                <td>${fmtLargeNum(s.total_tokens)}</td>
+                <td>${fmtCost(s.total_cost)}</td>
+                <td>${fmt(s.stream_calls)}</td>
+                <td>${fmtLatency(Math.round(s.avg_latency_ms))}</td>
+            </tr>`;
+        }).join('');
+    } catch(e) { console.error('loadAllKeys error:', e); }
+}
 
-        async function loadDashboard() {
-            try {
-                const selectedKey = document.getElementById('keySelect').value;
-                const timeRange = parseInt(document.getElementById('timeRange').value);
-                console.log('loadDashboard called - selectedKey:', selectedKey || 'ALL', 'timeRange:', timeRange);
-
-                let stats;
-                if (isAdmin && !selectedKey) {
-                    stats = await fetchStats('overview', timeRange);
-                    document.getElementById('userKeyName').textContent = '全部 Keys';
-                } else if (isAdmin && selectedKey) {
-                    stats = await fetchStats(`by-key/${selectedKey}`, timeRange);
-                    document.getElementById('userKeyName').textContent = selectedKey;
-                } else {
-                    stats = await fetchStats('my', timeRange);
-                    document.getElementById('userKeyName').textContent = '我的统计';
-                }
-
-                console.log('Retrieved stats for display:', stats);
-                updateMetrics(stats);
-
-                // 加载时间序列数据
-                await loadTimeSeriesData(selectedKey, timeRange);
-
-                // 管理员加载排行榜
-                if (isAdmin && !selectedKey) {
-                    await loadKeysRanking();
-                    document.getElementById('keysRanking').style.display = 'block';
-                    document.getElementById('keysCostRanking').style.display = 'block';
-                } else {
-                    document.getElementById('keysRanking').style.display = 'none';
-                    document.getElementById('keysCostRanking').style.display = 'none';
-                }
-
-            } catch (error) {
-                console.error('Error loading dashboard data:', error);
-                showError('加载数据失败: ' + error.message);
-            }
+// ===== 定价管理 =====
+async function loadPricing() {
+    if (!IS_ADMIN) return;
+    try {
+        const data = await apiFetch('all-pricing');
+        document.getElementById('pricing-count-label').textContent = `共 ${data.length} 个定价配置`;
+        const tbody = document.getElementById('pricing-body');
+        if (!data.length) {
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#64748b;padding:40px;">暂无定价配置</td></tr>';
+            return;
         }
+        tbody.innerHTML = data.map(p => `<tr>
+            <td style="font-family:monospace;font-size:13px;">${p.model_full_id}</td>
+            <td><span class="badge badge-blue">${p.provider || '—'}</span></td>
+            <td>¥${(p.base_input_price_cny || 0).toFixed(4)}</td>
+            <td>¥${(p.base_output_price_cny || 0).toFixed(4)}</td>
+            <td>¥${(p.base_cache_input_price_cny || 0).toFixed(4)}</td>
+            <td>${p.currency || 'CNY'}</td>
+            <td style="font-size:13px;color:#94a3b8;">${p.effective_from ? p.effective_from.substring(0,10) : '—'}</td>
+            <td><span class="badge ${p.enabled ? 'badge-green' : 'badge-yellow'}">${p.enabled ? '启用' : '禁用'}</span></td>
+        </tr>`).join('');
+    } catch(e) {
+        console.error('loadPricing error:', e);
+        document.getElementById('pricing-body').innerHTML = `<tr><td colspan="8" style="text-align:center;color:#64748b;padding:40px;">加载失败: ${e.message}</td></tr>`;
+    }
+}
 
-        async function fetchStats(endpoint, timeRange) {
-            const params = new URLSearchParams();
-            if (timeRange > 0) {
-                const endDate = new Date();
-                endDate.setDate(endDate.getDate() + 1); // 增加一天缓冲
-                const startDate = new Date();
-                startDate.setDate(startDate.getDate() - timeRange);
-                params.append('start_date', startDate.toISOString());
-                params.append('end_date', endDate.toISOString());
-            }
-
-            const url = `${endpoint}?${params.toString()}`;
-            console.log('Fetching stats from:', url);
-            const response = await fetch(url, {
-                headers: { 'X-API-Key': apiKey }
-            });
-
-            if (!response.ok) {
-                const errData = await response.json().catch(() => ({}));
-                throw new Error(errData.detail || '请求失败');
-            }
-            return await response.json();
-        }
-
-        function updateMetrics(stats) {
-            // 使用情况指标
-            document.getElementById('totalRequests').textContent = stats.total_calls.toLocaleString();
-            document.getElementById('successRequests').textContent = stats.successful_calls.toLocaleString();
-            document.getElementById('totalTokens').textContent = stats.total_tokens.toLocaleString();
-            document.getElementById('streamRequests').textContent = stats.stream_calls.toLocaleString();
-
-            // 计算成功率
-            const successRate = stats.total_calls > 0
-                ? ((stats.successful_calls / stats.total_calls) * 100).toFixed(1)
-                : 0;
-            document.getElementById('successRate').textContent = `成功率 ${successRate}%`;
-
-            // 计算流式比例
-            const streamRate = stats.total_calls > 0
-                ? ((stats.stream_calls / stats.total_calls) * 100).toFixed(1)
-                : 0;
-            document.getElementById('streamRate').textContent = `占比 ${streamRate}%`;
-
-            // 费用指标
-            document.getElementById('totalCost').textContent = `¥${stats.total_cost.toFixed(6)}`;
-
-            const avgCost = stats.total_calls > 0
-                ? (stats.total_cost / stats.total_calls).toFixed(6)
-                : 0;
-            document.getElementById('avgCost').textContent = `¥${avgCost}`;
-
-            // 估算输入/输出费用（这里简化处理，实际需要从后端计算）
-            const inputCost = (stats.total_cost * 0.4).toFixed(6);
-            const outputCost = (stats.total_cost * 0.6).toFixed(6);
-            document.getElementById('inputCost').textContent = `¥${inputCost}`;
-            document.getElementById('outputCost').textContent = `¥${outputCost}`;
-        }
-
-        async function loadTimeSeriesData(selectedKey, timeRange) {
-            try {
-                console.log('Loading time series data...');
-                // 采集最近 500 条数据用于绘图 (API 上限为 500)
-                const params = new URLSearchParams({
-                    page: 1,
-                    page_size: 500
-                });
-
-                if (timeRange > 0) {
-                    const endDate = new Date();
-                    endDate.setDate(endDate.getDate() + 1); // 增加一天缓冲，处理本地时间与 UTC 差异
-                    const startDate = new Date();
-                    startDate.setDate(startDate.getDate() - timeRange);
-                    params.append('start_date', startDate.toISOString());
-                    params.append('end_date', endDate.toISOString());
-                }
-
-                if (selectedKey) {
-                    params.append('key_name', selectedKey);
-                }
-
-                // 使用相对路径 'logs'
-                const url = `logs?${params.toString()}`;
-                console.log('Fetching logs for charts from:', url);
-                const response = await fetch(url, {
-                    headers: { 'X-API-Key': apiKey }
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log('Retrieved', (data.logs ? data.logs.length : 0), 'logs for visualization');
-                    processTimeSeriesData(data.logs);
-                } else {
-                    const errText = await response.text();
-                    console.error('Failed to fetch logs for charts:', response.status, errText);
-                }
-            } catch (error) {
-                console.error('Failed to load time series:', error);
-            }
-        }
-
-        function processTimeSeriesData(logs) {
-            if (!logs || logs.length === 0) {
-                console.warn('No logs found for the selected range/key');
-                return;
-            }
-
-            // 按日期聚合数据
-            const dailyData = {};
-
-            logs.forEach(log => {
-                if (!log.timestamp) return;
-                const date = log.timestamp.split('T')[0];
-                if (!dailyData[date]) {
-                    dailyData[date] = {
-                        requests: 0,
-                        tokens: 0,
-                        cost: 0
-                    };
-                }
-                dailyData[date].requests++;
-                dailyData[date].tokens += (log.total_tokens || 0);
-                dailyData[date].cost += (log.cost || 0);
-            });
-
-            const dates = Object.keys(dailyData).sort();
-            console.log('Processed dates for charts:', dates);
-
-            const requestsData = dates.map(d => dailyData[d].requests);
-            const tokensData = dates.map(d => dailyData[d].tokens);
-            const costData = dates.map(d => dailyData[d].cost);
-
-            // 绘制图表
-            drawRequestsChart(dates, requestsData);
-            drawTokensChart(dates, tokensData);
-            drawCostChart(dates, costData);
-        }
-
-        function drawRequestsChart(labels, data) {
-            const ctx = document.getElementById('requestsChart');
-            if (charts.requestsChart) charts.requestsChart.destroy();
-
-            charts.requestsChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'API 请求',
-                        data: data,
-                        borderColor: '#8ab4f8',
-                        backgroundColor: 'rgba(138, 180, 248, 0.1)',
-                        tension: 0.4,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: { color: '#3c4043' },
-                            ticks: { color: '#9aa0a6' }
-                        },
-                        x: {
-                            grid: { color: '#3c4043' },
-                            ticks: { color: '#9aa0a6' }
-                        }
-                    }
-                }
-            });
-        }
-
-        function drawTokensChart(labels, data) {
-            const ctx = document.getElementById('tokensChart');
-            if (charts.tokensChart) charts.tokensChart.destroy();
-
-            charts.tokensChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Token 使用',
-                        data: data,
-                        backgroundColor: '#81c995'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: { color: '#3c4043' },
-                            ticks: { color: '#9aa0a6' }
-                        },
-                        x: {
-                            grid: { display: false },
-                            ticks: { color: '#9aa0a6' }
-                        }
-                    }
-                }
-            });
-        }
-
-        function drawCostChart(labels, data) {
-            const ctx = document.getElementById('costChart');
-            if (charts.costChart) charts.costChart.destroy();
-
-            charts.costChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: '费用（元）',
-                        data: data,
-                        borderColor: '#fdd663',
-                        backgroundColor: 'rgba(253, 214, 99, 0.1)',
-                        tension: 0.4,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: { color: '#3c4043' },
-                            ticks: {
-                                color: '#9aa0a6',
-                                callback: value => `¥${value.toFixed(4)}`
-                            }
-                        },
-                        x: {
-                            grid: { color: '#3c4043' },
-                            ticks: { color: '#9aa0a6' }
-                        }
-                    }
-                }
-            });
-        }
-
-        async function loadKeysRanking() {
-            try {
-                const response = await fetch('/statistics/all-keys', {
-                    headers: { 'X-API-Key': apiKey }
-                });
-
-                if (response.ok) {
-                    const keysStats = await response.json();
-
-                    // 使用排行
-                    const tbody = document.getElementById('keysTableBody');
-                    tbody.innerHTML = '';
-                    keysStats.forEach(keyData => {
-                        const row = tbody.insertRow();
-                        row.innerHTML = `
-                            <td>${keyData.api_key_name}</td>
-                            <td>${keyData.statistics.total_calls.toLocaleString()}</td>
-                            <td>${keyData.statistics.total_tokens.toLocaleString()}</td>
-                            <td>${keyData.statistics.stream_calls.toLocaleString()}</td>
-                        `;
-                    });
-
-                    // 费用排行
-                    const costTbody = document.getElementById('keysCostTableBody');
-                    costTbody.innerHTML = '';
-                    keysStats.forEach(keyData => {
-                        const avgCost = keyData.statistics.total_calls > 0
-                            ? (keyData.statistics.total_cost / keyData.statistics.total_calls).toFixed(6)
-                            : 0;
-                        const row = costTbody.insertRow();
-                        row.innerHTML = `
-                            <td>${keyData.api_key_name}</td>
-                            <td>¥${keyData.statistics.total_cost.toFixed(6)}</td>
-                            <td>${keyData.statistics.total_calls.toLocaleString()}</td>
-                            <td>¥${avgCost}</td>
-                        `;
-                    });
-                }
-            } catch (error) {
-                console.error('Failed to load keys ranking:', error);
-            }
-        }
-
-        function showLoginError(message) {
-            const errorDiv = document.getElementById('loginError');
-            errorDiv.textContent = message;
-            errorDiv.classList.remove('hidden');
-        }
-
-        function showError(message) {
-            const errorDiv = document.getElementById('errorMessage');
-            errorDiv.textContent = message;
-            errorDiv.classList.remove('hidden');
-        }
-
-        // 支持回车登录
-        document.getElementById('apiKeyInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') authenticate();
-        });
-    </script>
+// ===== 回车登录 =====
+document.getElementById('apiKeyInput').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+</script>
 </body>
-
 </html>

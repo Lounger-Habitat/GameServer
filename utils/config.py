@@ -1,9 +1,9 @@
 """配置管理模块"""
 from pathlib import Path
-from typing import List
+from typing import List, Dict, Any, Optional
 
 import yaml
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings
 
 
@@ -53,6 +53,37 @@ class StatisticsConfig(BaseModel):
     async_logging: bool = True
 
 
+class ProviderConfig(BaseModel):
+    """LLM 提供者配置"""
+    enabled: bool = True
+    priority: int = 1
+    config: Dict[str, Any] = Field(default_factory=dict)
+    timeout: Optional[float] = 30.0
+    max_retries: int = 3
+    retry_delay: float = 1.0
+
+
+class ModelMapping(BaseModel):
+    """模型映射配置"""
+    source_model: str
+    target_provider: str
+    target_model: str
+    enabled: bool = True
+
+
+class LLMConfig(BaseModel):
+    """LLM 配置"""
+    default_provider: str = "menglong"
+    providers: Dict[str, ProviderConfig] = Field(default_factory=dict)
+    model_mappings: List[ModelMapping] = Field(default_factory=list)
+    cache_enabled: bool = False
+    cache_ttl: int = 300
+    rate_limit_enabled: bool = True
+    rate_limit_requests_per_minute: int = 60
+    enable_health_check: bool = True
+    health_check_interval: int = 30
+
+
 class Settings(BaseSettings):
     """应用配置"""
     server: ServerConfig = ServerConfig()
@@ -61,6 +92,7 @@ class Settings(BaseSettings):
     logging: LoggingConfig = LoggingConfig()
     auth: AuthConfig = AuthConfig()
     statistics: StatisticsConfig = StatisticsConfig()
+    llm: LLMConfig = LLMConfig()
 
     @classmethod
     def from_yaml(cls, config_path: str = "config.yaml") -> "Settings":

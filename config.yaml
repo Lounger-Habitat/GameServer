@@ -13,7 +13,8 @@ modules:
   enable_response_api: false    # OpenAI Response API
   enable_menglong_api: true    # 朦胧 API
   enable_agent_api: true        # Agent API (Interview, NPC)
-  
+  enable_anthropic_api: true    # Anthropic 兼容 API
+
   # WebSocket 模块
   enable_websocket: true       # WebSocket (StarProtocol)
 
@@ -47,4 +48,40 @@ statistics:
   database_file: "statistics.db" # SQLite 数据库文件
   retention_days: 0              # 数据保留天数（0=永久保留）
   async_logging: true            # 是否异步记录（推荐）
+
+# LLM 配置
+llm:
+  default_provider: "menglong"   # 默认 LLM 提供者
+  providers:
+    menglong:
+      enabled: true              # 启用 MengLong 提供者
+      priority: 1                # 优先级（数字越小优先级越高）
+      config: {}                 # 提供者特定配置
+      timeout: 30.0              # 超时时间（秒）
+      max_retries: 3             # 最大重试次数
+      retry_delay: 1.0           # 重试延迟（秒）
+
+  # 模型映射配置（将 Anthropic 格式模型映射到实际模型）
+  model_mappings:
+    - source_model: "claude-3-5-sonnet-20241022"
+      target_provider: "menglong"
+      target_model: "qwen-plus"
+      enabled: true
+
+    - source_model: "claude-3-opus-20240229"
+      target_provider: "menglong"
+      target_model: "qwen-max"
+      enabled: true
+
+    - source_model: "claude-3-haiku-20240307"
+      target_provider: "menglong"
+      target_model: "qwen-turbo"
+      enabled: true
+
+  cache_enabled: false           # 是否启用缓存
+  cache_ttl: 300                 # 缓存 TTL（秒）
+  rate_limit_enabled: true       # 是否启用速率限制
+  rate_limit_requests_per_minute: 60  # 每分钟请求限制
+  enable_health_check: true      # 是否启用健康检查
+  health_check_interval: 30      # 健康检查间隔（秒）
 
