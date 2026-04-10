@@ -73,11 +73,11 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "fastapi", extras = ["standard"], specifier = ">=0.124.0" },
-    { name = "menglong", editable = "../New_MengLong" },
+    { name = "menglong", git = "https://github.com/gcyyfun/menglong.git" },
     { name = "pydantic", specifier = ">=2.12.5" },
     { name = "pydantic-settings", specifier = ">=2.12.0" },
     { name = "pyyaml", specifier = ">=6.0.3" },
-    { name = "star-protocol", editable = "../star_protocol_python" },
+    { name = "star-protocol", git = "https://github.com/gcyyfun/star-protocol.git?branch=python" },
 ]
 
 [[package]]
@@ -706,7 +706,7 @@ wheels = [
 [[package]]
 name = "menglong"
 version = "0.1.0"
-source = { editable = "../New_MengLong" }
+source = { git = "https://github.com/gcyyfun/menglong.git#c1279a5094edef9ef81d3275b46e53dc7d75d518" }
 dependencies = [
     { name = "anthropic", extra = ["bedrock"] },
     { name = "boto3" },
@@ -718,20 +718,6 @@ dependencies = [
     { name = "requests" },
     { name = "rich" },
     { name = "trio" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "anthropic", extras = ["bedrock"], specifier = ">=0.75.0" },
-    { name = "boto3", specifier = ">=1.38.0" },
-    { name = "google-genai", specifier = ">=1.52.0" },
-    { name = "httpx", extras = ["socks"], specifier = ">=0.28.1" },
-    { name = "openai", specifier = ">=1.75.0" },
-    { name = "pydantic", specifier = ">=2.11.3" },
-    { name = "pyyaml", specifier = ">=6.0.2" },
-    { name = "requests", specifier = ">=2.32.5" },
-    { name = "rich", specifier = ">=13.7.0" },
-    { name = "trio", specifier = ">=0.30.0" },
 ]
 
 [[package]]
@@ -1138,27 +1124,11 @@ wheels = [
 [[package]]
 name = "star-protocol"
 version = "0.2.0"
-source = { editable = "../star_protocol_python" }
+source = { git = "https://github.com/gcyyfun/star-protocol.git?branch=python#8ae43de2aa3fc4ed9057e51c819f15dacb5d32f7" }
 dependencies = [
     { name = "pydantic" },
     { name = "starlette" },
     { name = "websockets" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "pydantic", specifier = ">=2.12.5" },
-    { name = "starlette", specifier = ">=1.0.0" },
-    { name = "websockets", specifier = ">=16.0" },
-]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "fastapi", extras = ["standard"], specifier = ">=0.135.3" },
-    { name = "mypy", specifier = ">=1.19.1" },
-    { name = "pytest", specifier = ">=9.0.2" },
-    { name = "pytest-asyncio", specifier = ">=1.3.0" },
-    { name = "ruff", specifier = ">=0.14.14" },
 ]
 
 [[package]]
