@@ -70,7 +70,7 @@ def convert_anthropic_to_menglong_messages(
             if isinstance(msg.content, str):
                 menglong_messages.append(User(content=msg.content))
             else:
-                text_parts = []
+                content_parts = []
                 for block in msg.content:
                     b = (
                         block
@@ -82,17 +82,33 @@ def convert_anthropic_to_menglong_messages(
                     b_type = b.get("type", "")
 
                     if b_type == "text":
-                        text_parts.append(b.get("text", ""))
+                        content_parts.append({"type": "text", "text": b.get("text", "")})
                     elif b_type == "image":
-                        # TODO: 可以支持真正的图像处理，临时简化
-                        text_parts.append("[图像内容]")
-                    elif b_type == "tool_result":
-                        # 如果前面有累积的文本，先发一条 User 消息
-                        if text_parts:
-                            menglong_messages.append(
-                                User(content="\n".join(text_parts))
+                        source = b.get("source", {})
+                        if source.get("type") == "base64":
+                            content_parts.append(
+                                {
+                                    "type": "image",
+                                    "data": source.get("data"),
+                                    "media_type": source.get("media_type"),
+                                }
                             )
-                            text_parts = []
+                    elif b_type == "document":
+                        source = b.get("source", {})
+                        if source.get("type") == "base64":
+                            content_parts.append(
+                                {
+                                    "type": "document",
+                                    "data": source.get("data"),
+                                    "media_type": source.get("media_type")
+                                    or "application/pdf",
+                                }
+                            )
+                    elif b_type == "tool_result":
+                        # 如果前面有累积的各类型内容，先发一条 User 消息
+                        if content_parts:
+                            menglong_messages.append(User(content=content_parts))
+                            content_parts = []
 
                         # 工具响应转换为 Menglong 中 role=tool 的消息
                         tool_id = b.get("tool_use_id", "")
@@ -120,9 +136,9 @@ def convert_anthropic_to_menglong_messages(
                             )
                         )
 
-                # 发送剩余的文本
-                if text_parts:
-                    menglong_messages.append(User(content="\n".join(text_parts)))
+                # 发送剩余的内容
+                if content_parts:
+                    menglong_messages.append(User(content=content_parts))
 
         elif role == "assistant":
             if isinstance(msg.content, str):
