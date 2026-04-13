@@ -123,33 +123,15 @@ class ModelsManager:
         """双向查找查询口 (提供给 api 端调用的门面)"""
         self.load_snapshot()
 
-        # 1. 如果传入形如 alibaba/qwen-max，直接 HashMap 定位
+        # 1. 完整 ID 匹配 (如 provider/model_name)
         if "/" in model_id:
-            result = self._supported_models.get(model_id)
-            if result:
-                return result
+            return self._supported_models.get(model_id)
 
-            # 2. 直接命中失败时，在同 provider 内按 model_name / alias 做 fallback
-            #    处理如 "anthropic/claude-haiku" → 存储为 "anthropic/anthropic.claude-haiku"
-            provider, model_part = model_id.split("/", 1)
-            for info in self._supported_models.values():
-                if info.provider != provider:
-                    continue
-                # 精确匹配 model_name 或 alias
-                if info.model_name == model_part or info.alias == model_part:
-                    return info
-                # 去掉 provider 前缀再比较（如 "anthropic.claude-haiku" → "claude-haiku"）
-                stripped = info.model_name
-                if stripped.startswith(f"{provider}."):
-                    stripped = stripped[len(f"{provider}."):]
-                if stripped == model_part:
-                    return info
-            return None
-
-        # 3. 短词盲搜：找出名字一样且被 enabled 的那个幸运儿
+        # 2. 短词匹配 (精准匹配 model_name 或 alias)
+        # 优先返回已启用的模型
         fallback = None
         for info in self._supported_models.values():
-            if info.model_name == model_id:
+            if info.model_name == model_id or info.alias == model_id:
                 if info.full_id in self._enabled_models:
                     return info
                 if not fallback:

@@ -8,6 +8,7 @@ from typing import Optional, Tuple, Dict, List
 import yaml
 from pathlib import Path
 from collections import defaultdict
+from datetime import datetime
 
 
 class ModelNormalizer:
@@ -54,11 +55,6 @@ class ModelNormalizer:
                 # 短名称映射（去掉provider）
                 self.short_name_to_full_id[model.lower()] = full_id
 
-                # 模型基础名称映射（去掉版本号）
-                base_name = re.sub(r"[:\-].*$", "", model).lower()
-                if base_name != model.lower():
-                    self.base_name_to_full_ids[base_name].append(full_id)
-
     def normalize(
         self, model_name: Optional[str]
     ) -> Tuple[Optional[str], Optional[str], Optional[str]]:
@@ -74,80 +70,28 @@ class ModelNormalizer:
         # 清理模型名称
         clean_name = model_name.strip().lower()
 
-        # 1. 首先尝试直接匹配完整ID
+        # 1. 首先尝试直接匹配完整ID (如 infinigence/deepseek-v3.2)
         if clean_name in self.full_id_to_config:
             config = self.full_id_to_config[clean_name]
             return (config["full_id"], config.get("provider"), config.get("alias"))
 
-        # 2. 尝试匹配别名
+        # 2. 尝试匹配别名 (alias 字段定义的显示名称)
         if clean_name in self.alias_to_full_id:
             full_id = self.alias_to_full_id[clean_name]
             config = self.full_id_to_config[full_id]
             return (config["full_id"], config.get("provider"), config.get("alias"))
 
-        # 3. 尝试匹配短名称
+        # 3. 尝试匹配短名称 (不带 provider 的 model_name)
         if clean_name in self.short_name_to_full_id:
             full_id = self.short_name_to_full_id[clean_name]
             config = self.full_id_to_config[full_id]
             return (config["full_id"], config.get("provider"), config.get("alias"))
 
-        # 4. 尝试处理带provider前缀的名称
-        if "/" in clean_name:
-            parts = clean_name.split("/")
-            if len(parts) == 2:
-                provider, model_part = parts
-                # 构建可能的完整ID
-                possible_full_id = f"{provider}/{model_part}"
-                if possible_full_id in self.full_id_to_config:
-                    config = self.full_id_to_config[possible_full_id]
-                    return (
-                        config["full_id"],
-                        config.get("provider"),
-                        config.get("alias"),
-                    )
+        # 4. 无法识别，返回原始名称
 
-        # 5. 尝试匹配基础名称（去掉版本号）
-        base_name = re.sub(r"[:\-].*$", "", clean_name)
-        if (
-            base_name in self.base_name_to_full_ids
-            and self.base_name_to_full_ids[base_name]
-        ):
-            # 如果有多个匹配，返回第一个
-            full_id = self.base_name_to_full_ids[base_name][0]
-            config = self.full_id_to_config[full_id]
-            return (config["full_id"], config.get("provider"), config.get("alias"))
-
-        # 6. 尝试识别常见的模型模式
-        known_patterns = {
-            # Anthropic
-            r"claude.*haiku.*": "anthropic/us.anthropic.claude-haiku-4-5-20251001-v1:0",
-            r"claude.*sonnet.*": "anthropic/us.anthropic.claude-sonnet-4-6",
-            r"claude.*opus.*": "anthropic/us.anthropic.claude-opus-4-6-v1",
-            # DeepSeek
-            r"deepseek.*v3.*2.*": "infinigence/deepseek-v3.2",
-            r"deepseek.*chat.*": "deepseek/deepseek-chat",
-            r"deepseek.*reasoner.*": "deepseek/deepseek-reasoner",
-            # Gemini
-            r"gemini.*flash.*lite.*": "google/gemini-3.1-flash-lite-preview",
-            r"gemini.*pro.*": "google/gemini-3.1-pro-preview",
-            # GPT
-            r"gpt.*5\.4.*": "infinigence/gpt-5.4",
-            r"gpt.*5\.3.*codex.*": "infinigence/gpt-5.3-codex",
-            # Kimi
-            r"kimi.*k2\.5.*": "infinigence/kimi-k2.5",
-        }
-
-        for pattern, default_full_id in known_patterns.items():
-            if re.search(pattern, clean_name, re.IGNORECASE):
-                if default_full_id.lower() in self.full_id_to_config:
-                    config = self.full_id_to_config[default_full_id.lower()]
-                    return (
-                        config["full_id"],
-                        config.get("provider"),
-                        config.get("alias"),
-                    )
-
-        # 7. 无法识别，返回原始名称
+        print(
+            f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] ModelNormalizer.normalize: input={model_name} -> result={(clean_name, None, None)}"
+        )
         return model_name, None, None
 
     def get_model_config(self, model_full_id: str) -> Optional[Dict]:

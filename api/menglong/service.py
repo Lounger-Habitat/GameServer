@@ -2,10 +2,12 @@
 
 直接使用 MengLong SDK 调用 LLM，支持多模态内容（图片、文件、音频、视频）
 """
+
 from typing import AsyncIterator, List, Optional, Any
 
 from menglong import Model
 from .config import is_model_supported, get_model_full_id
+from datetime import datetime
 
 
 class MengLongService:
@@ -40,8 +42,13 @@ class MengLongService:
         # 验证并获取完整模型 ID
         if not is_model_supported(model):
             raise ValueError(f"不支持的模型: {model}")
-        
+
         full_model_id = get_model_full_id(model)
+        from datetime import datetime
+
+        print(
+            f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] MengLongService.chat: input={model} -> resolved={full_model_id}"
+        )
 
         try:
             # 直接透传给 SDK，SDK 会自动处理消息归一化（包括多模态支持）
@@ -53,15 +60,16 @@ class MengLongService:
                 tools=tools,
                 tool_choice=tool_choice,
             )
-            
+
             # 防御性检查：确保 response 不为 None 且 output 存在
             if response is None:
                 raise ValueError("SDK 返回了空响应 (None)")
-            
+
             return response
 
         except Exception as e:
             import traceback
+
             error_details = traceback.format_exc()
             raise ValueError(f"MengLong SDK 调用失败: {str(e)}\n{error_details}")
 
@@ -90,8 +98,12 @@ class MengLongService:
         # 验证并获取完整模型 ID
         if not is_model_supported(model):
             raise ValueError(f"不支持的模型: {model}")
-        
+
         full_model_id = get_model_full_id(model)
+
+        print(
+            f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] MengLongService.stream_chat: input={model} -> resolved={full_model_id}"
+        )
 
         try:
             # async_stream_chat 返回的是 async_generator，必须用 async for
@@ -108,6 +120,7 @@ class MengLongService:
 
         except Exception as e:
             import traceback
+
             error_details = traceback.format_exc()
             raise ValueError(f"MengLong SDK 流式调用失败: {str(e)}\n{error_details}")
 

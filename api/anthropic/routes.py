@@ -9,6 +9,7 @@ from typing import List
 
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import StreamingResponse
+from datetime import datetime
 
 logger = logging.getLogger("anthropic_api")
 # 设置为 DEBUG 级别即可在终端看到调试信息。依赖于外部日志配置，如果没看到可以强制配置：
@@ -75,6 +76,10 @@ async def get_model(model_id: str):
 @router.post("/messages", response_model=AnthropicChatResponse)
 async def chat(request: AnthropicChatRequest):
     """对话补全接口（Anthropic 格式）"""
+
+    print(
+        f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 收到 Anthropic Chat 请求: model={request.model}"
+    )
     logger.info(f"[Anthropic API] ---------- New Request: {request.model} ----------")
     try:
         # Debug incoming request

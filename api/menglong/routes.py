@@ -8,6 +8,7 @@ from typing import List, Optional, Dict, Any
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
+from datetime import datetime
 
 # 直接使用 MengLong SDK 的类型
 from menglong.schemas.chat import (
@@ -97,6 +98,10 @@ async def chat(request: ChatRequest):
     - **max_tokens**: 最大生成 token 数
     - **stream**: 是否流式输出（返回 StreamResponse）
     """
+
+    print(
+        f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 收到 MengLong Chat 请求: model={request.model}"
+    )
     try:
         service = get_service()
 
@@ -112,6 +117,8 @@ async def chat(request: ChatRequest):
                         tools=request.tools,
                         tool_choice=request.tool_choice,
                     ):
+                        # 强制确保返回的模型 ID 与请求的一致，避免上游 SDK/Provider 返回 base 名称导致客户端混淆
+                        chunk.model = request.model
                         # 如果是最后一块，带上统计信息
                         yield f"data: {chunk.model_dump_json(exclude_none=True)}\n\n"
                 except Exception as e:
@@ -135,6 +142,8 @@ async def chat(request: ChatRequest):
             tools=request.tools,
             tool_choice=request.tool_choice,
         )
+        # 强制确保返回的模型 ID 与请求的一致
+        response.model = request.model
         return response
 
     except ValueError as e:

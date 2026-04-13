@@ -19,6 +19,13 @@ class TextContent(BaseModel):
     text: str
 
 
+class ThinkingContent(BaseModel):
+    """思维/推理内容块（对应 Anthropic thinking block 格式）"""
+
+    type: str = "thinking"
+    thinking: str
+
+
 class ImageContentSource(BaseModel):
     """图像内容源"""
 
@@ -36,7 +43,7 @@ class ImageContent(BaseModel):
     source: ImageContentSource
 
 
-ContentBlock = Union[TextContent, ImageContent, Dict[str, Any]]
+ContentBlock = Union[TextContent, ThinkingContent, ImageContent, Dict[str, Any]]
 
 
 # ============== Anthropic 消息 ==============

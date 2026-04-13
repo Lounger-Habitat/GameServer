@@ -34,6 +34,7 @@ from .models import (
     AnthropicStreamResponse,
     ContentBlock,
     TextContent,
+    ThinkingContent,
     Usage,
     AnthropicModelInfo,
 )
@@ -213,6 +214,7 @@ def convert_menglong_to_anthropic_response(
 
     # 提取响应内容
     content_text = ""
+    reasoning_text = ""  # 思维/推理过程
 
     if hasattr(menglong_response, "output") and menglong_response.output:
         # 检查output对象是否有content属性
@@ -220,16 +222,20 @@ def convert_menglong_to_anthropic_response(
             # content可能是一个Content对象
             content_obj = menglong_response.output.content
             if hasattr(content_obj, "text"):
-                content_text = content_obj.text
+                content_text = content_obj.text or ""
             else:
-                # 如果不是Content对象，尝试转换为字符串
                 content_text = str(content_obj)
+            # 提取 reasoning（思维过程），DeepSeek-thinking 等模型会填充此字段
+            if hasattr(content_obj, "reasoning") and content_obj.reasoning:
+                reasoning_text = content_obj.reasoning
         else:
-            # 如果没有content属性，尝试其他属性
             content_text = str(menglong_response.output)
 
     # 创建 Anthropic 格式的内容块
+    # 按照 Anthropic 规范：thinking 块先于 text 块
     content_blocks = []
+    if reasoning_text:
+        content_blocks.append({"type": "thinking", "thinking": reasoning_text})
     if content_text:
         content_blocks.append({"type": "text", "text": content_text})
 
@@ -617,7 +623,14 @@ async def anthropic_stream_chat(request: AnthropicChatRequest) -> AsyncIterator[
                 )
                 b_type = b.get("type", "")
 
-                if b_type == "text":
+                if b_type == "thinking":
+                    thinking = b.get("thinking", "")
+                    yield _make_cb_start(i, {"type": "thinking", "thinking": ""})
+                    if thinking:
+                        yield _make_cb_delta(i, {"type": "thinking_delta", "thinking": thinking})
+                    yield _make_cb_stop(i)
+
+                elif b_type == "text":
                     text = b.get("text", "")
                     yield _make_cb_start(i, {"type": "text", "text": ""})
                     if text:
@@ -637,7 +650,6 @@ async def anthropic_stream_chat(request: AnthropicChatRequest) -> AsyncIterator[
                             "input": {},
                         },
                     )
-                    # input_json_delta 携带完整的 JSON 字符串
                     yield _make_cb_delta(
                         i,
                         {
@@ -654,35 +666,58 @@ async def anthropic_stream_chat(request: AnthropicChatRequest) -> AsyncIterator[
             return
 
         # ────────────────────────────────────────────────────────────────────
-        # 分支 B：无工具 → 真实流式文本推送
-        #   input_tokens：message_start 提前发出，当前以估算值兼容（流式无法事先获取）
-        #   output_tokens：优先从 SDK 最后一个 chunk 的 usage 字段提取真实值
+        # 分支 B：无工具 → 真实流式推送（支持 thinking + text 双轨）
         # ────────────────────────────────────────────────────────────────────
-        # TODO: 将来在此处透传 cache_creation_input_tokens / cache_read_input_tokens
         yield _make_message_start(input_tokens)
-        yield _make_cb_start(0, {"type": "text", "text": ""})
 
         accumulated_text = ""
         chunk_count = 0
-        # 从 SDK 最后一个携带 usage 的 chunk 提取真实 token 数（若 SDK 不支持则为 None）
         real_output_tokens: int | None = None
+
+        # 思维过程状态跟踪：管理当前活跃的 content_block 的类型和索引
+        block_index = -1             # 当前开放的 block 索引 (-1 = 未开启)
+        in_thinking_block = False    # 是否正在流式输出 thinking 块
+        in_text_block = False        # 是否正在流式输出 text 块
 
         try:
             async for chunk in model.async_stream_chat(**kwargs):
                 chunk_count += 1
 
-                # 提取文本 delta
                 delta_text = ""
+                delta_reasoning = ""
+
                 if hasattr(chunk, "output") and chunk.output:
                     delta = getattr(chunk.output, "delta", None)
-                    if delta and hasattr(delta, "text") and delta.text:
-                        delta_text = delta.text
+                    if delta:
+                        if hasattr(delta, "text") and delta.text:
+                            delta_text = delta.text
+                        if hasattr(delta, "reasoning") and delta.reasoning:
+                            delta_reasoning = delta.reasoning
 
+                # 处理 reasoning delta：需要开启 thinking block
+                if delta_reasoning:
+                    if not in_thinking_block:
+                        # 关闭任何当前 open 的 block
+                        if block_index >= 0:
+                            yield _make_cb_stop(block_index)
+                        block_index += 1
+                        yield _make_cb_start(block_index, {"type": "thinking", "thinking": ""})
+                        in_thinking_block = True
+                        in_text_block = False
+                    yield _make_cb_delta(block_index, {"type": "thinking_delta", "thinking": delta_reasoning})
+
+                # 处理 text delta：如果当前在 thinking block则需要关闭它并开启 text block
                 if delta_text:
+                    if not in_text_block:
+                        if block_index >= 0:
+                            yield _make_cb_stop(block_index)
+                        block_index += 1
+                        yield _make_cb_start(block_index, {"type": "text", "text": ""})
+                        in_text_block = True
+                        in_thinking_block = False
                     accumulated_text += delta_text
-                    yield _make_cb_delta(0, {"type": "text_delta", "text": delta_text})
+                    yield _make_cb_delta(block_index, {"type": "text_delta", "text": delta_text})
 
-                # 尝试从 chunk 中提取真实 Usage（部分 provider 会在末尾 chunk 携带）
                 if hasattr(chunk, "usage") and chunk.usage:
                     out_val = getattr(chunk.usage, "output_tokens", None)
                     if out_val is not None and out_val > 0:
@@ -691,7 +726,10 @@ async def anthropic_stream_chat(request: AnthropicChatRequest) -> AsyncIterator[
             if chunk_count == 0:
                 fallback = "stream response failed"
                 accumulated_text = fallback
-                yield _make_cb_delta(0, {"type": "text_delta", "text": fallback})
+                if not in_text_block:
+                    block_index += 1
+                    yield _make_cb_start(block_index, {"type": "text", "text": ""})
+                yield _make_cb_delta(block_index, {"type": "text_delta", "text": fallback})
 
         except Exception as e:
             yield AnthropicStreamResponse(
@@ -700,8 +738,10 @@ async def anthropic_stream_chat(request: AnthropicChatRequest) -> AsyncIterator[
             ).model_dump_json()
             return
 
-        yield _make_cb_stop(0)
-        # 优先使用 SDK 返回的真实值；若 SDK 不携带 usage 则退化为字符估算（//4）
+        # 关闭最后一个开放的 block
+        if block_index >= 0:
+            yield _make_cb_stop(block_index)
+        # 优先使用 SDK 返回的真实値；若 SDK 不携带 usage 则退化为字符估算（//4）
         out_tokens = (
             real_output_tokens
             if real_output_tokens is not None
@@ -709,6 +749,7 @@ async def anthropic_stream_chat(request: AnthropicChatRequest) -> AsyncIterator[
         )
         yield _make_message_delta("end_turn", out_tokens)
         yield json.dumps({"type": "message_stop"})
+
 
     except Exception as e:
         import traceback

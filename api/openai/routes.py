@@ -77,6 +77,7 @@ async def list_models():
 @router.post("/chat/completions", response_model=ChatCompletionResponse)
 async def create_chat_completion(request: ChatCompletionRequest):
     """创建聊天补全（示例实现）"""
+    print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 收到 OpenAI Chat 请求: model={request.model}")
     # 这里是示例响应，实际应该调用 LLM 服务
     return ChatCompletionResponse(
         id="chatcmpl-123",
