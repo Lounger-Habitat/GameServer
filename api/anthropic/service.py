@@ -12,6 +12,29 @@ from datetime import datetime
 
 logger = logging.getLogger("anthropic_service")
 
+# --- 专用调试日志配置 ---
+def _setup_debug_logger():
+    import os
+    from logging.handlers import RotatingFileHandler
+    
+    log_dir = "logs"
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
+        
+    debug_log = logging.getLogger("anthropic_debug")
+    debug_log.setLevel(logging.DEBUG)
+    
+    # 避免重复添加 Handler
+    if not debug_log.handlers:
+        path = os.path.join(log_dir, "anthropic_api.log")
+        handler = RotatingFileHandler(path, maxBytes=10*1024*1024, backupCount=5, encoding="utf-8")
+        handler.setFormatter(logging.Formatter('%(asctime)s [%(levelname)s] %(message)s'))
+        debug_log.addHandler(handler)
+    return debug_log
+
+debug_log = _setup_debug_logger()
+# -----------------------
+
 # 直接导入 MengLong SDK
 from menglong import Model
 from menglong.schemas.chat import (
@@ -408,23 +431,34 @@ async def anthropic_chat(request: AnthropicChatRequest) -> AnthropicChatResponse
         )
 
         # 调用 MengLong SDK 的异步方法
+        request_id = getattr(request, 'id', None) or f"req_{uuid.uuid4().hex[:12]}"
+        debug_log.info(f"[{request_id}] === NEW REQUEST === Model: {request.model}")
+        debug_log.debug(f"[{request_id}] INPUT (Anthropic): {request.model_dump_json(ensure_ascii=False, indent=2)}")
+        debug_log.debug(f"[{request_id}] INTERMEDIATE (MengLong Kwargs): {json.dumps({k: str(v) if k == 'messages' else v for k, v in kwargs.items()}, ensure_ascii=False, indent=2)}")
+
         menglong_response = await model.async_chat(**kwargs)
 
         if menglong_response is None:
+            debug_log.error(f"[{request_id}] SDK returned None")
             raise ValueError("SDK 返回了空响应 (None)")
 
         logger.debug("[Anthropic API] Model response received")
 
         # 转换响应格式
-        return convert_menglong_to_anthropic_response(
+        response = convert_menglong_to_anthropic_response(
             menglong_response,
             request.model,
         )
+        
+        debug_log.info(f"[{request_id}] SUCCESS: {response.model_dump_json(ensure_ascii=False, indent=2)}")
+        return response
 
     except Exception as e:
         import traceback
-
         error_details = traceback.format_exc()
+        # 即使在 try 外层定义的 request_id 也可以在这里用（如果是赋值后报错）
+        rid = locals().get('request_id', 'unknown')
+        debug_log.error(f"[{rid}] FAILED: {str(e)}\n{error_details}")
         raise ValueError(f"LLM 调用失败: {e}\n{error_details}")
 
 
@@ -519,6 +553,10 @@ async def anthropic_stream_chat(request: AnthropicChatRequest) -> AsyncIterator[
                     kwargs["tool_choice"] = tc
             else:
                 kwargs["tool_choice"] = {"type": "auto"}
+
+        debug_log.info(f"[{request_id}] === NEW STREAM REQUEST === Model: {request.model}")
+        debug_log.debug(f"[{request_id}] INPUT (Anthropic): {request.model_dump_json(ensure_ascii=False, indent=2)}")
+        debug_log.debug(f"[{request_id}] INTERMEDIATE (MengLong Kwargs): {json.dumps({k: str(v) if k == 'messages' else v for k, v in kwargs.items()}, ensure_ascii=False, indent=2)}")
 
         logger.debug(
             f"[Anthropic Stream] kwargs: {json.dumps({k: str(v) if k == 'messages' else v for k, v in kwargs.items()}, ensure_ascii=False, indent=2)}"
@@ -749,10 +787,15 @@ async def anthropic_stream_chat(request: AnthropicChatRequest) -> AsyncIterator[
         )
         yield _make_message_delta("end_turn", out_tokens)
         yield json.dumps({"type": "message_stop"})
+        
+        debug_log.info(f"[{request_id}] STREAM SUCCESS. Output tokens: {out_tokens}")
 
 
     except Exception as e:
         import traceback
+        error_details = traceback.format_exc()
+        rid = locals().get('request_id', 'unknown')
+        debug_log.error(f"[{rid}] STREAM FAILED: {str(e)}\n{error_details}")
 
         yield AnthropicStreamResponse(
             type="error",
