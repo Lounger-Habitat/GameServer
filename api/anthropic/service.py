@@ -170,6 +170,7 @@ def convert_anthropic_to_menglong_messages(
             else:
                 text_parts = []
                 tool_calls = []
+                thinking_text = None
                 for block in msg.content:
                     b = (
                         block
@@ -182,6 +183,8 @@ def convert_anthropic_to_menglong_messages(
 
                     if b_type == "text":
                         text_parts.append(b.get("text", ""))
+                    elif b_type == "thinking":
+                        thinking_text = b.get("thinking", "")
                     elif b_type == "tool_use":
                         # 必须传 Action 对象而非 dict，否则 Assistant() 内部的 action.id 会报 AttributeError
                         tool_calls.append(
@@ -194,7 +197,7 @@ def convert_anthropic_to_menglong_messages(
 
                 content_str = "\n".join(text_parts) if text_parts else None
                 menglong_messages.append(
-                    Assistant(content=content_str, actions=tool_calls)
+                    Assistant(content=content_str, actions=tool_calls, reasoning=thinking_text)
                 )
         else:
             # 兜底处理
