@@ -1,6 +1,8 @@
 enabled_models:
   - infinigence/deepseek-v3.2
   - infinigence/deepseek-v3.2-thinking
+  - infinigence/deepseek-v4-flash
+  - infinigence/deepseek-v4-pro
   - infinigence/kimi-k2.5
   - infinigence/claude-sonnet-4-6
   - infinigence/claude-opus-4-6
@@ -60,6 +62,46 @@ models:
     verified: true
     description: null
     source: sdk_auto
+
+  infinigence/deepseek-v4-flash:
+    full_id: infinigence/deepseek-v4-flash
+    provider: infinigence
+    model_name: deepseek-v4-flash
+    alias: deepseek-v4-flash
+    max_tokens: 384000
+    context_window: 1000000
+    supports:
+      streaming: true
+      image: false
+      audio: false
+      file: false
+      tools: true
+    price:
+      input: 0.125
+      output: 0.25
+    verified: true
+    description: null
+    source: manual_addition
+
+  infinigence/deepseek-v4-pro:
+    full_id: infinigence/deepseek-v4-pro
+    provider: infinigence
+    model_name: deepseek-v4-pro
+    alias: deepseek-v4-pro
+    max_tokens: 384000
+    context_window: 1000000
+    supports:
+      streaming: true
+      image: false
+      audio: false
+      file: false
+      tools: true
+    price:
+      input: 1.5
+      output: 3
+    verified: true
+    description: null
+    source: manual_addition
 
   infinigence/kimi-k2.5:
     full_id: infinigence/kimi-k2.5

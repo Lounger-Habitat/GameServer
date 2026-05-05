@@ -13,7 +13,8 @@ logs/
 # utils
 tests/
 examples/
-temp
+scratch/
+temp/
 
 
 # Virtual environments

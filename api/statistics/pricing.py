@@ -115,14 +115,12 @@ class ModelPricingManager:
             # 检查是否已存在定价
             cursor = self.conn.cursor()
             cursor.execute(
-                """
-                SELECT COUNT(*) as count FROM model_pricing
-                WHERE model_full_id = ? AND enabled = 1
-            """,
+                "SELECT id, base_input_price_usd, base_output_price_usd FROM model_pricing WHERE model_full_id = ? AND enabled = 1",
                 (model_full_id,),
             )
+            existing = cursor.fetchone()
 
-            if cursor.fetchone()["count"] == 0:
+            if not existing:
                 # 创建默认定价
                 pricing = ModelPricing(
                     model_name=model_full_id,
@@ -131,10 +129,35 @@ class ModelPricingManager:
                     base_cache_input_price_per_million=cache_input_price_usd
                     * self.USD_TO_CNY,
                     currency=Currency.CNY,
-                    effective_from=datetime.now(),
+                    effective_from=datetime(2024, 1, 1),
                     enabled=True,
                 )
                 self.save_model_pricing(pricing)
+                print(f"  ➕ 已为新模型 {model_full_id} 初始化定价")
+            else:
+                # 检查是否需要更新价格
+                if (
+                    abs(existing["base_input_price_usd"] - input_price_usd) > 1e-6
+                    or abs(existing["base_output_price_usd"] - output_price_usd) > 1e-6
+                ):
+                    print(f"  🔄 正在同步模型 {model_full_id} 的最新定价")
+                    cursor.execute(
+                        """
+                        UPDATE model_pricing 
+                        SET base_input_price_usd = ?, 
+                            base_output_price_usd = ?,
+                            base_cache_input_price_usd = ?,
+                            updated_at = CURRENT_TIMESTAMP
+                        WHERE id = ?
+                    """,
+                        (
+                            input_price_usd,
+                            output_price_usd,
+                            cache_input_price_usd,
+                            existing["id"],
+                        ),
+                    )
+                    self.conn.commit()
 
     def save_model_pricing(self, pricing: ModelPricing) -> int:
         """保存模型定价配置"""
@@ -238,7 +261,7 @@ class ModelPricingManager:
 
         row = cursor.fetchone()
         if not row:
-            print(f"  ❌ 未找到定价配置")
+            print("  ❌ 未找到定价配置")
 
             # 调试：查看数据库中的所有定价
             cursor.execute(
@@ -247,7 +270,7 @@ class ModelPricingManager:
             )
             all_rows = cursor.fetchall()
             if all_rows:
-                print(f"  数据库中的相关记录:")
+                print("  数据库中的相关记录:")
                 for r in all_rows:
                     print(
                         f"    {r['model_full_id']}: {r['effective_from']} 到 {r['effective_to']}"
@@ -346,7 +369,7 @@ class ModelPricingManager:
             if rows:
                 print(f"  数据库中类似模型: {[r[0] for r in rows]}")
             else:
-                print(f"  数据库中没有类似模型")
+                print("  数据库中没有类似模型")
 
             return 1.0, 1.0, 0.0
 
