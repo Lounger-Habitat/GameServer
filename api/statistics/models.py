@@ -4,7 +4,7 @@
 
 from datetime import datetime, time
 from typing import Optional, List, Dict, Any
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 from enum import Enum
 
 
@@ -110,14 +110,13 @@ class ApiCallLog(BaseModel):
     user_agent: Optional[str] = Field(default=None, description="User Agent")
     tags: Dict[str, Any] = Field(default_factory=dict, description="自定义标签")
 
-    @validator("total_tokens", pre=True, always=True)
+    @field_validator("total_tokens", mode="before")
     def calculate_total_tokens(cls, v, values):
         """计算总 token 数量"""
         if v == 0:
             input_tokens = values.get("input_tokens", 0)
             output_tokens = values.get("output_tokens", 0)
-            cache_input_tokens = values.get("cache_input_tokens", 0)
-            return input_tokens + output_tokens + cache_input_tokens
+            return input_tokens + output_tokens
         return v
 
 

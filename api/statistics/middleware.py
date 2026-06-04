@@ -76,7 +76,9 @@ class StatisticsMiddleware(BaseHTTPMiddleware):
             "/openapi.json",
             "/favicon.ico",
         ]
-        if path.startswith("/statistics/") and not path.startswith("/statistics/dashboard"):
+        if path.startswith("/statistics/") and not path.startswith(
+            "/statistics/dashboard"
+        ):
             if path in ["/statistics/", "/statistics"]:
                 return True
         return any(path.startswith(p) for p in skip_paths)
@@ -105,7 +107,9 @@ class StatisticsMiddleware(BaseHTTPMiddleware):
         """包装响应以提取统计信息"""
         content_type = response.headers.get("content-type", "").lower()
 
-        if "text/event-stream" in content_type or isinstance(response, StreamingResponse):
+        if "text/event-stream" in content_type or isinstance(
+            response, StreamingResponse
+        ):
             return await self._wrap_streaming_response(response, log)
 
         # 非流式响应：读取整个 body 后提取统计
@@ -147,9 +151,10 @@ class StatisticsMiddleware(BaseHTTPMiddleware):
         # 分事件类型跟踪 Usage（按 Anthropic 规范）
         input_tokens: int = 0
         output_tokens: int = 0
+        cache_tokens: int = 0
 
         async def wrapped_generator():
-            nonlocal model_name, input_tokens, output_tokens
+            nonlocal model_name, input_tokens, output_tokens, cache_tokens
             buffer = b""
 
             async for chunk in original_iterator:
@@ -165,7 +170,9 @@ class StatisticsMiddleware(BaseHTTPMiddleware):
                     event_type: Optional[str] = None
                     event_data: Optional[dict] = None
 
-                    for line in event_block.decode("utf-8", errors="replace").split("\n"):
+                    for line in event_block.decode("utf-8", errors="replace").split(
+                        "\n"
+                    ):
                         if line.startswith("event: "):
                             event_type = line[7:].strip()
                         elif line.startswith("data: "):
@@ -192,16 +199,27 @@ class StatisticsMiddleware(BaseHTTPMiddleware):
                     #
                     # 规则：message_delta 的字段优先级更高（是累积最终值），
                     # 若 message_delta 的某字段为 0 或不存在，则保留 message_start 的值。
-                    if event_type == "message_start" or event_data.get("type") == "message_start":
+                    if (
+                        event_type == "message_start"
+                        or event_data.get("type") == "message_start"
+                    ):
                         msg_usage = event_data.get("message", {}).get("usage", {})
                         if msg_usage:
                             # 以 message_start 的值作为初始值
-                            input_tokens  = msg_usage.get("input_tokens",  input_tokens)
+                            input_tokens = msg_usage.get("input_tokens", input_tokens)
                             # message_start 中的 output_tokens 是初始 prefill 数，
                             # 会被 message_delta 的累积值覆盖，暂先记录
-                            output_tokens = msg_usage.get("output_tokens", output_tokens)
+                            output_tokens = msg_usage.get(
+                                "output_tokens", output_tokens
+                            )
+                            cache_tokens = msg_usage.get(
+                                "cache_input_tokens", cache_tokens
+                            )
 
-                    elif event_type == "message_delta" or event_data.get("type") == "message_delta":
+                    elif (
+                        event_type == "message_delta"
+                        or event_data.get("type") == "message_delta"
+                    ):
                         delta_usage = event_data.get("usage", {})
                         if delta_usage:
                             # output_tokens 是累积最终值，直接覆盖
@@ -213,30 +231,52 @@ class StatisticsMiddleware(BaseHTTPMiddleware):
                             final_in = delta_usage.get("input_tokens", 0)
                             if final_in > 0:
                                 input_tokens = final_in
+                            final_cache = delta_usage.get("cache_input_tokens", 0)
+                            if final_cache > 0:
+                                cache_tokens = final_cache
 
                     # OpenAI 兼容格式兜底（直接包含 usage 字段的响应）
-                    elif "usage" in event_data and isinstance(event_data["usage"], dict):
+                    elif "usage" in event_data and isinstance(
+                        event_data["usage"], dict
+                    ):
                         usage = event_data["usage"]
-                        in_val  = usage.get("input_tokens",  usage.get("prompt_tokens",     0))
-                        out_val = usage.get("output_tokens", usage.get("completion_tokens", 0))
-                        if in_val  > 0: input_tokens  = in_val
-                        if out_val > 0: output_tokens = out_val
+                        in_val = usage.get(
+                            "input_tokens", usage.get("prompt_tokens", 0)
+                        )
+                        out_val = usage.get(
+                            "output_tokens", usage.get("completion_tokens", 0)
+                        )
+                        details_val = usage.get("prompt_tokens_details", {})
+                        cache_val = details_val.get("cached_tokens", 0)
+                        if in_val > 0:
+                            input_tokens = in_val
+                        if out_val > 0:
+                            output_tokens = out_val
+                        if cache_val > 0:
+                            cache_tokens = cache_val
 
                 yield chunk
 
             # ── 流结束后组装统计日志 ──────────────────────────────────────────
             if model_name:
-                model_full_id, model_provider, model_alias = normalize_model_name(model_name)
-                log.model_full_id  = model_full_id
+                model_full_id, model_provider, model_alias = normalize_model_name(
+                    model_name
+                )
+                log.model_full_id = model_full_id
                 log.model_provider = model_provider
-                log.model_alias    = model_alias
+                log.model_alias = model_alias
 
-            log.input_tokens  = input_tokens
+            log.input_tokens = input_tokens
             log.output_tokens = output_tokens
-            log.total_tokens  = input_tokens + output_tokens
-            log.is_stream     = True
+            log.cache_input_tokens = cache_tokens
+            log.total_tokens = input_tokens + output_tokens
+            log.is_stream = True
 
-            if log.model_full_id and (log.input_tokens > 0 or log.output_tokens > 0):
+            if log.model_full_id and (
+                log.input_tokens > 0
+                or log.output_tokens > 0
+                or log.cache_input_tokens > 0
+            ):
                 try:
                     cost, inp_price, out_price, cache_price = calculate_cost(
                         log.model_full_id,
@@ -245,9 +285,9 @@ class StatisticsMiddleware(BaseHTTPMiddleware):
                         log.cache_input_tokens,
                         log.timestamp,
                     )
-                    log.cost                          = cost
-                    log.input_price_per_million       = inp_price
-                    log.output_price_per_million      = out_price
+                    log.cost = cost
+                    log.input_price_per_million = inp_price
+                    log.output_price_per_million = out_price
                     log.cache_input_price_per_million = cache_price
                 except Exception:
                     pass
@@ -274,10 +314,12 @@ class StatisticsMiddleware(BaseHTTPMiddleware):
             model_name = data["data"].get("model")
 
         if model_name:
-            model_full_id, model_provider, model_alias = normalize_model_name(model_name)
-            log.model_full_id  = model_full_id
+            model_full_id, model_provider, model_alias = normalize_model_name(
+                model_name
+            )
+            log.model_full_id = model_full_id
             log.model_provider = model_provider
-            log.model_alias    = model_alias
+            log.model_alias = model_alias
 
         # 提取 Token 信息（兼容 Anthropic / OpenAI / MengLong 格式）
         usage = (
@@ -286,14 +328,23 @@ class StatisticsMiddleware(BaseHTTPMiddleware):
             or {}
         )
         if isinstance(usage, dict):
-            log.input_tokens  = usage.get("input_tokens",  usage.get("prompt_tokens",     0))
-            log.output_tokens = usage.get("output_tokens", usage.get("completion_tokens", 0))
-            log.total_tokens  = usage.get("total_tokens",  0)
-            if log.total_tokens == 0 and (log.input_tokens > 0 or log.output_tokens > 0):
+            log.input_tokens = usage.get("input_tokens", usage.get("prompt_tokens", 0))
+            log.output_tokens = usage.get(
+                "output_tokens", usage.get("completion_tokens", 0)
+            )
+            log.cache_input_tokens = usage.get("cache_input_tokens", 0)
+            explicit_total = usage.get("total_tokens")
+            if explicit_total is not None and log.cache_input_tokens == 0:
+                log.total_tokens = explicit_total
+            else:
                 log.total_tokens = log.input_tokens + log.output_tokens
 
         # 计算费用
-        if log.model_full_id and (log.input_tokens > 0 or log.output_tokens > 0):
+
+        # 计算费用
+        if log.model_full_id and (
+            log.input_tokens > 0 or log.output_tokens > 0 or log.cache_input_tokens > 0
+        ):
             try:
                 cost, inp_price, out_price, cache_price = calculate_cost(
                     log.model_full_id,
@@ -302,9 +353,9 @@ class StatisticsMiddleware(BaseHTTPMiddleware):
                     log.cache_input_tokens,
                     log.timestamp,
                 )
-                log.cost                          = cost
-                log.input_price_per_million       = inp_price
-                log.output_price_per_million      = out_price
+                log.cost = cost
+                log.input_price_per_million = inp_price
+                log.output_price_per_million = out_price
                 log.cache_input_price_per_million = cache_price
             except Exception:
                 pass
@@ -314,6 +365,25 @@ class StatisticsMiddleware(BaseHTTPMiddleware):
         try:
             stats_store = get_stats_store()
             stats_store.log_api_call(log)
-        except Exception as e:
+        except Exception:
             # 记录失败不影响主流程
             pass
+        finally:
+            self._print_terminal_stats(log)
+
+    def _print_terminal_stats(self, log: ApiCallLog):
+        """在终端输出每次生成后的 token 统计信息"""
+        if (
+            log.input_tokens == 0
+            and log.output_tokens == 0
+            and log.cache_input_tokens == 0
+        ):
+            return
+
+        model_desc = log.model_full_id or log.model_alias or "unknown"
+        print(
+            f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Token Stats: endpoint={log.endpoint} "
+            f"model={model_desc} input_tokens={log.input_tokens} "
+            f"output_tokens={log.output_tokens} cache_input_tokens={log.cache_input_tokens} "
+            f"total_tokens={log.total_tokens} status={log.status_code} latency_ms={log.latency_ms}"
+        )

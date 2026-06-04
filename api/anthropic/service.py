@@ -12,25 +12,31 @@ from datetime import datetime
 
 logger = logging.getLogger("anthropic_service")
 
+
 # --- 专用调试日志配置 ---
 def _setup_debug_logger():
     import os
     from logging.handlers import RotatingFileHandler
-    
+
     log_dir = "logs"
     if not os.path.exists(log_dir):
         os.makedirs(log_dir)
-        
+
     debug_log = logging.getLogger("anthropic_debug")
     debug_log.setLevel(logging.DEBUG)
-    
+
     # 避免重复添加 Handler
     if not debug_log.handlers:
         path = os.path.join(log_dir, "anthropic_api.log")
-        handler = RotatingFileHandler(path, maxBytes=10*1024*1024, backupCount=5, encoding="utf-8")
-        handler.setFormatter(logging.Formatter('%(asctime)s [%(levelname)s] %(message)s'))
+        handler = RotatingFileHandler(
+            path, maxBytes=10 * 1024 * 1024, backupCount=5, encoding="utf-8"
+        )
+        handler.setFormatter(
+            logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
+        )
         debug_log.addHandler(handler)
     return debug_log
+
 
 debug_log = _setup_debug_logger()
 # -----------------------
@@ -106,7 +112,9 @@ def convert_anthropic_to_menglong_messages(
                     b_type = b.get("type", "")
 
                     if b_type == "text":
-                        content_parts.append({"type": "text", "text": b.get("text", "")})
+                        content_parts.append(
+                            {"type": "text", "text": b.get("text", "")}
+                        )
                     elif b_type == "image":
                         source = b.get("source", {})
                         if source.get("type") == "base64":
@@ -197,7 +205,9 @@ def convert_anthropic_to_menglong_messages(
 
                 content_str = "\n".join(text_parts) if text_parts else None
                 menglong_messages.append(
-                    Assistant(content=content_str, actions=tool_calls, reasoning=thinking_text)
+                    Assistant(
+                        content=content_str, actions=tool_calls, reasoning=thinking_text
+                    )
                 )
         else:
             # 兜底处理
@@ -307,12 +317,14 @@ def convert_menglong_to_anthropic_response(
     if hasattr(menglong_response, "usage"):
         input_tokens = menglong_response.usage.input_tokens
         output_tokens = menglong_response.usage.output_tokens
-    else:
-        # 估计 token 数
-        input_tokens = 10
-        output_tokens = len(content_text) // 4
+        cache_tokens = menglong_response.usage.cache_tokens
 
-    usage = Usage(input_tokens=input_tokens, output_tokens=output_tokens)
+    usage = Usage(
+        input_tokens=input_tokens,
+        output_tokens=output_tokens,
+        cache_read_input_tokens=cache_tokens,
+        cache_creation_input_tokens=0,
+    )
 
     # 确定停止原因
     # MengLong SDK 将 OpenAI 的 finish_reason 存在 output.status 里
@@ -434,10 +446,14 @@ async def anthropic_chat(request: AnthropicChatRequest) -> AnthropicChatResponse
         )
 
         # 调用 MengLong SDK 的异步方法
-        request_id = getattr(request, 'id', None) or f"req_{uuid.uuid4().hex[:12]}"
+        request_id = getattr(request, "id", None) or f"req_{uuid.uuid4().hex[:12]}"
         debug_log.info(f"[{request_id}] === NEW REQUEST === Model: {request.model}")
-        debug_log.debug(f"[{request_id}] INPUT (Anthropic): {request.model_dump_json(ensure_ascii=False, indent=2)}")
-        debug_log.debug(f"[{request_id}] INTERMEDIATE (MengLong Kwargs): {json.dumps({k: str(v) if k == 'messages' else v for k, v in kwargs.items()}, ensure_ascii=False, indent=2)}")
+        debug_log.debug(
+            f"[{request_id}] INPUT (Anthropic): {request.model_dump_json(ensure_ascii=False, indent=2)}"
+        )
+        debug_log.debug(
+            f"[{request_id}] INTERMEDIATE (MengLong Kwargs): {json.dumps({k: str(v) if k == 'messages' else v for k, v in kwargs.items()}, ensure_ascii=False, indent=2)}"
+        )
 
         menglong_response = await model.async_chat(**kwargs)
 
@@ -452,15 +468,18 @@ async def anthropic_chat(request: AnthropicChatRequest) -> AnthropicChatResponse
             menglong_response,
             request.model,
         )
-        
-        debug_log.info(f"[{request_id}] SUCCESS: {response.model_dump_json(ensure_ascii=False, indent=2)}")
+
+        debug_log.info(
+            f"[{request_id}] SUCCESS: {response.model_dump_json(ensure_ascii=False, indent=2)}"
+        )
         return response
 
     except Exception as e:
         import traceback
+
         error_details = traceback.format_exc()
         # 即使在 try 外层定义的 request_id 也可以在这里用（如果是赋值后报错）
-        rid = locals().get('request_id', 'unknown')
+        rid = locals().get("request_id", "unknown")
         debug_log.error(f"[{rid}] FAILED: {str(e)}\n{error_details}")
         raise ValueError(f"LLM 调用失败: {e}\n{error_details}")
 
@@ -557,9 +576,15 @@ async def anthropic_stream_chat(request: AnthropicChatRequest) -> AsyncIterator[
             else:
                 kwargs["tool_choice"] = {"type": "auto"}
 
-        debug_log.info(f"[{request_id}] === NEW STREAM REQUEST === Model: {request.model}")
-        debug_log.debug(f"[{request_id}] INPUT (Anthropic): {request.model_dump_json(ensure_ascii=False, indent=2)}")
-        debug_log.debug(f"[{request_id}] INTERMEDIATE (MengLong Kwargs): {json.dumps({k: str(v) if k == 'messages' else v for k, v in kwargs.items()}, ensure_ascii=False, indent=2)}")
+        debug_log.info(
+            f"[{request_id}] === NEW STREAM REQUEST === Model: {request.model}"
+        )
+        debug_log.debug(
+            f"[{request_id}] INPUT (Anthropic): {request.model_dump_json(ensure_ascii=False, indent=2)}"
+        )
+        debug_log.debug(
+            f"[{request_id}] INTERMEDIATE (MengLong Kwargs): {json.dumps({k: str(v) if k == 'messages' else v for k, v in kwargs.items()}, ensure_ascii=False, indent=2)}"
+        )
 
         logger.debug(
             f"[Anthropic Stream] kwargs: {json.dumps({k: str(v) if k == 'messages' else v for k, v in kwargs.items()}, ensure_ascii=False, indent=2)}"
@@ -602,12 +627,18 @@ async def anthropic_stream_chat(request: AnthropicChatRequest) -> AsyncIterator[
                 index=index,
             ).model_dump_json()
 
-        def _make_message_delta(stop_reason: str, out_tokens: int) -> str:
+        def _make_message_delta(
+            stop_reason: str, out_tokens: int, cache_tokens: Optional[int] = 0
+        ) -> str:
             return json.dumps(
                 {
                     "type": "message_delta",
                     "delta": {"stop_reason": stop_reason, "stop_sequence": None},
-                    "usage": {"output_tokens": out_tokens},
+                    "usage": {
+                        "output_tokens": out_tokens,
+                        "cache_read_input_tokens": cache_tokens,
+                        "cache_creation_input_tokens": 0,
+                    },
                 }
             )
 
@@ -646,7 +677,18 @@ async def anthropic_stream_chat(request: AnthropicChatRequest) -> AsyncIterator[
             real_out_tokens = (
                 anthropic_resp.usage.output_tokens if anthropic_resp.usage else 0
             )
-            # TODO: 将来在此处透传 cache_creation_input_tokens / cache_read_input_tokens
+            # 现在就在此处透传 cache_creation_input_tokens / cache_read_input_tokens
+
+            cache_creation_input_tokens = (
+                anthropic_resp.usage.cache_creation_input_tokens
+                if anthropic_resp.usage
+                else 0
+            )
+            cache_read_input_tokens = (
+                anthropic_resp.usage.cache_read_input_tokens
+                if anthropic_resp.usage
+                else 0
+            )
 
             # 现在才发 message_start，携带真实 input_tokens
             yield _make_message_start(real_in_tokens)
@@ -668,7 +710,9 @@ async def anthropic_stream_chat(request: AnthropicChatRequest) -> AsyncIterator[
                     thinking = b.get("thinking", "")
                     yield _make_cb_start(i, {"type": "thinking", "thinking": ""})
                     if thinking:
-                        yield _make_cb_delta(i, {"type": "thinking_delta", "thinking": thinking})
+                        yield _make_cb_delta(
+                            i, {"type": "thinking_delta", "thinking": thinking}
+                        )
                     yield _make_cb_stop(i)
 
                 elif b_type == "text":
@@ -716,9 +760,9 @@ async def anthropic_stream_chat(request: AnthropicChatRequest) -> AsyncIterator[
         real_output_tokens: int | None = None
 
         # 思维过程状态跟踪：管理当前活跃的 content_block 的类型和索引
-        block_index = -1             # 当前开放的 block 索引 (-1 = 未开启)
-        in_thinking_block = False    # 是否正在流式输出 thinking 块
-        in_text_block = False        # 是否正在流式输出 text 块
+        block_index = -1  # 当前开放的 block 索引 (-1 = 未开启)
+        in_thinking_block = False  # 是否正在流式输出 thinking 块
+        in_text_block = False  # 是否正在流式输出 text 块
 
         try:
             async for chunk in model.async_stream_chat(**kwargs):
@@ -742,10 +786,15 @@ async def anthropic_stream_chat(request: AnthropicChatRequest) -> AsyncIterator[
                         if block_index >= 0:
                             yield _make_cb_stop(block_index)
                         block_index += 1
-                        yield _make_cb_start(block_index, {"type": "thinking", "thinking": ""})
+                        yield _make_cb_start(
+                            block_index, {"type": "thinking", "thinking": ""}
+                        )
                         in_thinking_block = True
                         in_text_block = False
-                    yield _make_cb_delta(block_index, {"type": "thinking_delta", "thinking": delta_reasoning})
+                    yield _make_cb_delta(
+                        block_index,
+                        {"type": "thinking_delta", "thinking": delta_reasoning},
+                    )
 
                 # 处理 text delta：如果当前在 thinking block则需要关闭它并开启 text block
                 if delta_text:
@@ -757,7 +806,9 @@ async def anthropic_stream_chat(request: AnthropicChatRequest) -> AsyncIterator[
                         in_text_block = True
                         in_thinking_block = False
                     accumulated_text += delta_text
-                    yield _make_cb_delta(block_index, {"type": "text_delta", "text": delta_text})
+                    yield _make_cb_delta(
+                        block_index, {"type": "text_delta", "text": delta_text}
+                    )
 
                 if hasattr(chunk, "usage") and chunk.usage:
                     out_val = getattr(chunk.usage, "output_tokens", None)
@@ -770,7 +821,9 @@ async def anthropic_stream_chat(request: AnthropicChatRequest) -> AsyncIterator[
                 if not in_text_block:
                     block_index += 1
                     yield _make_cb_start(block_index, {"type": "text", "text": ""})
-                yield _make_cb_delta(block_index, {"type": "text_delta", "text": fallback})
+                yield _make_cb_delta(
+                    block_index, {"type": "text_delta", "text": fallback}
+                )
 
         except Exception as e:
             yield AnthropicStreamResponse(
@@ -788,16 +841,18 @@ async def anthropic_stream_chat(request: AnthropicChatRequest) -> AsyncIterator[
             if real_output_tokens is not None
             else (len(accumulated_text) // 4)
         )
-        yield _make_message_delta("end_turn", out_tokens)
+        yield _make_message_delta(
+            "end_turn", out_tokens, cache_tokens=cache_read_input_tokens
+        )
         yield json.dumps({"type": "message_stop"})
-        
-        debug_log.info(f"[{request_id}] STREAM SUCCESS. Output tokens: {out_tokens}")
 
+        debug_log.info(f"[{request_id}] STREAM SUCCESS. Output tokens: {out_tokens}")
 
     except Exception as e:
         import traceback
+
         error_details = traceback.format_exc()
-        rid = locals().get('request_id', 'unknown')
+        rid = locals().get("request_id", "unknown")
         debug_log.error(f"[{rid}] STREAM FAILED: {str(e)}\n{error_details}")
 
         yield AnthropicStreamResponse(

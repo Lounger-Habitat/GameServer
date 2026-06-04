@@ -91,6 +91,8 @@ class Usage(BaseModel):
 
     input_tokens: int = Field(..., description="输入 token 数")
     output_tokens: int = Field(..., description="输出 token 数")
+    cache_read_input_tokens: int = Field(0, description="缓存输入 token 数")
+    cache_creation_input_tokens: int = Field(0, description="缓存创建输入 token 数")
 
 
 class AnthropicChatResponse(BaseModel):
