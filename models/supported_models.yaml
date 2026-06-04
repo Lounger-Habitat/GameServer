@@ -19,8 +19,10 @@ enabled_models:
   # - deepseek/deepseek-reasoner
   - deepseek/deepseek-v4-flash
   - deepseek/deepseek-v4-pro
-  - xiaomi/mimo-v2-pro
-  - xiaomi/mimo-v2-flash
+  # - xiaomi/mimo-v2-pro
+  # - xiaomi/mimo-v2-flash
+  - xiaomi/mimo-v2.5-pro
+  - xiaomi/mimo-v2.5
 
 models:
   infinigence/deepseek-v3.2:
@@ -419,11 +421,11 @@ models:
     description: null
     source: manual_addition
 
-  xiaomi/mimo-v2-pro:
-    full_id: xiaomi/mimo-v2-pro
+  xiaomi/mimo-v2.5-pro:
+    full_id: xiaomi/mimo-v2.5-pro
     provider: xiaomi
-    model_name: mimo-v2-pro
-    alias: mimo-v2-pro
+    model_name: mimo-v2.5-pro
+    alias: mimo-v2.5-pro
     max_tokens: 128000
     context_window: 1000000
     supports:
@@ -433,19 +435,19 @@ models:
       file: false
       tools: true
     price:
-      input: 1
-      output: 3
+      input: 0.435
+      output: 0.87
     verified: true
     description: null
     source: manual_addition
 
-  xiaomi/mimo-v2-flash:
-    full_id: xiaomi/mimo-v2-flash
+  xiaomi/mimo-v2.5:
+    full_id: xiaomi/mimo-v2.5
     provider: xiaomi
-    model_name: mimo-v2-flash
-    alias: mimo-v2-flash
-    max_tokens: 64000
-    context_window: 256000
+    model_name: mimo-v2.5
+    alias: mimo-v2.5
+    max_tokens: 128000
+    context_window: 1000000
     supports:
       streaming: true
       image: false
@@ -453,8 +455,8 @@ models:
       file: false
       tools: true
     price:
-      input: 0.1
-      output: 0.3
+      input: 0.14
+      output: 0.28
     verified: true
     description: null
     source: manual_addition
