@@ -10,7 +10,7 @@ dependencies = [
     "pydantic>=2.12.5",
     "pydantic-settings>=2.12.0",
     "pyyaml>=6.0.3",
-    "star-protocol",
+    "star-protocol>=0.3.0,<0.4.0",
 ]
 
 [tool.uv.sources]

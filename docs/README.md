@@ -5,7 +5,7 @@
 ## 📚 文档索引
 
 ### Monitor API
-- **文件**: [monitor.md](./monitor.md)
+- **文件**: [MONITOR_API.md](./MONITOR_API.md)
 - **描述**: 监控系统 API，提供实时监控、客户端管理、环境监控和系统统计功能
 - **基础路径**: `/api/monitor`
 - **版本**: v1.0.0
@@ -19,7 +19,7 @@
 - `GET /api/monitor/health` - 系统健康检查
 
 **WebSocket**:
-- `ws://{host}/ws/monitor/{monitor_id}` - Monitor 实时连接
+- `ws://{host}/ws/hub_monitor/{monitor_id}` - 系统监控实时连接
 
 ---
 
@@ -28,7 +28,8 @@
 ### 1. 启动服务器
 
 ```bash
-uv run uvicorn core.app:app --reload --port 8000
+uv sync
+uv run fastapi dev main.py
 ```
 
 ### 2. 访问 API 文档
@@ -37,7 +38,7 @@ uv run uvicorn core.app:app --reload --port 8000
 
 - **Swagger UI**: http://localhost:8000/docs
 - **ReDoc**: http://localhost:8000/redoc
-- **Monitor 页面**: http://localhost:8000/monitor
+- **Monitor 页面**: http://localhost:8000/hub_monitor
 
 ### 3. 测试 API
 
@@ -201,16 +202,10 @@ async def get_client_info(client_id: str):
 
 ## 🧪 测试
 
-### 单元测试
+### Star Protocol 回归测试
 
 ```bash
-pytest tests/test_monitor_api.py
-```
-
-### 集成测试
-
-```bash
-pytest tests/integration/test_monitor.py
+uv run python -m unittest discover -s tests -p 'test_star_protocol.py' -v
 ```
 
 ### API 测试
@@ -245,8 +240,8 @@ pytest tests/integration/test_monitor.py
 
 ## 🔗 相关链接
 
-- [项目主页](../../README.md)
-- [Star Protocol 文档](../star_protocol.md)
+- [项目主页](../README.md)
+- [Star Protocol 使用指南](star_protocol_guide.md)
 - [部署指南](../deployment.md)
 - [贡献指南](../../CONTRIBUTING.md)
 

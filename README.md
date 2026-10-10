@@ -2,6 +2,16 @@
 
 ## 快速开始
 
+### 安装依赖
+
+```bash
+uv sync
+```
+
+Star Protocol 使用 SDK 0.3.x（`agent-env-compact/2`），当前依赖源为
+`star-protocol` 仓库的 `python` 分支。执行 `uv sync --upgrade-package star-protocol`
+可拉取该分支的最新提交并同步依赖。接入示例见 [Star Protocol 使用指南](docs/star_protocol_guide.md)。
+
 ### 启动服务器
 
 ```bash
@@ -100,8 +110,12 @@ curl http://localhost:8000/custom/hello \
 
 运行测试脚本：
 ```bash
-uv run python -m tests.test_star_protocol
+uv run python -m unittest discover -s tests -p 'test_star_protocol.py' -v
 ```
+
+回归测试覆盖实际 WebSocket 路由、能力协商、Action/Outcome、交付 ACK 和监控接口，
+不需要启动外部服务器或调用模型服务。系统监控页面位于 `/hub_monitor`，
+监控接口位于 `/api/monitor`。
 
 ## 统计模块
 

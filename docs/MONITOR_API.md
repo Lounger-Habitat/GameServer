@@ -8,6 +8,9 @@ Monitor API 提供了对 Star Protocol 系统的实时监控能力，包括客�
 
 **版本**: v1.0.0
 
+当前 Hub 使用 Star Protocol SDK 0.3.x 与 `agent-env-compact/2`。
+业务客户端的协商和消息格式见 [Star Protocol 使用指南](star_protocol_guide.md)。
+
 ---
 
 ## 🔌 WebSocket 连接
@@ -15,10 +18,11 @@ Monitor API 提供了对 Star Protocol 系统的实时监控能力，包括客�
 ### Monitor 连接端点
 
 ```
-ws://{host}/ws/monitor/{monitor_id}
+ws://{host}/ws/hub_monitor/{monitor_id}
 ```
 
-**描述**: Monitor 客户端通过此端点建立 WebSocket 连接，接收实时消息流。
+**描述**: `hub_monitor` 客户端通过此端点接收系统消息流。`monitor` 是业务监控角色，
+需要订阅客户端，接收 `monitor` 遥测消息；系统监控页面使用 `hub_monitor`。
 
 **路径参数**:
 - `monitor_id` (string, required): Monitor 客户端唯一标识符
@@ -28,7 +32,7 @@ ws://{host}/ws/monitor/{monitor_id}
 **连接示例**:
 
 ```javascript
-const ws = new WebSocket('ws://localhost:8000/ws/monitor/monitor_1770054384251');
+const ws = new WebSocket('ws://localhost:8000/ws/hub_monitor/monitor_1770054384251');
 
 ws.onopen = () => {
   console.log('Monitor connected');
@@ -42,18 +46,23 @@ ws.onmessage = (event) => {
 
 **接收消息格式**:
 
-Monitor 接收所有经过系统的消息，格式遵循 Star Protocol Envelope：
+Hub Monitor 接收通过校验的非 `monitor` 消息，以及 Hub 发出的通知和错误。
+例如一次 Action 的 Envelope：
 
 ```json
 {
-  "id": "msg_uuid",
-  "type": "system|message|broadcast",
-  "sender": "client_id",
-  "recipient": "client_id|@all|hub",
-  "timestamp": "2026-02-03T01:35:05.123456",
-  "data": {
-    "type": "string",
-    "content": {}
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "type": "message",
+  "sender": "agent_01",
+  "recipient": "env_main",
+  "timestamp": 1791648000000,
+  "payload": {
+    "type": "action",
+    "content": {
+      "id": "action-echo-01",
+      "name": "echo",
+      "params": {"text": "你好"}
+    }
   }
 }
 ```
@@ -440,15 +449,16 @@ interface Envelope {
   id: string;              // 消息唯一标识 (UUID)
   type: MessageType;       // 消息类型
   sender: string;          // 发送者 client_id
-  recipient: string;       // 接收者 client_id 或 @all
-  timestamp: string;       // ISO 8601 时间戳
-  data: Payload;           // 消息负载
+  recipient: string;       // 接收者 client_id、hub 或 @env
+  timestamp: number;       // Unix 毫秒时间戳
+  payload: Payload;        // 消息负载
 }
 
 enum MessageType {
   SYSTEM = "system",
   MESSAGE = "message",
-  BROADCAST = "broadcast"
+  BROADCAST = "broadcast",
+  MONITOR = "monitor"
 }
 ```
 
@@ -471,7 +481,8 @@ enum ClientRole {
   AGENT = "agent",
   ENVIRONMENT = "environment",
   HUMAN = "human",
-  MONITOR = "monitor"
+  MONITOR = "monitor",
+  HUB_MONITOR = "hub_monitor"
 }
 
 enum ClientState {
@@ -636,7 +647,7 @@ def get_client(client_id):
 
 # WebSocket
 async def monitor_messages():
-    uri = "ws://localhost:8000/ws/monitor/monitor_python"
+    uri = "ws://localhost:8000/ws/hub_monitor/monitor_python"
     async with websockets.connect(uri) as websocket:
         print("Monitor connected")
         while True:
@@ -690,7 +701,7 @@ async function getClient(clientId) {
 
 // WebSocket
 function connectMonitor() {
-  const ws = new WebSocket('ws://localhost:8000/ws/monitor/monitor_js');
+  const ws = new WebSocket('ws://localhost:8000/ws/hub_monitor/monitor_js');
   
   ws.onopen = () => {
     console.log('Monitor connected');
@@ -767,7 +778,7 @@ function connectMonitor() {
 
 ## 📚 相关资源
 
-- [Star Protocol 文档](../star_protocol.md)
+- [Star Protocol 使用指南](star_protocol_guide.md)
 - [WebSocket 连接指南](../websocket.md)
 - [错误处理最佳实践](../error_handling.md)
 - [API 认证](../authentication.md)

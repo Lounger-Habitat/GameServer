@@ -11,7 +11,8 @@ uv.lock
 logs/
 
 # utils
-tests/
+tests/*
+!tests/test_star_protocol.py
 examples/
 scratch/
 temp/
@@ -22,6 +23,7 @@ temp/
 *configs.toml
 *keys.json
 test*.py
+!tests/test_star_protocol.py
 *.db
 *.bak
 
